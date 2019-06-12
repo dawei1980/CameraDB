@@ -15,10 +15,10 @@ import java.util.List;
  * 模块database封装类
  * 包括增，删，改，查方法
  * */
-public class RemoveModuleManager {
+public class RemoveModuleDBManager {
     DBOpenHelper dbOpenHelper;
 
-    public RemoveModuleManager(Context context) {
+    public RemoveModuleDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
