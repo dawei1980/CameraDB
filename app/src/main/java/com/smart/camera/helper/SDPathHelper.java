@@ -4,6 +4,11 @@ import android.os.Environment;
 
 import java.io.File;
 
+/**
+ * 设置在SD卡中存储数据库
+ *
+ * 蒋大卫
+ * */
 public class SDPathHelper {
 
     public static final String DB_DIR = Environment.getExternalStorageDirectory()+"/"+"smartPhoneCamera/database/";

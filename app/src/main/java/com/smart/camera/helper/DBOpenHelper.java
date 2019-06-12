@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * 默认就在数据库里创建4张表
  * 建立一个类继承SQLiteOpenHelpe
+ *
+ * 蒋大卫
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 

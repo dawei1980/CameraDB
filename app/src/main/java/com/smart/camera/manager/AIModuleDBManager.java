@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * AI模块database封装类
+ * 蒋大卫
+ *
+ * AI模块数据库管理类
  * 包括增，删，改，查方法
  * */
 public class AIModuleDBManager {
