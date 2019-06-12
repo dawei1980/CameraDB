@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         uploadModuleDBManager.updateUploadModule("Camera_005","20111417","C:\\Program Files\\Common Files","C:\\Program Files\\Java",2,"2015-05-14");
 
-        removeModuleDBManager.updateRemoveModule("20174578","C:\\QMDownload\\SoftMgr",3,"2018-03-05");
+        removeModuleDBManager.updateRemoveModule("20121513","C:\\QMDownload\\SoftMgr",3,"2018-03-05");
     }
 
     private void querayData(){
