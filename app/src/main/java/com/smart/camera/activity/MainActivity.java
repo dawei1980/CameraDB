@@ -84,9 +84,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void querayData(){
-//        aiModuleDBManager.selectAIByFileName("s_002");
-        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
-        mAdapter = new SelectAdapter(this,mList);
-        select_lv.setAdapter(mAdapter);
+        aiModuleDBManager.selectAIByFileName("s_002");
+
+//        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
+//        mAdapter = new SelectAdapter(this,mList);
+//        select_lv.setAdapter(mAdapter);
     }
 }

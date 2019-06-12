@@ -65,13 +65,29 @@ public class AIModuleDBManager {
         }
     }
 
-    /**查询*/
-    public List<AIModule> selectAIByFileName(String fileName){
+    /**查询一条数据*/
+    public AIModule selectAIByFileName(String fileName){
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
+        AIModule aiModule = null;
+        if (cursor.moveToFirst()){
+            aiModule = new AIModule();
+            aiModule.setFileName((cursor.getString(0)));
+            aiModule.setAiMode(cursor.getInt(1));
+            aiModule.setFilePath(cursor.getString(2));
+            aiModule.setFileType(cursor.getInt(3));
+            aiModule.setUpdateTime(cursor.getString(4));
+        }
+        // 关闭连接,释放资源
+        db.close();
+        return aiModule;
+    }
+
+    /**查询列表*/
+    public List<AIModule> selectAIListByFileName(String fileName){
         List<AIModule> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
-
         if (cursor.moveToFirst()){
             AIModule aiModule = new AIModule();
             aiModule.setFileName((cursor.getString(0)));
