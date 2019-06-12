@@ -2,7 +2,7 @@ package com.smart.camera.entity;
 
 import java.io.Serializable;
 
-public class DeleteModule implements Serializable {
+public class RemoveModule implements Serializable {
     private String fileName;
     private String fileSDPath;
     private int fileType;

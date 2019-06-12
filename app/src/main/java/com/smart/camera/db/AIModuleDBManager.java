@@ -10,6 +10,10 @@ import com.smart.camera.entity.AIModule;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AI模块database封装类
+ * 包括增，删，改，查方法
+ * */
 public class AIModuleDBManager {
 
     DBOpenHelper dbOpenHelper;
@@ -19,7 +23,7 @@ public class AIModuleDBManager {
     }
 
     /**插入一条数据*/
-    public void addAIData(AIModule aiModule){
+    public void addAIModule(AIModule aiModule){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
@@ -39,7 +43,7 @@ public class AIModuleDBManager {
     }
 
     /**删除一条数据*/
-    public void deleteAIByFileName(String fileName){
+    public void deleteAIModuleByFileName(String fileName){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
@@ -52,7 +56,7 @@ public class AIModuleDBManager {
     }
 
     /**更新一条数据*/
-    public void updateAI(String fileName, int aiMode, String filePath, int fileType, String updateTime){
+    public void updateAIModule(String fileName, int aiMode, String filePath, int fileType, String updateTime){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
@@ -66,7 +70,7 @@ public class AIModuleDBManager {
     }
 
     /**查询一条数据*/
-    public AIModule selectAIByFileName(String fileName){
+    public AIModule selectAIModuleByFileName(String fileName){
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
         AIModule aiModule = null;
@@ -84,7 +88,7 @@ public class AIModuleDBManager {
     }
 
     /**查询列表*/
-    public List<AIModule> selectAIListByFileName(String fileName){
+    public List<AIModule> selectAIModuleListByFileName(String fileName){
         List<AIModule> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});

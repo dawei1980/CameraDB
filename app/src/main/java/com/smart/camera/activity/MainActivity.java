@@ -70,19 +70,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModule.setFilePath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
-        aiModuleDBManager.addAIData(aiModule);
+        aiModuleDBManager.addAIModule(aiModule);
     }
 
     private void deleteData(){
-        aiModuleDBManager.deleteAIByFileName("s_001");
+        aiModuleDBManager.deleteAIModuleByFileName("s_001");
     }
 
     private void updataData(){
-        aiModuleDBManager.updateAI("s_002",2,"E:\\AISmartCameraProject\\Android_Ethernet2",3,"2019-06-11");
+        aiModuleDBManager.updateAIModule("s_002",2,"E:\\AISmartCameraProject\\Android_Ethernet2",3,"2019-06-11");
     }
 
     private void querayData(){
-        aiModuleDBManager.selectAIByFileName("s_002");
+        aiModuleDBManager.selectAIModuleByFileName("s_002");
 
 //        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
 //        mAdapter = new SelectAdapter(this,mList);
