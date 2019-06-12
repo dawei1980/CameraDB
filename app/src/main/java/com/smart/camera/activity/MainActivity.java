@@ -22,9 +22,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button query_btn;
     private ListView select_lv;
 
+    //===============================================================
     private AIModuleDBManager aiModuleDBManager;
     private RemoveModuleDBManager removeModuleDBManager;
     private UploadModuleDBManager uploadModuleDBManager;
+    //===============================================================
 
     private SelectAdapter mAdapter;
 
@@ -48,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         select_lv = findViewById(R.id.select_lv);
 
+        //===============================================================
         aiModuleDBManager = new AIModuleDBManager(this);
         removeModuleDBManager = new RemoveModuleDBManager(this);
         uploadModuleDBManager = new UploadModuleDBManager(this);
+        //===============================================================
     }
 
     @Override
