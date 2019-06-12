@@ -1,4 +1,4 @@
-package com.smart.camera.database;
+package com.smart.camera.db;
 
 import android.content.ContentValues;
 import android.content.Context;
