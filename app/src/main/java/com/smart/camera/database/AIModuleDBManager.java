@@ -81,6 +81,8 @@ public class AIModuleDBManager {
             aiModule.setUpdateTime(cursor.getString(4));
             list.add(aiModule);
         }
+        // 关闭连接,释放资源
+        db.close();
         return list;
     }
 }
