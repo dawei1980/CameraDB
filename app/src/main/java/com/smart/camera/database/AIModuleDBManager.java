@@ -72,7 +72,7 @@ public class AIModuleDBManager {
 
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
 
-        while (cursor.moveToFirst()){
+        if (cursor.moveToFirst()){
             AIModule aiModule = new AIModule();
             aiModule.setFileName((cursor.getString(0)));
             aiModule.setAiMode(cursor.getInt(1));

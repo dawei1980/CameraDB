@@ -4,10 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.database.AIModuleDBManager;
 import com.smart.camera.entity.AIModule;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -15,8 +18,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button delete_btn;
     private Button edit_btn;
     private Button query_btn;
+    private ListView select_lv;
 
     private AIModuleDBManager aiModuleDBManager;
+
+    private SelectAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edit_btn.setOnClickListener(this);
         query_btn = findViewById(R.id.query_btn);
         query_btn.setOnClickListener(this);
+
+        select_lv = findViewById(R.id.select_lv);
 
         aiModuleDBManager = new AIModuleDBManager(this);
     }
@@ -76,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void querayData(){
-        aiModuleDBManager.selectAIByFileName("s_002");
+//        aiModuleDBManager.selectAIByFileName("s_002");
+        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
+        mAdapter = new SelectAdapter(this,mList);
+        select_lv.setAdapter(mAdapter);
     }
 }
