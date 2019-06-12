@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class AIModule implements Serializable {
     private String fileName;
     private int aiMode;
-    private String filePath;
+    private String fileSDPath;
     private int fileType;
     private String updateTime;
 
@@ -25,12 +25,12 @@ public class AIModule implements Serializable {
         this.aiMode = aiMode;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getFileSDPath() {
+        return fileSDPath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFileSDPath(String fileSDPath) {
+        this.fileSDPath = fileSDPath;
     }
 
     public int getFileType() {

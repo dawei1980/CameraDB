@@ -31,7 +31,7 @@ public class AIModuleDBManager {
             ContentValues values = new ContentValues();
             values.put("filename", aiModule.getFileName());
             values.put("aimode", aiModule.getAiMode());
-            values.put("filepath", aiModule.getFilePath());
+            values.put("filesdpath", aiModule.getFileSDPath());
             values.put("filetype", aiModule.getFileType());
             values.put("updatetime", aiModule.getUpdateTime());
             db.insert("ai", null, values);
@@ -57,11 +57,11 @@ public class AIModuleDBManager {
     }
 
     /**更新一条数据*/
-    public void updateAIModule(String fileName, int aiMode, String filePath, int fileType, String updateTime){
+    public void updateAIModule(String fileName, int aiMode, String fileSDPath, int fileType, String updateTime){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
-            db.execSQL("update ai set aimode = ?, filepath = ?,filetype = ?, updatetime = ? where filename=?",new Object[]{aiMode,filePath,fileType,updateTime,fileName});
+            db.execSQL("update ai set aimode = ?, filesdpath = ?,filetype = ?, updatetime = ? where filename=?",new Object[]{aiMode,fileSDPath,fileType,updateTime,fileName});
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class AIModuleDBManager {
             aiModule = new AIModule();
             aiModule.setFileName((cursor.getString(0)));
             aiModule.setAiMode(cursor.getInt(1));
-            aiModule.setFilePath(cursor.getString(2));
+            aiModule.setFileSDPath(cursor.getString(2));
             aiModule.setFileType(cursor.getInt(3));
             aiModule.setUpdateTime(cursor.getString(4));
         }
@@ -97,7 +97,7 @@ public class AIModuleDBManager {
             AIModule aiModule = new AIModule();
             aiModule.setFileName((cursor.getString(0)));
             aiModule.setAiMode(cursor.getInt(1));
-            aiModule.setFilePath(cursor.getString(2));
+            aiModule.setFileSDPath(cursor.getString(2));
             aiModule.setFileType(cursor.getInt(3));
             aiModule.setUpdateTime(cursor.getString(4));
             list.add(aiModule);
