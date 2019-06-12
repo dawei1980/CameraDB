@@ -1,4 +1,4 @@
-package com.smart.camera.db;
+package com.smart.camera.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.entity.AIModule;
+import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;

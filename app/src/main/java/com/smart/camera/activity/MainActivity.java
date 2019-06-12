@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.smart.camera.R;
-import com.smart.camera.db.AIModuleDBManager;
+import com.smart.camera.manager.AIModuleDBManager;
 import com.smart.camera.entity.AIModule;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

@@ -1,4 +1,4 @@
-package com.smart.camera.db;
+package com.smart.camera.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
