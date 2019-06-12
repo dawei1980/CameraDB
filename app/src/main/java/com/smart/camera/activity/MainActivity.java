@@ -7,8 +7,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.smart.camera.R;
+import com.smart.camera.entity.RemoveModule;
+import com.smart.camera.entity.UploadModule;
 import com.smart.camera.manager.AIModuleDBManager;
 import com.smart.camera.entity.AIModule;
+import com.smart.camera.manager.RemoveModuleDBManager;
+import com.smart.camera.manager.UploadModuleDBManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView select_lv;
 
     private AIModuleDBManager aiModuleDBManager;
+    private RemoveModuleDBManager removeModuleDBManager;
+    private UploadModuleDBManager uploadModuleDBManager;
 
     private SelectAdapter mAdapter;
 
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         select_lv = findViewById(R.id.select_lv);
 
         aiModuleDBManager = new AIModuleDBManager(this);
+        removeModuleDBManager = new RemoveModuleDBManager(this);
+        uploadModuleDBManager = new UploadModuleDBManager(this);
     }
 
     @Override
@@ -65,20 +73,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addData(){
         AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_002");
+        aiModule.setFileName("s_003");
         aiModule.setAiMode(3);
         aiModule.setFilePath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
         aiModuleDBManager.addAIModule(aiModule);
+
+        UploadModule uploadModule = new UploadModule();
+        uploadModule.setCameraId("Camera_003");
+        uploadModule.setFileName("20161233");
+        uploadModule.setFileSDPath("D:\\VUE_Test");
+        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule.setFileType(3);
+        uploadModule.setUpdateTime("2019-06-10");
+        uploadModuleDBManager.addUploadModule(uploadModule);
+
+        RemoveModule removeModule = new RemoveModule();
+        removeModule.setFileName("20121513");
+        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
+        removeModule.setFileType(2);
+        removeModule.setUpdateTime("2019-06-11");
+        removeModuleDBManager.addRemoveModuleData(removeModule);
     }
 
     private void deleteData(){
         aiModuleDBManager.deleteAIModuleByFileName("s_001");
+
+        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
+
+        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
     }
 
     private void updataData(){
         aiModuleDBManager.updateAIModule("s_002",2,"E:\\AISmartCameraProject\\Android_Ethernet2",3,"2019-06-11");
+
+        uploadModuleDBManager.updateUploadModule("Camera_005","20111417","C:\\Program Files\\Common Files","C:\\Program Files\\Java",2,"2015-05-14");
+
+        removeModuleDBManager.updateRemoveModule("20174578","C:\\QMDownload\\SoftMgr",3,"2018-03-05");
     }
 
     private void querayData(){
@@ -87,5 +119,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
 //        mAdapter = new SelectAdapter(this,mList);
 //        select_lv.setAdapter(mAdapter);
+
+        uploadModuleDBManager.selectUploadModuleByCameraId("Camera_002");
+
+        removeModuleDBManager.selectRemoveModuleByFileName("20121512");
     }
 }

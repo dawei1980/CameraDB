@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.smart.camera.entity.RemoveModule;
 import com.smart.camera.entity.UploadModule;
 import com.smart.camera.helper.DBOpenHelper;
 
@@ -41,7 +39,7 @@ public class UploadModuleDBManager {
     }
 
     /**删除一条数据*/
-    public void deleteUploadModuleByFileName(String cameraId){
+    public void deleteUploadModuleByCameraId(String cameraId){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
@@ -68,7 +66,7 @@ public class UploadModuleDBManager {
     }
 
     /**查询一条数据*/
-    public UploadModule selectUploadModuleByFileName(String cameraId){
+    public UploadModule selectUploadModuleByCameraId(String cameraId){
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from upload where cameraid=?", new String[]{cameraId});
         UploadModule uploadModule = null;
@@ -87,7 +85,7 @@ public class UploadModuleDBManager {
     }
 
     /**查询列表*/
-    public List<UploadModule> selectUploadModuleListByFileName(String cameraId){
+    public List<UploadModule> selectUploadModuleListByCameraId(String cameraId){
         List<UploadModule> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from upload where cameraid=?", new String[]{cameraId});
