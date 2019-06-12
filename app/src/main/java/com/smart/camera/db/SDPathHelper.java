@@ -4,7 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-public class SDBHelper {
+public class SDPathHelper {
 
     public static final String DB_DIR = Environment.getExternalStorageDirectory()+"/"+"smartPhoneCamera/database/";
 

@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String mDbName =  SDBHelper.DB_DIR+ "module.db";
+    public static final String mDbName =  SDPathHelper.DB_DIR+ "module.db";
     private static final int version = 1;//数据库版本
 
     public DBOpenHelper(Context context) {
