@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AIModule aiModule = new AIModule();
         aiModule.setFileName("s_003");
         aiModule.setAiMode(3);
-        aiModule.setFilePath("D:\\UploadImages\\goods\\ai");
+        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
         aiModuleDBManager.addAIModule(aiModule);
