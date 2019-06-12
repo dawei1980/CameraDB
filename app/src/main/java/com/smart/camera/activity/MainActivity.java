@@ -14,6 +14,9 @@ import com.smart.camera.entity.AIModule;
 import com.smart.camera.manager.RemoveModuleDBManager;
 import com.smart.camera.manager.UploadModuleDBManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button add_btn;
@@ -82,7 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
-        aiModuleDBManager.addAIModule(aiModule);
+//        aiModuleDBManager.addAIModule(aiModule);
+
+        List<AIModule> aiModuleList = new ArrayList<>();
+        aiModuleList.add(aiModule);
+        aiModuleDBManager.addAIModuleList(aiModuleList);
+
 
         UploadModule uploadModule = new UploadModule();
         uploadModule.setCameraId("Camera_003");

@@ -60,7 +60,7 @@ public class SelectAdapter extends BaseAdapter {
 
         holder.file_name.setText(aiModuleList.get(position).getFileName());
         holder.ai_mode.setText(String.valueOf(aiModuleList.get(position).getAiMode()));
-        holder.file_path.setText(aiModuleList.get(position).getFilePath());
+        holder.file_path.setText(aiModuleList.get(position).getFileSDPath());
         holder.file_type.setText(String.valueOf(aiModuleList.get(position).getFileType()));
         holder.update_time.setText(aiModuleList.get(position).getUpdateTime());
 
