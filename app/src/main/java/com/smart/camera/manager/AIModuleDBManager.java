@@ -93,12 +93,12 @@ public class AIModuleDBManager {
     /**批量删除
      * fileName是主键
      * */
-    public void deleteAIModuleList(List<AIModule> fileNameList){
+    public void deleteAIModuleList(List<String> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){
                 db = dbOpenHelper.getWritableDatabase();
-                db.execSQL("DELETE FROM ai WHERE filename=?",new Object[]{fileNameList.get(i).getFileName()});
+                db.execSQL("DELETE FROM ai WHERE filename=?",new Object[]{fileNameList.get(i)});
             }
         }catch (Exception e){
             e.printStackTrace();

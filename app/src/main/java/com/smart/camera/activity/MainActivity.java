@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        aiModuleList.add(aiModule);
 //        aiModuleDBManager.addAIModuleList(aiModuleList);
 
-
 //        UploadModule uploadModule = new UploadModule();
 //        uploadModule.setCameraId("Camera_004");
 //        uploadModule.setFileName("20161233");
@@ -118,10 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void deleteData() {
 //        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
-        List<AIModule> aiModuleList = new ArrayList<>();
-        AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_005");
-        aiModuleList.add(aiModule);
+        List<String> aiModuleList = new ArrayList<>();
+        String fileName = "s_004";
+        aiModuleList.add(fileName);
         aiModuleDBManager.deleteAIModuleList(aiModuleList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
