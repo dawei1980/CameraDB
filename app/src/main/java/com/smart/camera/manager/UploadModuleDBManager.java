@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.smart.camera.entity.AIModule;
 import com.smart.camera.entity.UploadModule;
 import com.smart.camera.helper.DBOpenHelper;
 
@@ -44,6 +46,40 @@ public class UploadModuleDBManager {
         }
     }
 
+    /**批量插入数据*/
+    public void addUploadModuleList(List<UploadModule> uploadModuleList) {
+        StringBuffer sbSQL = new StringBuffer();
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getWritableDatabase();
+            db.beginTransaction();
+            for (int i = 0; i < uploadModuleList.size(); i++) {
+                UploadModule uploadModule = uploadModuleList.get(i);
+
+                if(i != 0) {
+                    sbSQL.delete(0, sbSQL.length());
+                }
+                sbSQL.append(" replace into ").append("upload").append(" (cameraid, filename, filesdpath, uploadfilepath, filetype, updatetime) VALUES");
+                sbSQL.append(" (").append("'").append(uploadModule.getCameraId()).append("'")
+                        .append("'").append(uploadModule.getFileName()).append("'")
+                        .append(",").append("'").append(uploadModule.getFileSDPath()).append("'")
+                        .append(",").append("'").append(uploadModule.getUploadFilePath()).append("'")
+                        .append(",").append(uploadModule.getFileType())
+                        .append(",").append("'").append(uploadModule.getUpdateTime()).append("'")
+                        .append(");");
+                db.execSQL(sbSQL.toString());
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+    }
+
     /**删除一条数据*/
     public void deleteUploadModuleByCameraId(String cameraId){
         SQLiteDatabase db = null;
@@ -54,6 +90,26 @@ public class UploadModuleDBManager {
             e.printStackTrace();
         } finally {
             db.close();
+        }
+    }
+
+    /**批量删除
+     * fileName是主键
+     * 对象是实体类
+     * */
+    public void deleteUploadModuleList(List<UploadModule> CameraIdList){
+        SQLiteDatabase db = null;
+        try {
+            for (int i=0; i<CameraIdList.size(); i++){
+                db = dbOpenHelper.getWritableDatabase();
+                db.execSQL("DELETE FROM upload WHERE filename=?",new Object[]{CameraIdList.get(i).getCameraId()});
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (db != null) {
+                db.close();
+            }
         }
     }
 

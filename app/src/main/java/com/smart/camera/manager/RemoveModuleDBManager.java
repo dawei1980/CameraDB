@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.smart.camera.entity.AIModule;
 import com.smart.camera.entity.RemoveModule;
 import com.smart.camera.helper.DBOpenHelper;
 
@@ -39,7 +40,41 @@ public class RemoveModuleDBManager {
             // TODO: handle exception
             e.printStackTrace();
         } finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
+        }
+    }
+
+    /**批量插入数据*/
+    public void addRemoveModuleList(List<RemoveModule> removeModuleList) {
+        StringBuffer sbSQL = new StringBuffer();
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getWritableDatabase();
+            db.beginTransaction();
+            for (int i = 0; i < removeModuleList.size(); i++) {
+                RemoveModule removeModule = removeModuleList.get(i);
+
+                if(i != 0) {
+                    sbSQL.delete(0, sbSQL.length());
+                }
+                sbSQL.append(" replace into ").append("remove").append(" (filename, filesdpath, filetype, updatetime) VALUES");
+                sbSQL.append(" (").append("'").append(removeModule.getFileName()).append("'")
+                        .append(",").append("'").append(removeModule.getFileSDPath()).append("'")
+                        .append(",").append(removeModule.getFileType())
+                        .append(",").append("'").append(removeModule.getUpdateTime()).append("'")
+                        .append(");");
+                db.execSQL(sbSQL.toString());
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
@@ -52,7 +87,29 @@ public class RemoveModuleDBManager {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close();
+            if(db != null){
+                db.close();
+            }
+        }
+    }
+
+    /**批量删除
+     * fileName是主键
+     * 对象是实体类
+     * */
+    public void deleteRemoveModuleList(List<RemoveModule> fileNameList){
+        SQLiteDatabase db = null;
+        try {
+            for (int i=0; i<fileNameList.size(); i++){
+                db = dbOpenHelper.getWritableDatabase();
+                db.execSQL("DELETE FROM remove WHERE filename=?",new Object[]{fileNameList.get(i).getFileName()});
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
@@ -66,7 +123,9 @@ public class RemoveModuleDBManager {
             // TODO: handle exception
             e.printStackTrace();
         } finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 

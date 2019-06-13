@@ -42,11 +42,13 @@ public class AIModuleDBManager {
             // TODO: handle exception
             e.printStackTrace();
         } finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
-    /**批量插入*/
+    /**批量插入数据*/
     public void addAIModuleList(List<AIModule> aiModuleList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
@@ -60,11 +62,11 @@ public class AIModuleDBManager {
                     sbSQL.delete(0, sbSQL.length());
                 }
                 sbSQL.append(" replace into ").append("ai").append(" (filename, aimode, filesdpath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'"+ aiModule.getFileName()+"'")
+                sbSQL.append(" (").append("'").append(aiModule.getFileName()).append("'")
                         .append(",").append(aiModule.getAiMode())
-                        .append(",").append("'"+ aiModule.getFileSDPath() + "'")
+                        .append(",").append("'").append(aiModule.getFileSDPath()).append("'")
                         .append(",").append(aiModule.getFileType())
-                        .append(",").append("'" + aiModule.getUpdateTime() + "'")
+                        .append(",").append("'").append(aiModule.getUpdateTime()).append("'")
                         .append(");");
                 db.execSQL(sbSQL.toString());
             }
@@ -73,7 +75,9 @@ public class AIModuleDBManager {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
@@ -86,7 +90,9 @@ public class AIModuleDBManager {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
@@ -104,7 +110,9 @@ public class AIModuleDBManager {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
@@ -118,7 +126,9 @@ public class AIModuleDBManager {
             // TODO: handle exception
             e.printStackTrace();
         } finally {
-            db.close();
+            if (db != null) {
+                db.close();
+            }
         }
     }
 
