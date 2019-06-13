@@ -79,23 +79,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addData() {
-        AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_005");
-        aiModule.setAiMode(3);
-        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule.setFileType(3);
-        aiModule.setUpdateTime("2019-06-13");
-        aiModuleDBManager.addAIModule(aiModule);
-
-//        List<AIModule> aiModuleList = new ArrayList<>();
 //        AIModule aiModule = new AIModule();
-//        aiModule.setFileName("s_001");
+//        aiModule.setFileName("s_005");
 //        aiModule.setAiMode(3);
 //        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
 //        aiModule.setFileType(3);
 //        aiModule.setUpdateTime("2019-06-13");
-//        aiModuleList.add(aiModule);
-//        aiModuleDBManager.addAIModuleList(aiModuleList);
+//        aiModuleDBManager.addAIModule(aiModule);
+
+        List<AIModule> aiModuleList = new ArrayList<>();
+        AIModule aiModule = new AIModule();
+        aiModule.setFileName("s_001");
+        aiModule.setAiMode(3);
+        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule.setFileType(3);
+        aiModule.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule);
+
+        AIModule aiModule2 = new AIModule();
+        aiModule2.setFileName("s_002");
+        aiModule2.setAiMode(3);
+        aiModule2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule2.setFileType(3);
+        aiModule2.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule2);
+
+        AIModule aiModule3 = new AIModule();
+        aiModule3.setFileName("s_003");
+        aiModule3.setAiMode(3);
+        aiModule3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule3.setFileType(3);
+        aiModule3.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule3);
+
+        AIModule aiModule4 = new AIModule();
+        aiModule4.setFileName("s_004");
+        aiModule4.setAiMode(3);
+        aiModule4.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule4.setFileType(3);
+        aiModule4.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule4);
+
+        AIModule aiModule5 = new AIModule();
+        aiModule5.setFileName("s_005");
+        aiModule5.setAiMode(3);
+        aiModule5.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule5.setFileType(3);
+        aiModule5.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule5);
+
+        AIModule aiModule6 = new AIModule();
+        aiModule6.setFileName("s_006");
+        aiModule6.setAiMode(3);
+        aiModule6.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModule6.setFileType(3);
+        aiModule6.setUpdateTime("2019-06-13");
+        aiModuleList.add(aiModule6);
+
+        aiModuleDBManager.addAIModuleList(aiModuleList);
 
 //        UploadModule uploadModule = new UploadModule();
 //        uploadModule.setCameraId("Camera_004");
@@ -105,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        uploadModule.setFileType(3);
 //        uploadModule.setUpdateTime("2019-06-10");
 //        uploadModuleDBManager.addUploadModule(uploadModule);
-//
+
 //        RemoveModule removeModule = new RemoveModule();
 //        removeModule.setFileName("001");
 //        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
@@ -118,8 +159,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
         List<String> aiModuleList = new ArrayList<>();
-        String fileName = "s_004";
-        aiModuleList.add(fileName);
+        aiModuleList.add("s_001");
+        aiModuleList.add("s_002");
+        aiModuleList.add("s_003");
         aiModuleDBManager.deleteAIModuleList(aiModuleList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
