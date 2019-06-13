@@ -35,7 +35,7 @@ public class UploadModuleDBManager {
             values.put("uploadfilepath", uploadModule.getUploadFilePath());
             values.put("filetype", uploadModule.getFileType());
             values.put("updatetime", uploadModule.getUpdateTime());
-            db.insert("upload", null, values);
+            db.replace("upload", null, values);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();

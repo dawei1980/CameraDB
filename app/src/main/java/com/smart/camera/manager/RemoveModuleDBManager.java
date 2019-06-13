@@ -34,7 +34,7 @@ public class RemoveModuleDBManager {
             values.put("filesdpath", removeModule.getFileSDPath());
             values.put("filetype", removeModule.getFileType());
             values.put("updatetime", removeModule.getUpdateTime());
-            db.insert("remove", null, values);
+            db.replace("remove", null, values);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();

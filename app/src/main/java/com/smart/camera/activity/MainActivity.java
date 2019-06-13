@@ -80,20 +80,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addData(){
         AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_003");
+        aiModule.setFileName("s_004");
         aiModule.setAiMode(3);
         aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
-//        aiModuleDBManager.addAIModule(aiModule);
+        aiModuleDBManager.addAIModule(aiModule);
 
-        List<AIModule> aiModuleList = new ArrayList<>();
-        aiModuleList.add(aiModule);
-        aiModuleDBManager.addAIModuleList(aiModuleList);
+//        List<AIModule> aiModuleList = new ArrayList<>();
+//        aiModuleList.add(aiModule);
+//        aiModuleDBManager.insertBySql(aiModuleList);
 
 
         UploadModule uploadModule = new UploadModule();
-        uploadModule.setCameraId("Camera_003");
+        uploadModule.setCameraId("Camera_004");
         uploadModule.setFileName("20161233");
         uploadModule.setFileSDPath("D:\\VUE_Test");
         uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uploadModuleDBManager.addUploadModule(uploadModule);
 
         RemoveModule removeModule = new RemoveModule();
-        removeModule.setFileName("20121513");
+        removeModule.setFileName("001");
         removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
         removeModule.setFileType(2);
         removeModule.setUpdateTime("2019-06-11");
