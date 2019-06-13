@@ -60,7 +60,7 @@ public class UploadModuleDBManager {
                 }
                 sbSQL.append(" replace into ").append("upload").append(" (cameraid, filename, filesdpath, uploadfilepath, filetype, updatetime) VALUES");
                 sbSQL.append(" (").append("'").append(uploadModuleDB.getCameraId()).append("'")
-                        .append("'").append(uploadModuleDB.getFileName()).append("'")
+                        .append(",").append("'").append(uploadModuleDB.getFileName()).append("'")
                         .append(",").append("'").append(uploadModuleDB.getFileSDPath()).append("'")
                         .append(",").append("'").append(uploadModuleDB.getUploadFilePath()).append("'")
                         .append(",").append(uploadModuleDB.getFileType())
