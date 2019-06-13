@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIModuleDB;
+import com.smart.camera.entity.UploadModuleDB;
 import com.smart.camera.manager.AIModuleDBManager;
 import com.smart.camera.manager.RemoveModuleDBManager;
 import com.smart.camera.manager.UploadModuleDBManager;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModuleDB6.setUpdateTime("2019-06-13");
         aiModuleDBList.add(aiModuleDB6);
 
-        aiModuleDBManager.addAIModuleList(aiModuleDBList);
+        aiModuleDBManager.addMultiAIModule(aiModuleDBList);
 
 //        UploadModuleDB uploadModule = new UploadModuleDB();
 //        uploadModule.setCameraId("Camera_004");
@@ -144,6 +145,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        uploadModule.setFileType(3);
 //        uploadModule.setUpdateTime("2019-06-10");
 //        uploadModuleDBManager.addUploadModule(uploadModule);
+
+        List<UploadModuleDB> uploadModuleDBList = new ArrayList<>();
+        UploadModuleDB uploadModule = new UploadModuleDB();
+        uploadModule.setCameraId("Camera_001");
+        uploadModule.setFileName("20161233");
+        uploadModule.setFileSDPath("D:\\VUE_Test");
+        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule.setFileType(3);
+        uploadModule.setUpdateTime("2019-06-10");
+        uploadModuleDBList.add(uploadModule);
+
+        UploadModuleDB uploadModule2 = new UploadModuleDB();
+        uploadModule2.setCameraId("Camera_002");
+        uploadModule2.setFileName("20161233");
+        uploadModule2.setFileSDPath("D:\\VUE_Test");
+        uploadModule2.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule2.setFileType(3);
+        uploadModule2.setUpdateTime("2019-06-10");
+        uploadModuleDBList.add(uploadModule2);
+
+        UploadModuleDB uploadModule3 = new UploadModuleDB();
+        uploadModule3.setCameraId("Camera_003");
+        uploadModule3.setFileName("20161233");
+        uploadModule3.setFileSDPath("D:\\VUE_Test");
+        uploadModule3.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule3.setFileType(3);
+        uploadModule3.setUpdateTime("2019-06-10");
+        uploadModuleDBList.add(uploadModule3);
+        uploadModuleDBManager.addMultiUploadModule(uploadModuleDBList);
+
 
 //        RemoveModuleDB removeModule = new RemoveModuleDB();
 //        removeModule.setFileName("001");
@@ -165,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModuleDB.setFileName("s_002");
         aiModuleDBList.add(aiModuleDB2);
 
-        aiModuleDBManager.deleteAIModuleList(aiModuleDBList);
+        aiModuleDBManager.deleteMultiAIModule(aiModuleDBList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
 //        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");

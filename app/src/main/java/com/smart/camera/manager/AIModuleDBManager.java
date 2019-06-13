@@ -48,7 +48,7 @@ public class AIModuleDBManager {
     }
 
     /**批量插入数据*/
-    public void addAIModuleList(List<AIModuleDB> aiModuleDBList) {
+    public void addMultiAIModule(List<AIModuleDB> aiModuleDBList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
@@ -99,7 +99,7 @@ public class AIModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteAIModuleList(List<AIModuleDB> fileNameList){
+    public void deleteMultiAIModule(List<AIModuleDB> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){

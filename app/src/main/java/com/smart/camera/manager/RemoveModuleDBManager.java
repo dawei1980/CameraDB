@@ -46,7 +46,7 @@ public class RemoveModuleDBManager {
     }
 
     /**批量插入数据*/
-    public void addRemoveModuleList(List<RemoveModuleDB> removeModuleDBList) {
+    public void addMultiRemoveModule(List<RemoveModuleDB> removeModuleDBList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
@@ -96,7 +96,7 @@ public class RemoveModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteRemoveModuleList(List<RemoveModuleDB> fileNameList){
+    public void deleteMultiRemoveModule(List<RemoveModuleDB> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){

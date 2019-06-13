@@ -46,7 +46,7 @@ public class UploadModuleDBManager {
     }
 
     /**批量插入数据*/
-    public void addUploadModuleList(List<UploadModuleDB> uploadModuleDBList) {
+    public void addMultiUploadModule(List<UploadModuleDB> uploadModuleDBList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
@@ -96,7 +96,7 @@ public class UploadModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteUploadModuleList(List<UploadModuleDB> CameraIdList){
+    public void deleteMultiUploadModule(List<UploadModuleDB> CameraIdList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<CameraIdList.size(); i++){
