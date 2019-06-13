@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModuleList.add("s_001");
         aiModuleList.add("s_002");
         aiModuleList.add("s_003");
-        aiModuleDBManager.deleteAIModuleList(aiModuleList);
+        aiModuleDBManager.deleteAIModuleStrList(aiModuleList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
 //        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
