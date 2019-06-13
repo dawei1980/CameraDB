@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIModuleDB;
+import com.smart.camera.entity.RemoveModuleDB;
 import com.smart.camera.entity.UploadModuleDB;
 import com.smart.camera.manager.AIModuleDBManager;
 import com.smart.camera.manager.RemoveModuleDBManager;
@@ -182,36 +183,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        removeModule.setFileType(2);
 //        removeModule.setUpdateTime("2019-06-11");
 //        removeModuleDBManager.addRemoveModuleData(removeModule);
+
+        List<RemoveModuleDB> removeModuleDBList = new ArrayList<>();
+        RemoveModuleDB removeModule = new RemoveModuleDB();
+        removeModule.setFileName("001");
+        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
+        removeModule.setFileType(2);
+        removeModule.setUpdateTime("2019-06-11");
+        removeModuleDBList.add(removeModule);
+
+        RemoveModuleDB removeModule2 = new RemoveModuleDB();
+        removeModule2.setFileName("002");
+        removeModule2.setFileSDPath("C:\\Windows\\AppReadiness");
+        removeModule2.setFileType(2);
+        removeModule2.setUpdateTime("2019-06-11");
+        removeModuleDBList.add(removeModule2);
+
+        RemoveModuleDB removeModule3 = new RemoveModuleDB();
+        removeModule3.setFileName("003");
+        removeModule3.setFileSDPath("C:\\Windows\\AppReadiness");
+        removeModule3.setFileType(2);
+        removeModule3.setUpdateTime("2019-06-11");
+        removeModuleDBList.add(removeModule3);
+        removeModuleDBManager.addMultiRemoveModule(removeModuleDBList);
     }
 
     private void deleteData() {
 //        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
-        List<AIModuleDB> aiModuleDBList = new ArrayList<>();
-        AIModuleDB aiModuleDB = new AIModuleDB();
-        aiModuleDB.setFileName("s_001");
-        aiModuleDBList.add(aiModuleDB);
-
-        AIModuleDB aiModuleDB2 = new AIModuleDB();
-        aiModuleDB.setFileName("s_002");
-        aiModuleDBList.add(aiModuleDB2);
-
-        aiModuleDBManager.deleteMultiAIModule(aiModuleDBList);
+//        List<AIModuleDB> aiModuleDBList = new ArrayList<>();
+//        AIModuleDB aiModuleDB = new AIModuleDB();
+//        aiModuleDB.setFileName("s_001");
+//        aiModuleDBList.add(aiModuleDB);
+//
+//        AIModuleDB aiModuleDB2 = new AIModuleDB();
+//        aiModuleDB.setFileName("s_002");
+//        aiModuleDBList.add(aiModuleDB2);
+//        aiModuleDBManager.deleteMultiAIModule(aiModuleDBList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
 //        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
+
+//        List<UploadModuleDB> uploadModuleDBList = new ArrayList<>();
+//        UploadModuleDB uploadModuleDB = new UploadModuleDB();
+//        uploadModuleDB.setCameraId("Camera_002");
+//        uploadModuleDBList.add(uploadModuleDB);
+//
+//        UploadModuleDB uploadModuleDB2 = new UploadModuleDB();
+//        uploadModuleDB2.setCameraId("Camera_003");
+//        uploadModuleDBList.add(uploadModuleDB2);
+//        uploadModuleDBManager.deleteMultiUploadModule(uploadModuleDBList);
+
+        List<RemoveModuleDB> removeModuleDBList = new ArrayList<>();
+        RemoveModuleDB removeModuleDB = new RemoveModuleDB();
+        removeModuleDB.setFileName("001");
+        removeModuleDBList.add(removeModuleDB);
+
+        RemoveModuleDB removeModuleDB2 = new RemoveModuleDB();
+        removeModuleDB2.setFileName("002");
+        removeModuleDBList.add(removeModuleDB2);
+        removeModuleDBManager.deleteMultiRemoveModule(removeModuleDBList);
     }
 
     private void updataData() {
-//        aiModuleDBManager.updateAIModule("s_002", 2, "E:\\AISmartCameraProject\\Android_Ethernet2", 3, "2019-06-11");
-//        uploadModuleDBManager.updateUploadModule("Camera_005", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
-//        removeModuleDBManager.updateRemoveModule("20121513", "C:\\QMDownload\\SoftMgr", 3, "2018-03-05");
+        aiModuleDBManager.updateAIModule("s_002", 2, "E:\\AISmartCameraProject\\Android_Ethernet2", 3, "2019-06-11");
+        uploadModuleDBManager.updateUploadModule("Camera_005", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
+        removeModuleDBManager.updateRemoveModule("20121513", "C:\\QMDownload\\SoftMgr", 3, "2018-03-05");
     }
 
     private void querayData() {
         aiModuleDBManager.selectAIModuleByFileName("s_002");
 
-//        List<AIModuleDB> mList = aiModuleDBManager.selectAIByFileName("s_002");
+//        List<AIModuleDB> mList = aiModuleDBManager.selectAIModuleListByFileName("s_002");
 //        mAdapter = new SelectAdapter(this,mList);
 //        select_lv.setAdapter(mAdapter);
 
