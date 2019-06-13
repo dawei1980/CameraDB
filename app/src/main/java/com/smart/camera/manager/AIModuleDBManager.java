@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
-import com.smart.camera.entity.AIModule;
+import com.smart.camera.entity.AIModuleDB;
 import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -27,16 +26,16 @@ public class AIModuleDBManager {
     }
 
     /**插入一条数据*/
-    public void addAIModule(AIModule aiModule){
+    public void addAIModule(AIModuleDB aiModuleDB){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("filename", aiModule.getFileName());
-            values.put("aimode", aiModule.getAiMode());
-            values.put("filesdpath", aiModule.getFileSDPath());
-            values.put("filetype", aiModule.getFileType());
-            values.put("updatetime", aiModule.getUpdateTime());
+            values.put("filename", aiModuleDB.getFileName());
+            values.put("aimode", aiModuleDB.getAiMode());
+            values.put("filesdpath", aiModuleDB.getFileSDPath());
+            values.put("filetype", aiModuleDB.getFileType());
+            values.put("updatetime", aiModuleDB.getUpdateTime());
             db.replace("ai", null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -49,24 +48,24 @@ public class AIModuleDBManager {
     }
 
     /**批量插入数据*/
-    public void addAIModuleList(List<AIModule> aiModuleList) {
+    public void addAIModuleList(List<AIModuleDB> aiModuleDBList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             db.beginTransaction();
-            for (int i = 0; i < aiModuleList.size(); i++) {
-                AIModule aiModule = aiModuleList.get(i);
+            for (int i = 0; i < aiModuleDBList.size(); i++) {
+                AIModuleDB aiModuleDB = aiModuleDBList.get(i);
 
                 if(i != 0) {
                     sbSQL.delete(0, sbSQL.length());
                 }
                 sbSQL.append(" replace into ").append("ai").append(" (filename, aimode, filesdpath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'").append(aiModule.getFileName()).append("'")
-                        .append(",").append(aiModule.getAiMode())
-                        .append(",").append("'").append(aiModule.getFileSDPath()).append("'")
-                        .append(",").append(aiModule.getFileType())
-                        .append(",").append("'").append(aiModule.getUpdateTime()).append("'")
+                sbSQL.append(" (").append("'").append(aiModuleDB.getFileName()).append("'")
+                        .append(",").append(aiModuleDB.getAiMode())
+                        .append(",").append("'").append(aiModuleDB.getFileSDPath()).append("'")
+                        .append(",").append(aiModuleDB.getFileType())
+                        .append(",").append("'").append(aiModuleDB.getUpdateTime()).append("'")
                         .append(");");
                 db.execSQL(sbSQL.toString());
             }
@@ -100,7 +99,7 @@ public class AIModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteAIModuleList(List<AIModule> fileNameList){
+    public void deleteAIModuleList(List<AIModuleDB> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){
@@ -133,36 +132,36 @@ public class AIModuleDBManager {
     }
 
     /**查询一条数据*/
-    public AIModule selectAIModuleByFileName(String fileName){
+    public AIModuleDB selectAIModuleByFileName(String fileName){
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
-        AIModule aiModule = null;
+        AIModuleDB aiModuleDB = null;
         if (cursor.moveToFirst()){
-            aiModule = new AIModule();
-            aiModule.setFileName((cursor.getString(0)));
-            aiModule.setAiMode(cursor.getInt(1));
-            aiModule.setFileSDPath(cursor.getString(2));
-            aiModule.setFileType(cursor.getInt(3));
-            aiModule.setUpdateTime(cursor.getString(4));
+            aiModuleDB = new AIModuleDB();
+            aiModuleDB.setFileName((cursor.getString(0)));
+            aiModuleDB.setAiMode(cursor.getInt(1));
+            aiModuleDB.setFileSDPath(cursor.getString(2));
+            aiModuleDB.setFileType(cursor.getInt(3));
+            aiModuleDB.setUpdateTime(cursor.getString(4));
         }
         // 关闭连接,释放资源
         db.close();
-        return aiModule;
+        return aiModuleDB;
     }
 
     /**查询列表*/
-    public List<AIModule> selectAIModuleListByFileName(String fileName){
-        List<AIModule> list = new ArrayList<>();
+    public List<AIModuleDB> selectAIModuleListByFileName(String fileName){
+        List<AIModuleDB> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
         if (cursor.moveToFirst()){
-            AIModule aiModule = new AIModule();
-            aiModule.setFileName((cursor.getString(0)));
-            aiModule.setAiMode(cursor.getInt(1));
-            aiModule.setFileSDPath(cursor.getString(2));
-            aiModule.setFileType(cursor.getInt(3));
-            aiModule.setUpdateTime(cursor.getString(4));
-            list.add(aiModule);
+            AIModuleDB aiModuleDB = new AIModuleDB();
+            aiModuleDB.setFileName((cursor.getString(0)));
+            aiModuleDB.setAiMode(cursor.getInt(1));
+            aiModuleDB.setFileSDPath(cursor.getString(2));
+            aiModuleDB.setFileType(cursor.getInt(3));
+            aiModuleDB.setUpdateTime(cursor.getString(4));
+            list.add(aiModuleDB);
         }
         // 关闭连接,释放资源
         db.close();

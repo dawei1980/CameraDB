@@ -7,10 +7,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.smart.camera.R;
-import com.smart.camera.entity.RemoveModule;
-import com.smart.camera.entity.UploadModule;
+import com.smart.camera.entity.AIModuleDB;
 import com.smart.camera.manager.AIModuleDBManager;
-import com.smart.camera.entity.AIModule;
 import com.smart.camera.manager.RemoveModuleDBManager;
 import com.smart.camera.manager.UploadModuleDBManager;
 
@@ -79,66 +77,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addData() {
-//        AIModule aiModule = new AIModule();
-//        aiModule.setFileName("s_005");
-//        aiModule.setAiMode(3);
-//        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
-//        aiModule.setFileType(3);
-//        aiModule.setUpdateTime("2019-06-13");
-//        aiModuleDBManager.addAIModule(aiModule);
+//        AIModuleDB aiModuleDB = new AIModuleDB();
+//        aiModuleDB.setFileName("s_005");
+//        aiModuleDB.setAiMode(3);
+//        aiModuleDB.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiModuleDB.setFileType(3);
+//        aiModuleDB.setUpdateTime("2019-06-13");
+//        aiModuleDBManager.addAIModule(aiModuleDB);
 
-        List<AIModule> aiModuleList = new ArrayList<>();
-        AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_001");
-        aiModule.setAiMode(3);
-        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule.setFileType(3);
-        aiModule.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule);
+        List<AIModuleDB> aiModuleDBList = new ArrayList<>();
+        AIModuleDB aiModuleDB = new AIModuleDB();
+        aiModuleDB.setFileName("s_001");
+        aiModuleDB.setAiMode(3);
+        aiModuleDB.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB.setFileType(3);
+        aiModuleDB.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB);
 
-        AIModule aiModule2 = new AIModule();
-        aiModule2.setFileName("s_002");
-        aiModule2.setAiMode(3);
-        aiModule2.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule2.setFileType(3);
-        aiModule2.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule2);
+        AIModuleDB aiModuleDB2 = new AIModuleDB();
+        aiModuleDB2.setFileName("s_002");
+        aiModuleDB2.setAiMode(3);
+        aiModuleDB2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB2.setFileType(3);
+        aiModuleDB2.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB2);
 
-        AIModule aiModule3 = new AIModule();
-        aiModule3.setFileName("s_003");
-        aiModule3.setAiMode(3);
-        aiModule3.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule3.setFileType(3);
-        aiModule3.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule3);
+        AIModuleDB aiModuleDB3 = new AIModuleDB();
+        aiModuleDB3.setFileName("s_003");
+        aiModuleDB3.setAiMode(3);
+        aiModuleDB3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB3.setFileType(3);
+        aiModuleDB3.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB3);
 
-        AIModule aiModule4 = new AIModule();
-        aiModule4.setFileName("s_004");
-        aiModule4.setAiMode(3);
-        aiModule4.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule4.setFileType(3);
-        aiModule4.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule4);
+        AIModuleDB aiModuleDB4 = new AIModuleDB();
+        aiModuleDB4.setFileName("s_004");
+        aiModuleDB4.setAiMode(3);
+        aiModuleDB4.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB4.setFileType(3);
+        aiModuleDB4.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB4);
 
-        AIModule aiModule5 = new AIModule();
-        aiModule5.setFileName("s_005");
-        aiModule5.setAiMode(3);
-        aiModule5.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule5.setFileType(3);
-        aiModule5.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule5);
+        AIModuleDB aiModuleDB5 = new AIModuleDB();
+        aiModuleDB5.setFileName("s_005");
+        aiModuleDB5.setAiMode(3);
+        aiModuleDB5.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB5.setFileType(3);
+        aiModuleDB5.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB5);
 
-        AIModule aiModule6 = new AIModule();
-        aiModule6.setFileName("s_006");
-        aiModule6.setAiMode(3);
-        aiModule6.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiModule6.setFileType(3);
-        aiModule6.setUpdateTime("2019-06-13");
-        aiModuleList.add(aiModule6);
+        AIModuleDB aiModuleDB6 = new AIModuleDB();
+        aiModuleDB6.setFileName("s_006");
+        aiModuleDB6.setAiMode(3);
+        aiModuleDB6.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiModuleDB6.setFileType(3);
+        aiModuleDB6.setUpdateTime("2019-06-13");
+        aiModuleDBList.add(aiModuleDB6);
 
-        aiModuleDBManager.addAIModuleList(aiModuleList);
+        aiModuleDBManager.addAIModuleList(aiModuleDBList);
 
-//        UploadModule uploadModule = new UploadModule();
+//        UploadModuleDB uploadModule = new UploadModuleDB();
 //        uploadModule.setCameraId("Camera_004");
 //        uploadModule.setFileName("20161233");
 //        uploadModule.setFileSDPath("D:\\VUE_Test");
@@ -147,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        uploadModule.setUpdateTime("2019-06-10");
 //        uploadModuleDBManager.addUploadModule(uploadModule);
 
-//        RemoveModule removeModule = new RemoveModule();
+//        RemoveModuleDB removeModule = new RemoveModuleDB();
 //        removeModule.setFileName("001");
 //        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
 //        removeModule.setFileType(2);
@@ -158,16 +156,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void deleteData() {
 //        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
-        List<AIModule> aiModuleList = new ArrayList<>();
-        AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_001");
-        aiModuleList.add(aiModule);
+        List<AIModuleDB> aiModuleDBList = new ArrayList<>();
+        AIModuleDB aiModuleDB = new AIModuleDB();
+        aiModuleDB.setFileName("s_001");
+        aiModuleDBList.add(aiModuleDB);
 
-        AIModule aiModule2 = new AIModule();
-        aiModule.setFileName("s_002");
-        aiModuleList.add(aiModule2);
+        AIModuleDB aiModuleDB2 = new AIModuleDB();
+        aiModuleDB.setFileName("s_002");
+        aiModuleDBList.add(aiModuleDB2);
 
-        aiModuleDBManager.deleteAIModuleList(aiModuleList);
+        aiModuleDBManager.deleteAIModuleList(aiModuleDBList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
 //        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
@@ -175,21 +173,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updataData() {
 //        aiModuleDBManager.updateAIModule("s_002", 2, "E:\\AISmartCameraProject\\Android_Ethernet2", 3, "2019-06-11");
-//
 //        uploadModuleDBManager.updateUploadModule("Camera_005", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
-//
 //        removeModuleDBManager.updateRemoveModule("20121513", "C:\\QMDownload\\SoftMgr", 3, "2018-03-05");
     }
 
     private void querayData() {
         aiModuleDBManager.selectAIModuleByFileName("s_002");
 
-//        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");
+//        List<AIModuleDB> mList = aiModuleDBManager.selectAIByFileName("s_002");
 //        mAdapter = new SelectAdapter(this,mList);
 //        select_lv.setAdapter(mAdapter);
 
         uploadModuleDBManager.selectUploadModuleByCameraId("Camera_002");
-
         removeModuleDBManager.selectRemoveModuleByFileName("20121512");
     }
 }

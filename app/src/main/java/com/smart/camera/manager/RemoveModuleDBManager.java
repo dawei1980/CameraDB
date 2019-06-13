@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.AIModule;
-import com.smart.camera.entity.RemoveModule;
+import com.smart.camera.entity.RemoveModuleDB;
 import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -26,15 +25,15 @@ public class RemoveModuleDBManager {
     }
 
     /**插入一条数据*/
-    public void addRemoveModuleData(RemoveModule removeModule){
+    public void addRemoveModuleData(RemoveModuleDB removeModuleDB){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("filename", removeModule.getFileName());
-            values.put("filesdpath", removeModule.getFileSDPath());
-            values.put("filetype", removeModule.getFileType());
-            values.put("updatetime", removeModule.getUpdateTime());
+            values.put("filename", removeModuleDB.getFileName());
+            values.put("filesdpath", removeModuleDB.getFileSDPath());
+            values.put("filetype", removeModuleDB.getFileType());
+            values.put("updatetime", removeModuleDB.getUpdateTime());
             db.replace("remove", null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -47,23 +46,23 @@ public class RemoveModuleDBManager {
     }
 
     /**批量插入数据*/
-    public void addRemoveModuleList(List<RemoveModule> removeModuleList) {
+    public void addRemoveModuleList(List<RemoveModuleDB> removeModuleDBList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             db.beginTransaction();
-            for (int i = 0; i < removeModuleList.size(); i++) {
-                RemoveModule removeModule = removeModuleList.get(i);
+            for (int i = 0; i < removeModuleDBList.size(); i++) {
+                RemoveModuleDB removeModuleDB = removeModuleDBList.get(i);
 
                 if(i != 0) {
                     sbSQL.delete(0, sbSQL.length());
                 }
                 sbSQL.append(" replace into ").append("remove").append(" (filename, filesdpath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'").append(removeModule.getFileName()).append("'")
-                        .append(",").append("'").append(removeModule.getFileSDPath()).append("'")
-                        .append(",").append(removeModule.getFileType())
-                        .append(",").append("'").append(removeModule.getUpdateTime()).append("'")
+                sbSQL.append(" (").append("'").append(removeModuleDB.getFileName()).append("'")
+                        .append(",").append("'").append(removeModuleDB.getFileSDPath()).append("'")
+                        .append(",").append(removeModuleDB.getFileType())
+                        .append(",").append("'").append(removeModuleDB.getUpdateTime()).append("'")
                         .append(");");
                 db.execSQL(sbSQL.toString());
             }
@@ -97,7 +96,7 @@ public class RemoveModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteRemoveModuleList(List<RemoveModule> fileNameList){
+    public void deleteRemoveModuleList(List<RemoveModuleDB> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){
@@ -130,34 +129,34 @@ public class RemoveModuleDBManager {
     }
 
     /**查询一条数据*/
-    public RemoveModule selectRemoveModuleByFileName(String fileName){
+    public RemoveModuleDB selectRemoveModuleByFileName(String fileName){
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
-        RemoveModule removeModule = null;
+        RemoveModuleDB removeModuleDB = null;
         if (cursor.moveToFirst()){
-            removeModule = new RemoveModule();
-            removeModule.setFileName((cursor.getString(0)));
-            removeModule.setFileSDPath(cursor.getString(1));
-            removeModule.setFileType(cursor.getInt(2));
-            removeModule.setUpdateTime(cursor.getString(3));
+            removeModuleDB = new RemoveModuleDB();
+            removeModuleDB.setFileName((cursor.getString(0)));
+            removeModuleDB.setFileSDPath(cursor.getString(1));
+            removeModuleDB.setFileType(cursor.getInt(2));
+            removeModuleDB.setUpdateTime(cursor.getString(3));
         }
         // 关闭连接,释放资源
         db.close();
-        return removeModule;
+        return removeModuleDB;
     }
 
     /**查询列表*/
-    public List<RemoveModule> selectRemoveModuleListByFileName(String fileName){
-        List<RemoveModule> list = new ArrayList<>();
+    public List<RemoveModuleDB> selectRemoveModuleListByFileName(String fileName){
+        List<RemoveModuleDB> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
         if (cursor.moveToFirst()){
-            RemoveModule removeModule = new RemoveModule();
-            removeModule.setFileName((cursor.getString(0)));
-            removeModule.setFileSDPath(cursor.getString(1));
-            removeModule.setFileType(cursor.getInt(2));
-            removeModule.setUpdateTime(cursor.getString(3));
-            list.add(removeModule);
+            RemoveModuleDB removeModuleDB = new RemoveModuleDB();
+            removeModuleDB.setFileName((cursor.getString(0)));
+            removeModuleDB.setFileSDPath(cursor.getString(1));
+            removeModuleDB.setFileType(cursor.getInt(2));
+            removeModuleDB.setUpdateTime(cursor.getString(3));
+            list.add(removeModuleDB);
         }
         // 关闭连接,释放资源
         db.close();
