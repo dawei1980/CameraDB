@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         add_btn = findViewById(R.id.add_btn);
         add_btn.setOnClickListener(this);
         delete_btn = findViewById(R.id.delete_btn);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_btn:
                 addData();
                 break;
@@ -78,54 +78,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void addData(){
+    private void addData() {
         AIModule aiModule = new AIModule();
         aiModule.setFileName("s_005");
         aiModule.setAiMode(3);
         aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
-//        aiModuleDBManager.addAIModule(aiModule);
+        aiModuleDBManager.addAIModule(aiModule);
+
+//        List<AIModule> aiModuleList = new ArrayList<>();
+//        AIModule aiModule = new AIModule();
+//        aiModule.setFileName("s_001");
+//        aiModule.setAiMode(3);
+//        aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiModule.setFileType(3);
+//        aiModule.setUpdateTime("2019-06-13");
+//        aiModuleList.add(aiModule);
+//        aiModuleDBManager.addAIModuleList(aiModuleList);
+
+
+//        UploadModule uploadModule = new UploadModule();
+//        uploadModule.setCameraId("Camera_004");
+//        uploadModule.setFileName("20161233");
+//        uploadModule.setFileSDPath("D:\\VUE_Test");
+//        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+//        uploadModule.setFileType(3);
+//        uploadModule.setUpdateTime("2019-06-10");
+//        uploadModuleDBManager.addUploadModule(uploadModule);
+//
+//        RemoveModule removeModule = new RemoveModule();
+//        removeModule.setFileName("001");
+//        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
+//        removeModule.setFileType(2);
+//        removeModule.setUpdateTime("2019-06-11");
+//        removeModuleDBManager.addRemoveModuleData(removeModule);
+    }
+
+    private void deleteData() {
+//        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
         List<AIModule> aiModuleList = new ArrayList<>();
+        AIModule aiModule = new AIModule();
+        aiModule.setFileName("s_005");
         aiModuleList.add(aiModule);
-        aiModuleDBManager.addAIModuleList(aiModuleList);
+        aiModuleDBManager.deleteAIModuleList(aiModuleList);
 
-
-        UploadModule uploadModule = new UploadModule();
-        uploadModule.setCameraId("Camera_004");
-        uploadModule.setFileName("20161233");
-        uploadModule.setFileSDPath("D:\\VUE_Test");
-        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
-        uploadModule.setFileType(3);
-        uploadModule.setUpdateTime("2019-06-10");
-        uploadModuleDBManager.addUploadModule(uploadModule);
-
-        RemoveModule removeModule = new RemoveModule();
-        removeModule.setFileName("001");
-        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
-        removeModule.setFileType(2);
-        removeModule.setUpdateTime("2019-06-11");
-        removeModuleDBManager.addRemoveModuleData(removeModule);
+//        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
+//        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
     }
 
-    private void deleteData(){
-        aiModuleDBManager.deleteAIModuleByFileName("s_001");
-
-        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
-
-        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
+    private void updataData() {
+//        aiModuleDBManager.updateAIModule("s_002", 2, "E:\\AISmartCameraProject\\Android_Ethernet2", 3, "2019-06-11");
+//
+//        uploadModuleDBManager.updateUploadModule("Camera_005", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
+//
+//        removeModuleDBManager.updateRemoveModule("20121513", "C:\\QMDownload\\SoftMgr", 3, "2018-03-05");
     }
 
-    private void updataData(){
-        aiModuleDBManager.updateAIModule("s_002",2,"E:\\AISmartCameraProject\\Android_Ethernet2",3,"2019-06-11");
-
-        uploadModuleDBManager.updateUploadModule("Camera_005","20111417","C:\\Program Files\\Common Files","C:\\Program Files\\Java",2,"2015-05-14");
-
-        removeModuleDBManager.updateRemoveModule("20121513","C:\\QMDownload\\SoftMgr",3,"2018-03-05");
-    }
-
-    private void querayData(){
+    private void querayData() {
         aiModuleDBManager.selectAIModuleByFileName("s_002");
 
 //        List<AIModule> mList = aiModuleDBManager.selectAIByFileName("s_002");

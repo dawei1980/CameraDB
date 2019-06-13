@@ -90,6 +90,23 @@ public class AIModuleDBManager {
         }
     }
 
+    /**批量删除
+     * fileName是主键
+     * */
+    public void deleteAIModuleList(List<AIModule> fileNameList){
+        SQLiteDatabase db = null;
+        try {
+            for (int i=0; i<fileNameList.size(); i++){
+                db = dbOpenHelper.getWritableDatabase();
+                db.execSQL("DELETE FROM ai WHERE filename=?",new Object[]{fileNameList.get(i).getFileName()});
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.close();
+        }
+    }
+
     /**更新一条数据*/
     public void updateAIModule(String fileName, int aiMode, String fileSDPath, int fileType, String updateTime){
         SQLiteDatabase db = null;
