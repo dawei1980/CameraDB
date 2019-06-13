@@ -80,16 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addData(){
         AIModule aiModule = new AIModule();
-        aiModule.setFileName("s_004");
+        aiModule.setFileName("s_005");
         aiModule.setAiMode(3);
         aiModule.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiModule.setFileType(3);
         aiModule.setUpdateTime("2019-06-13");
-        aiModuleDBManager.addAIModule(aiModule);
+//        aiModuleDBManager.addAIModule(aiModule);
 
-//        List<AIModule> aiModuleList = new ArrayList<>();
-//        aiModuleList.add(aiModule);
-//        aiModuleDBManager.insertBySql(aiModuleList);
+        List<AIModule> aiModuleList = new ArrayList<>();
+        aiModuleList.add(aiModule);
+        aiModuleDBManager.addAIModuleList(aiModuleList);
 
 
         UploadModule uploadModule = new UploadModule();
