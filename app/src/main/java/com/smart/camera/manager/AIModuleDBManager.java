@@ -92,24 +92,6 @@ public class AIModuleDBManager {
 
     /**批量删除
      * fileName是主键
-     * 对象是字符串
-     * */
-    public void deleteAIModuleStrList(List<String> fileNameList){
-        SQLiteDatabase db = null;
-        try {
-            for (int i=0; i<fileNameList.size(); i++){
-                db = dbOpenHelper.getWritableDatabase();
-                db.execSQL("DELETE FROM ai WHERE filename=?",new Object[]{fileNameList.get(i)});
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            db.close();
-        }
-    }
-
-    /**批量删除
-     * fileName是主键
      * 对象是实体类
      * */
     public void deleteAIModuleList(List<AIModule> fileNameList){

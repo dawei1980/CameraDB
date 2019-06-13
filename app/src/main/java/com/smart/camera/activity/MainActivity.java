@@ -158,11 +158,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void deleteData() {
 //        aiModuleDBManager.deleteAIModuleByFileName("s_001");
 
-        List<String> aiModuleList = new ArrayList<>();
-        aiModuleList.add("s_001");
-        aiModuleList.add("s_002");
-        aiModuleList.add("s_003");
-        aiModuleDBManager.deleteAIModuleStrList(aiModuleList);
+        List<AIModule> aiModuleList = new ArrayList<>();
+        AIModule aiModule = new AIModule();
+        aiModule.setFileName("s_001");
+        aiModuleList.add(aiModule);
+
+        AIModule aiModule2 = new AIModule();
+        aiModule.setFileName("s_002");
+        aiModuleList.add(aiModule2);
+
+        aiModuleDBManager.deleteAIModuleList(aiModuleList);
 
 //        uploadModuleDBManager.deleteUploadModuleByCameraId("Camera_001");
 //        removeModuleDBManager.deleteRemoveModuleByFileName("20121512");
