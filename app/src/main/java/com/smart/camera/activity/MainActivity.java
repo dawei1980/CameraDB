@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mAdapter = new SelectAdapter(this,mList);
 //        select_lv.setAdapter(mAdapter);
 
-        uploadModuleDBManager.selectUploadModuleByCameraId("Camera_002");
+        uploadModuleDBManager.selectUploadModuleByFileName("Camera_002");
         removeModuleDBManager.selectRemoveModuleByFileName("20121512");
     }
 }

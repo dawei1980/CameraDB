@@ -58,9 +58,9 @@ public class UploadModuleDBManager {
                 if(i != 0) {
                     sbSQL.delete(0, sbSQL.length());
                 }
-                sbSQL.append(" replace into ").append("upload").append(" (cameraid, filename, filesdpath, uploadfilepath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'").append(uploadModuleDB.getCameraId()).append("'")
-                        .append(",").append("'").append(uploadModuleDB.getFileName()).append("'")
+                sbSQL.append(" replace into ").append("upload").append(" (filename,cameraid, filesdpath, uploadfilepath, filetype, updatetime) VALUES");
+                sbSQL.append(" (").append("'").append(uploadModuleDB.getFileName()).append("'")
+                        .append(",").append("'").append(uploadModuleDB.getCameraId()).append("'")
                         .append(",").append("'").append(uploadModuleDB.getFileSDPath()).append("'")
                         .append(",").append("'").append(uploadModuleDB.getUploadFilePath()).append("'")
                         .append(",").append(uploadModuleDB.getFileType())
@@ -80,11 +80,11 @@ public class UploadModuleDBManager {
     }
 
     /**删除一条数据*/
-    public void deleteUploadModuleByCameraId(String cameraId){
+    public void deleteUploadModuleByCameraId(String fileName){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
-            db.execSQL("DELETE FROM upload WHERE cameraid=?",new Object[]{cameraId});
+            db.execSQL("DELETE FROM upload WHERE fileName=?",new Object[]{fileName});
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -96,12 +96,12 @@ public class UploadModuleDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteMultiUploadModule(List<UploadModuleDB> CameraIdList){
+    public void deleteMultiUploadModule(List<UploadModuleDB> fileNameList){
         SQLiteDatabase db = null;
         try {
-            for (int i=0; i<CameraIdList.size(); i++){
+            for (int i=0; i<fileNameList.size(); i++){
                 db = dbOpenHelper.getWritableDatabase();
-                db.execSQL("DELETE FROM upload WHERE filename=?",new Object[]{CameraIdList.get(i).getCameraId()});
+                db.execSQL("DELETE FROM upload WHERE filename=?",new Object[]{fileNameList.get(i).getFileName()});
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -113,11 +113,11 @@ public class UploadModuleDBManager {
     }
 
     /**更新一条数据*/
-    public void updateUploadModule(String cameraId, String fileName, String fileSDPath, String upLoadFilePath, int fileType, String updateTime){
+    public void updateUploadModule(String fileName, String cameraId, String fileSDPath, String upLoadFilePath, int fileType, String updateTime){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
-            db.execSQL("update upload set filename = ?, filesdpath = ?,uploadfilepath = ?,filetype = ?, updatetime = ? where cameraid=?",new Object[]{fileName,fileSDPath,upLoadFilePath,fileType,updateTime,cameraId});
+            db.execSQL("update upload set cameraid = ?, filesdpath = ?,uploadfilepath = ?,filetype = ?, updatetime = ? where filename=?",new Object[]{cameraId,fileSDPath,upLoadFilePath,fileType,updateTime,fileName});
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -127,14 +127,14 @@ public class UploadModuleDBManager {
     }
 
     /**查询一条数据*/
-    public UploadModuleDB selectUploadModuleByCameraId(String cameraId){
+    public UploadModuleDB selectUploadModuleByFileName(String fileName){
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from upload where cameraid=?", new String[]{cameraId});
+        Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
         UploadModuleDB uploadModuleDB = null;
         if (cursor.moveToFirst()){
             uploadModuleDB = new UploadModuleDB();
-            uploadModuleDB.setCameraId((cursor.getString(0)));
-            uploadModuleDB.setFileName((cursor.getString(1)));
+            uploadModuleDB.setFileName((cursor.getString(0)));
+            uploadModuleDB.setCameraId((cursor.getString(1)));
             uploadModuleDB.setFileSDPath(cursor.getString(2));
             uploadModuleDB.setUploadFilePath(cursor.getString(3));
             uploadModuleDB.setFileType(cursor.getInt(4));
@@ -146,14 +146,14 @@ public class UploadModuleDBManager {
     }
 
     /**查询列表*/
-    public List<UploadModuleDB> selectUploadModuleListByCameraId(String cameraId){
+    public List<UploadModuleDB> selectUploadModuleListByFileName(String fileName){
         List<UploadModuleDB> list = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from upload where cameraid=?", new String[]{cameraId});
+        Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
         if (cursor.moveToFirst()){
             UploadModuleDB uploadModuleDB = new UploadModuleDB();
-            uploadModuleDB.setCameraId((cursor.getString(0)));
-            uploadModuleDB.setFileName((cursor.getString(1)));
+            uploadModuleDB.setFileName((cursor.getString(0)));
+            uploadModuleDB.setCameraId((cursor.getString(1)));
             uploadModuleDB.setFileSDPath(cursor.getString(2));
             uploadModuleDB.setUploadFilePath(cursor.getString(3));
             uploadModuleDB.setFileType(cursor.getInt(4));

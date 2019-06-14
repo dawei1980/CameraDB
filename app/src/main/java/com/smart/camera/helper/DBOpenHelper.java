@@ -23,7 +23,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table ai(filename varchar(255) primary key, aimode integer, filesdpath varchar(255), filetype integer, updatetime varchar(255))");
-        db.execSQL("create table upload(cameraid varchar(255) primary key, filename varchar(255), filesdpath varchar(255), uploadfilepath varchar(255), filetype integer,updatetime varchar(255))");
+        db.execSQL("create table upload(filename varchar(255) primary key, cameraid varchar(255), filesdpath varchar(255), uploadfilepath varchar(255), filetype integer,updatetime varchar(255))");
         db.execSQL("create table remove(filename varchar(255) primary key, filesdpath varchar(255), filetype integer, updatetime varchar(255))");
     }
 
