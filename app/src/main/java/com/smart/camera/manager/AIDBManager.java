@@ -133,38 +133,79 @@ public class AIDBManager {
 
     /**查询一条数据*/
     public AIModuleDB selectAIModuleByFileName(String fileName){
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
-        AIModuleDB aiModuleDB = null;
-        if (cursor.moveToFirst()){
-            aiModuleDB = new AIModuleDB();
-            aiModuleDB.setFileName((cursor.getString(0)));
-            aiModuleDB.setAiMode(cursor.getInt(1));
-            aiModuleDB.setFileSDPath(cursor.getString(2));
-            aiModuleDB.setFileType(cursor.getInt(3));
-            aiModuleDB.setUpdateTime(cursor.getString(4));
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
+            AIModuleDB aiModuleDB = null;
+            if (cursor.moveToFirst()){
+                aiModuleDB = new AIModuleDB();
+                aiModuleDB.setFileName((cursor.getString(0)));
+                aiModuleDB.setAiMode(cursor.getInt(1));
+                aiModuleDB.setFileSDPath(cursor.getString(2));
+                aiModuleDB.setFileType(cursor.getInt(3));
+                aiModuleDB.setUpdateTime(cursor.getString(4));
+            }
+            return aiModuleDB;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return aiModuleDB;
+        return null;
     }
 
-    /**查询列表*/
-    public List<AIModuleDB> selectAIModuleListByFileName(String fileName){
+    /**根据文件种类进行查询列表*/
+    public List<AIModuleDB> selectAIModuleListByFileType(String filename){
         List<AIModuleDB> list = new ArrayList<>();
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
-        if (cursor.moveToFirst()){
-            AIModuleDB aiModuleDB = new AIModuleDB();
-            aiModuleDB.setFileName((cursor.getString(0)));
-            aiModuleDB.setAiMode(cursor.getInt(1));
-            aiModuleDB.setFileSDPath(cursor.getString(2));
-            aiModuleDB.setFileType(cursor.getInt(3));
-            aiModuleDB.setUpdateTime(cursor.getString(4));
-            list.add(aiModuleDB);
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from ai where filename=? order by updatetime desc", new String[]{filename});
+            if (cursor.moveToFirst()){
+                AIModuleDB aiModuleDB = new AIModuleDB();
+                aiModuleDB.setFileName((cursor.getString(0)));
+                aiModuleDB.setAiMode(cursor.getInt(1));
+                aiModuleDB.setFileSDPath(cursor.getString(2));
+                aiModuleDB.setFileType(cursor.getInt(3));
+                aiModuleDB.setUpdateTime(cursor.getString(4));
+                list.add(aiModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return list;
+        return null;
+    }
+
+    /**自定义查询列表*/
+    public List<AIModuleDB> selectAIModuleList(String sql){
+        List<AIModuleDB> list = new ArrayList<>();
+        SQLiteDatabase db = null;
+
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(sql, new String[]{});
+            if (cursor.moveToFirst()){
+                AIModuleDB aiModuleDB = new AIModuleDB();
+                aiModuleDB.setFileName((cursor.getString(0)));
+                aiModuleDB.setAiMode(cursor.getInt(1));
+                aiModuleDB.setFileSDPath(cursor.getString(2));
+                aiModuleDB.setFileType(cursor.getInt(3));
+                aiModuleDB.setUpdateTime(cursor.getString(4));
+                list.add(aiModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
+        }
+        return null;
     }
 }

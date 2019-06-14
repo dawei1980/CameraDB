@@ -130,36 +130,76 @@ public class RemoveDBManager {
 
     /**查询一条数据*/
     public RemoveModuleDB selectRemoveModuleByFileName(String fileName){
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
-        RemoveModuleDB removeModuleDB = null;
-        if (cursor.moveToFirst()){
-            removeModuleDB = new RemoveModuleDB();
-            removeModuleDB.setFileName((cursor.getString(0)));
-            removeModuleDB.setFileSDPath(cursor.getString(1));
-            removeModuleDB.setFileType(cursor.getInt(2));
-            removeModuleDB.setUpdateTime(cursor.getString(3));
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
+            RemoveModuleDB removeModuleDB = null;
+            if (cursor.moveToFirst()){
+                removeModuleDB = new RemoveModuleDB();
+                removeModuleDB.setFileName((cursor.getString(0)));
+                removeModuleDB.setFileSDPath(cursor.getString(1));
+                removeModuleDB.setFileType(cursor.getInt(2));
+                removeModuleDB.setUpdateTime(cursor.getString(3));
+            }
+            return removeModuleDB;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return removeModuleDB;
+        return null;
     }
 
     /**查询列表*/
     public List<RemoveModuleDB> selectRemoveModuleListByFileName(String fileName){
         List<RemoveModuleDB> list = new ArrayList<>();
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
-        if (cursor.moveToFirst()){
-            RemoveModuleDB removeModuleDB = new RemoveModuleDB();
-            removeModuleDB.setFileName((cursor.getString(0)));
-            removeModuleDB.setFileSDPath(cursor.getString(1));
-            removeModuleDB.setFileType(cursor.getInt(2));
-            removeModuleDB.setUpdateTime(cursor.getString(3));
-            list.add(removeModuleDB);
+        SQLiteDatabase db = null;
+
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
+            if (cursor.moveToFirst()){
+                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
+                removeModuleDB.setFileName((cursor.getString(0)));
+                removeModuleDB.setFileSDPath(cursor.getString(1));
+                removeModuleDB.setFileType(cursor.getInt(2));
+                removeModuleDB.setUpdateTime(cursor.getString(3));
+                list.add(removeModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return list;
+        return null;
+    }
+
+    public List<RemoveModuleDB> selectRemoveData(String sql){
+        List<RemoveModuleDB> list = new ArrayList<>();
+        SQLiteDatabase db = null;
+
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(sql, new String[]{});
+            if (cursor.moveToFirst()){
+                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
+                removeModuleDB.setFileName((cursor.getString(0)));
+                removeModuleDB.setFileSDPath(cursor.getString(1));
+                removeModuleDB.setFileType(cursor.getInt(2));
+                removeModuleDB.setUpdateTime(cursor.getString(3));
+                list.add(removeModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
+        }
+        return null;
     }
 }

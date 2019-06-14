@@ -178,4 +178,31 @@ public class UploadDBManager {
         }
         return null;
     }
+
+    /**自定义查询列表*/
+    public List<UploadModuleDB> selectUploadList(String sql){
+        List<UploadModuleDB> list = new ArrayList<>();
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(sql, new String[]{});
+            if (cursor.moveToFirst()){
+                UploadModuleDB uploadModuleDB = new UploadModuleDB();
+                uploadModuleDB.setFileName((cursor.getString(0)));
+                uploadModuleDB.setCameraId((cursor.getString(1)));
+                uploadModuleDB.setFileSDPath(cursor.getString(2));
+                uploadModuleDB.setUploadFilePath(cursor.getString(3));
+                uploadModuleDB.setFileType(cursor.getInt(4));
+                uploadModuleDB.setUpdateTime(cursor.getString(5));
+                list.add(uploadModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
+        }
+        return null;
+    }
 }
