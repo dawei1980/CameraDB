@@ -128,40 +128,54 @@ public class UploadModuleDBManager {
 
     /**查询一条数据*/
     public UploadModuleDB selectUploadModuleByFileName(String fileName){
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
-        UploadModuleDB uploadModuleDB = null;
-        if (cursor.moveToFirst()){
-            uploadModuleDB = new UploadModuleDB();
-            uploadModuleDB.setFileName((cursor.getString(0)));
-            uploadModuleDB.setCameraId((cursor.getString(1)));
-            uploadModuleDB.setFileSDPath(cursor.getString(2));
-            uploadModuleDB.setUploadFilePath(cursor.getString(3));
-            uploadModuleDB.setFileType(cursor.getInt(4));
-            uploadModuleDB.setUpdateTime(cursor.getString(5));
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
+            UploadModuleDB uploadModuleDB = null;
+            if (cursor.moveToFirst()){
+                uploadModuleDB = new UploadModuleDB();
+                uploadModuleDB.setFileName((cursor.getString(0)));
+                uploadModuleDB.setCameraId((cursor.getString(1)));
+                uploadModuleDB.setFileSDPath(cursor.getString(2));
+                uploadModuleDB.setUploadFilePath(cursor.getString(3));
+                uploadModuleDB.setFileType(cursor.getInt(4));
+                uploadModuleDB.setUpdateTime(cursor.getString(5));
+            }
+            return uploadModuleDB;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return uploadModuleDB;
+        return null;
     }
 
     /**查询列表*/
     public List<UploadModuleDB> selectUploadModuleListByFileName(String fileName){
         List<UploadModuleDB> list = new ArrayList<>();
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
-        if (cursor.moveToFirst()){
-            UploadModuleDB uploadModuleDB = new UploadModuleDB();
-            uploadModuleDB.setFileName((cursor.getString(0)));
-            uploadModuleDB.setCameraId((cursor.getString(1)));
-            uploadModuleDB.setFileSDPath(cursor.getString(2));
-            uploadModuleDB.setUploadFilePath(cursor.getString(3));
-            uploadModuleDB.setFileType(cursor.getInt(4));
-            uploadModuleDB.setUpdateTime(cursor.getString(5));
-            list.add(uploadModuleDB);
+        SQLiteDatabase db = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from upload where fileName=?", new String[]{fileName});
+            if (cursor.moveToFirst()){
+                UploadModuleDB uploadModuleDB = new UploadModuleDB();
+                uploadModuleDB.setFileName((cursor.getString(0)));
+                uploadModuleDB.setCameraId((cursor.getString(1)));
+                uploadModuleDB.setFileSDPath(cursor.getString(2));
+                uploadModuleDB.setUploadFilePath(cursor.getString(3));
+                uploadModuleDB.setFileType(cursor.getInt(4));
+                uploadModuleDB.setUpdateTime(cursor.getString(5));
+                list.add(uploadModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭连接,释放资源
+            db.close();
         }
-        // 关闭连接,释放资源
-        db.close();
-        return list;
+        return null;
     }
 }
