@@ -17,10 +17,10 @@ import java.util.List;
  * 上传模块数据库管理类
  * 包括增，删，改，查方法
  * */
-public class UploadModuleDBManager {
+public class UploadDBManager {
     DBOpenHelper dbOpenHelper;
 
-    public UploadModuleDBManager(Context context) {
+    public UploadDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
@@ -30,8 +30,8 @@ public class UploadModuleDBManager {
         try {
             db = dbOpenHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("cameraid", uploadModuleDB.getCameraId());
             values.put("filename", uploadModuleDB.getFileName());
+            values.put("cameraid", uploadModuleDB.getCameraId());
             values.put("filesdpath", uploadModuleDB.getFileSDPath());
             values.put("uploadfilepath", uploadModuleDB.getUploadFilePath());
             values.put("filetype", uploadModuleDB.getFileType());

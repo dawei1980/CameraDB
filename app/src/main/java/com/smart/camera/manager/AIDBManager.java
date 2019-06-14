@@ -17,11 +17,11 @@ import java.util.List;
  * AI模块数据库管理类
  * 包括增，删，改，查方法
  * */
-public class AIModuleDBManager {
+public class AIDBManager {
 
     DBOpenHelper dbOpenHelper;
 
-    public AIModuleDBManager(Context context) {
+    public AIDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
