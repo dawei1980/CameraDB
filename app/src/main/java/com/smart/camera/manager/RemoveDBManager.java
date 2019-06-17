@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.entity.RemoveModuleDB;
+import com.smart.camera.entity.UploadModuleDB;
 import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -198,6 +199,52 @@ public class RemoveDBManager {
             e.printStackTrace();
         }finally {
             // 关闭连接,释放资源
+            db.close();
+        }
+        return null;
+    }
+
+    /**自定义sql
+     *tag = 1代表插入数据
+     * tag = 2代表删除数据
+     * tag = 3代表更新数据
+     * */
+    public void customSql(String sql, String tag){
+        SQLiteDatabase db = null;
+        try {
+            if("1".equals(tag)){
+                db.execSQL(sql);
+            }else if("2".equals(tag)){
+                db.execSQL(sql);
+            }else if("3".equals(tag)){
+                db.execSQL(sql);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.close();
+        }
+    }
+
+    /**自定义查询sql*/
+    public List<RemoveModuleDB> customSelectSql(String sql){
+        List<RemoveModuleDB> list = new ArrayList<>();
+        SQLiteDatabase db = null;
+        try {
+            // 执行返回游标的查询
+            Cursor cursor = db.rawQuery(sql, null);
+            if(cursor.moveToNext()){
+                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
+                removeModuleDB.setFileName((cursor.getString(0)));
+                removeModuleDB.setFileSDPath(cursor.getString(1));
+                removeModuleDB.setFileType(cursor.getInt(2));
+                removeModuleDB.setUpdateTime(cursor.getString(3));
+                list.add(removeModuleDB);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
             db.close();
         }
         return null;

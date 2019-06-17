@@ -179,14 +179,36 @@ public class UploadDBManager {
         return null;
     }
 
-    /**自定义查询列表*/
-    public List<UploadModuleDB> selectUploadList(String sql){
+    /**自定义sql
+     *tag = 1代表插入数据
+     * tag = 2代表删除数据
+     * tag = 3代表更新数据
+     * */
+    public void customSql(String sql, String tag){
+        SQLiteDatabase db = null;
+        try {
+            if("1".equals(tag)){
+                db.execSQL(sql);
+            }else if("2".equals(tag)){
+                db.execSQL(sql);
+            }else if("3".equals(tag)){
+                db.execSQL(sql);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.close();
+        }
+    }
+
+    /**自定义查询sql*/
+    public List<UploadModuleDB> customSelectSql(String sql){
         List<UploadModuleDB> list = new ArrayList<>();
         SQLiteDatabase db = null;
         try {
-            db = dbOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery(sql, new String[]{});
-            if (cursor.moveToFirst()){
+            // 执行返回游标的查询
+            Cursor cursor = db.rawQuery(sql, null);
+            if(cursor.moveToNext()){
                 UploadModuleDB uploadModuleDB = new UploadModuleDB();
                 uploadModuleDB.setFileName((cursor.getString(0)));
                 uploadModuleDB.setCameraId((cursor.getString(1)));
@@ -200,7 +222,6 @@ public class UploadDBManager {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            // 关闭连接,释放资源
             db.close();
         }
         return null;
