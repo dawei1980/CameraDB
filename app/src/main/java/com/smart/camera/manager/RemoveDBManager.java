@@ -209,16 +209,10 @@ public class RemoveDBManager {
      * tag = 2代表删除数据
      * tag = 3代表更新数据
      * */
-    public void customSql(String sql, String tag){
+    public void customSql(String sql){
         SQLiteDatabase db = null;
         try {
-            if("1".equals(tag)){
-                db.execSQL(sql);
-            }else if("2".equals(tag)){
-                db.execSQL(sql);
-            }else if("3".equals(tag)){
-                db.execSQL(sql);
-            }
+            db.execSQL(sql);
         }catch (Exception e){
             e.printStackTrace();
         }finally {
