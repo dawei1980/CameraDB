@@ -33,7 +33,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
         db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
 
-//        db.execSQL("create table ai(filename varchar(255) primary key, aimode integer, filesdpath varchar(255), filetype integer, updatetime varchar(255))");
         db.execSQL("create table upload(filename varchar(255) primary key, cameraid varchar(255), filesdpath varchar(255), uploadfilepath varchar(255), filetype integer,updatetime varchar(255))");
         db.execSQL("create table remove(filename varchar(255) primary key, filesdpath varchar(255), filetype integer, updatetime varchar(255))");
     }
@@ -51,7 +50,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
         for (int j = oldVersion; j <= newVersion; j++) {
             switch (j) {
-                case 2:
+                case 1:
                     AIDBUpgrade.createNewAITable(db);
                     RemoveDBUpgrade.createNewRemoveTable(db);
                     UploadDBUpgrade.createNewAITable(db);

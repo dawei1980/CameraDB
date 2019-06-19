@@ -8,12 +8,8 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIInfo;
-import com.smart.camera.entity.UploadInfo;
-import com.smart.camera.manager.AIDBManager;
-import com.smart.camera.manager.AIDataManager;
-import com.smart.camera.manager.UploadDBManager;
+import com.smart.camera.dbmanager.AIDataManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

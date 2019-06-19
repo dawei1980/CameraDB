@@ -1,10 +1,9 @@
-package com.smart.camera.manager;
+package com.smart.camera.dbmanager;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.smart.camera.entity.AIInfo;
