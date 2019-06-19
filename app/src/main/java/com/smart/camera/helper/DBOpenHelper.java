@@ -1,20 +1,12 @@
 package com.smart.camera.helper;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.smart.camera.entity.AIModuleDB;
-import com.smart.camera.entity.RemoveModuleDB;
 import com.smart.camera.upgrade.AIDBUpgrade;
 import com.smart.camera.upgrade.RemoveDBUpgrade;
 import com.smart.camera.upgrade.UploadDBUpgrade;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 默认就在数据库里创建4张表
@@ -64,9 +56,4 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             }
         }
     }
-
-
-
-
-
 }
