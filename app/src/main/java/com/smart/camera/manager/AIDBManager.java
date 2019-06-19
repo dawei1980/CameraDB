@@ -21,9 +21,20 @@ import java.util.List;
 public class AIDBManager {
 
     DBOpenHelper dbOpenHelper;
+    private volatile static AIDBManager aidbManager;
 
     public AIDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
+    }
+
+    /**
+     * 获取SqliteDB实例
+     * */
+    public synchronized static AIDBManager getInstance(Context context){
+        if(aidbManager == null){
+            aidbManager = new AIDBManager(context);
+        }
+        return aidbManager;
     }
 
     /**插入一条数据*/

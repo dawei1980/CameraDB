@@ -19,9 +19,20 @@ import java.util.List;
  * */
 public class UploadDBManager {
     DBOpenHelper dbOpenHelper;
+    private volatile static UploadDBManager uploadDBManager;
 
     public UploadDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
+    }
+
+    /**
+     * 获取SqliteDB实例
+     * */
+    public synchronized static UploadDBManager getInstance(Context context){
+        if(uploadDBManager == null){
+            uploadDBManager = new UploadDBManager(context);
+        }
+        return uploadDBManager;
     }
 
     /**插入一条数据*/

@@ -20,9 +20,20 @@ import java.util.List;
  * */
 public class RemoveDBManager {
     DBOpenHelper dbOpenHelper;
+    private volatile static RemoveDBManager removeDBManager;
 
     public RemoveDBManager(Context context) {
         dbOpenHelper = new DBOpenHelper(context);
+    }
+
+    /**
+     * 获取SqliteDB实例
+     * */
+    public synchronized static RemoveDBManager getInstance(Context context){
+        if(removeDBManager == null){
+            removeDBManager = new RemoveDBManager(context);
+        }
+        return removeDBManager;
     }
 
     /**插入一条数据*/

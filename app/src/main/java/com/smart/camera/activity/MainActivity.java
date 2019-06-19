@@ -24,12 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button query_btn;
     private ListView select_lv;
 
-    //===============================================================
-    private AIDBManager AIDBManager;
-    private RemoveDBManager removeDBManager;
-    private UploadDBManager uploadDBManager;
-    //===============================================================
-
     private SelectAdapter mAdapter;
 
     @Override
@@ -51,12 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         query_btn.setOnClickListener(this);
 
         select_lv = findViewById(R.id.select_lv);
-
-        //===============================================================
-        AIDBManager = new AIDBManager(this);
-        removeDBManager = new RemoveDBManager(this);
-        uploadDBManager = new UploadDBManager(this);
-        //===============================================================
     }
 
     @Override
@@ -110,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiModuleDB3.setFileType(3);
         aiModuleDB3.setUpdateTime("2019-06-03");
         aiModuleDBList.add(aiModuleDB3);
-        AIDBManager.addMultiAIModule(aiModuleDBList);
+//        AIDBManager.addMultiAIModule(aiModuleDBList);
+        AIDBManager.getInstance(getApplicationContext()).addMultiAIModule(aiModuleDBList);
 
 //        UploadModuleDB uploadModule = new UploadModuleDB();
 //        uploadModule.setCameraId("Camera_004");
@@ -206,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UploadModuleDB uploadModuleDB2 = new UploadModuleDB();
         uploadModuleDB2.setFileName("20161233");
         uploadModuleDBList.add(uploadModuleDB2);
-        uploadDBManager.deleteMultiUploadModule(uploadModuleDBList);
+        UploadDBManager.getInstance(getApplicationContext()).deleteMultiUploadModule(uploadModuleDBList);
 
 //        List<RemoveModuleDB> removeModuleDBList = new ArrayList<>();
 //        RemoveModuleDB removeModuleDB = new RemoveModuleDB();
@@ -221,14 +210,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updataData() {
 //        AIDBManager.updateAIModule("s_002", 2, "E:\\AISmartCameraProject\\Android_Ethernet2", 3, "2019-06-11");
-        uploadDBManager.updateUploadModule("20161231", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
+        UploadDBManager.getInstance(getApplicationContext()).updateUploadModule("20161231", "20111417", "C:\\Program Files\\Common Files", "C:\\Program Files\\Java", 2, "2015-05-14");
 //        removeDBManager.updateRemoveModule("20121513", "C:\\QMDownload\\SoftMgr", 3, "2018-03-05");
     }
 
     private void querayData() {
 //        AIDBManager.selectAIModuleByFileName("002");
 
-        List<AIModuleDB> mList = AIDBManager.selectAIModuleListByFileType("001");
+        List<AIModuleDB> mList = AIDBManager.getInstance(getApplicationContext()).selectAIModuleListByFileType("001");
         mAdapter = new SelectAdapter(this,mList);
         select_lv.setAdapter(mAdapter);
 
