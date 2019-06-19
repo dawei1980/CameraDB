@@ -2,7 +2,7 @@ package com.smart.camera.entity;
 
 import java.io.Serializable;
 
-public class UploadModuleDB implements Serializable {
+public class UploadInfo implements Serializable {
     private String cameraId;
     private String fileName;
     private String fileSDPath;

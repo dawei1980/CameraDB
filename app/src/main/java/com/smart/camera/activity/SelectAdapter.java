@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.smart.camera.R;
-import com.smart.camera.entity.AIModuleDB;
+import com.smart.camera.entity.AIInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +16,21 @@ import java.util.List;
 public class SelectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<AIModuleDB> aiModuleDBList = new ArrayList<>();
+    private List<AIInfo> aiInfoList = new ArrayList<>();
 
-    public SelectAdapter(Context context, List<AIModuleDB> mList){
+    public SelectAdapter(Context context, List<AIInfo> mList){
         this.context = context;
-        this.aiModuleDBList = mList;
+        this.aiInfoList = mList;
     }
 
     @Override
     public int getCount() {
-        return aiModuleDBList.size();
+        return aiInfoList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return aiModuleDBList.get(position);
+        return aiInfoList.get(position);
     }
 
     @Override
@@ -58,11 +58,11 @@ public class SelectAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.file_name.setText(aiModuleDBList.get(position).getFileName());
-        holder.ai_mode.setText(String.valueOf(aiModuleDBList.get(position).getAiMode()));
-        holder.file_path.setText(aiModuleDBList.get(position).getFileSDPath());
-        holder.file_type.setText(String.valueOf(aiModuleDBList.get(position).getFileType()));
-        holder.update_time.setText(aiModuleDBList.get(position).getUpdateTime());
+        holder.file_name.setText(aiInfoList.get(position).getFileName());
+        holder.ai_mode.setText(String.valueOf(aiInfoList.get(position).getAiMode()));
+        holder.file_path.setText(aiInfoList.get(position).getFileSDPath());
+        holder.file_type.setText(String.valueOf(aiInfoList.get(position).getFileType()));
+        holder.update_time.setText(aiInfoList.get(position).getUpdateTime());
 
         return convertView;
     }

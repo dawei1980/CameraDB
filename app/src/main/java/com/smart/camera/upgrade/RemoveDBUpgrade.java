@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.RemoveModuleDB;
+import com.smart.camera.entity.RemoveInfo;
 import com.smart.camera.constants.TableConstants;
 
 import java.util.ArrayList;
@@ -27,11 +27,11 @@ public class RemoveDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<RemoveModuleDB> removeModuleDBList = getAIData(TableConstants.REMOVE_TABLE_NAME, db);
+        List<RemoveInfo> removeInfoList = getAIData(TableConstants.REMOVE_TABLE_NAME, db);
 
         /**把数据插入到缓存的表中去*/
-        for (RemoveModuleDB removeModuleDB : removeModuleDBList) {
-            insertRemoveData(removeModuleDB, TableConstants.REMOVE_CACHED_TABLE_NAME, db);
+        for (RemoveInfo removeInfo : removeInfoList) {
+            insertRemoveData(removeInfo, TableConstants.REMOVE_CACHED_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.REMOVE_TABLE_NAME);
 
@@ -48,10 +48,10 @@ public class RemoveDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<RemoveModuleDB> cachedRemoveModuleDBList = getAIData(TableConstants.REMOVE_CACHED_TABLE_NAME, db);
+        List<RemoveInfo> cachedRemoveInfoList = getAIData(TableConstants.REMOVE_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
-        for (RemoveModuleDB aiModuleDB : cachedRemoveModuleDBList) {
+        for (RemoveInfo aiModuleDB : cachedRemoveInfoList) {
             insertRemoveData(aiModuleDB, TableConstants.REMOVE_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.REMOVE_CACHED_TABLE_NAME);
@@ -61,33 +61,33 @@ public class RemoveDBUpgrade {
     /**
      * 查询所有的缓存表中的数据
      * */
-    public static List<RemoveModuleDB> getAIData(String tableName, SQLiteDatabase database) {
+    public static List<RemoveInfo> getAIData(String tableName, SQLiteDatabase database) {
         Cursor cursor = database.rawQuery("SELECT * FROM " + tableName, new String[]{});
-        ArrayList<RemoveModuleDB> removeModuleDBArrayList = new ArrayList<>();
+        ArrayList<RemoveInfo> removeInfoArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
-                removeModuleDB.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                removeModuleDB.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                removeModuleDB.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                removeModuleDB.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
-                removeModuleDBArrayList.add(removeModuleDB);
+                RemoveInfo removeInfo = new RemoveInfo();
+                removeInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
+                removeInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
+                removeInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
+                removeInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                removeInfoArrayList.add(removeInfo);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return removeModuleDBArrayList;
+        return removeInfoArrayList;
     }
 
     /**
      * 向创建好的新的Remove表里插入数据
      * */
-    public static void insertRemoveData(RemoveModuleDB removeModuleDB, String tableName, SQLiteDatabase database){
+    public static void insertRemoveData(RemoveInfo removeInfo, String tableName, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", removeModuleDB.getFileName());
-            values.put("filesdpath", removeModuleDB.getFileSDPath());
-            values.put("filetype", removeModuleDB.getFileType());
-            values.put("updatetime", removeModuleDB.getUpdateTime());
+            values.put("filename", removeInfo.getFileName());
+            values.put("filesdpath", removeInfo.getFileSDPath());
+            values.put("filetype", removeInfo.getFileType());
+            values.put("updatetime", removeInfo.getUpdateTime());
             database.replace(tableName, null, values);
         } catch (Exception e) {
             // TODO: handle exception

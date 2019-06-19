@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.UploadModuleDB;
+import com.smart.camera.entity.UploadInfo;
 import com.smart.camera.constants.TableConstants;
 
 import java.util.ArrayList;
@@ -26,11 +26,11 @@ public class UploadDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<UploadModuleDB> uploadModuleDBList = getAIData(TableConstants.UPLOAD_TABLE_NAME, db);
+        List<UploadInfo> uploadInfoList = getAIData(TableConstants.UPLOAD_TABLE_NAME, db);
 
         /**把数据插入到缓存的临时表中去*/
-        for (UploadModuleDB uploadModuleDB : uploadModuleDBList) {
-            insertUploadData(uploadModuleDB, TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
+        for (UploadInfo uploadInfo : uploadInfoList) {
+            insertUploadData(uploadInfo, TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.UPLOAD_TABLE_NAME);
 
@@ -49,11 +49,11 @@ public class UploadDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<UploadModuleDB> cachedUploadList = getAIData(TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
+        List<UploadInfo> cachedUploadList = getAIData(TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
-        for (UploadModuleDB uploadModuleDB : cachedUploadList) {
-            insertUploadData(uploadModuleDB, TableConstants.UPLOAD_TABLE_NAME, db);
+        for (UploadInfo uploadInfo : cachedUploadList) {
+            insertUploadData(uploadInfo, TableConstants.UPLOAD_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.UPLOAD_CACHED_TABLE_NAME);
     }
@@ -61,37 +61,37 @@ public class UploadDBUpgrade {
     /**
      * 查询所有的缓存表中的数据
      * */
-    public static List<UploadModuleDB> getAIData(String tableName, SQLiteDatabase database) {
+    public static List<UploadInfo> getAIData(String tableName, SQLiteDatabase database) {
         Cursor cursor = database.rawQuery("SELECT * FROM " + tableName, new String[]{});
-        ArrayList<UploadModuleDB> uploadModuleDBArrayList = new ArrayList<>();
+        ArrayList<UploadInfo> uploadInfoArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                UploadModuleDB uploadModuleDB = new UploadModuleDB();
-                uploadModuleDB.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                uploadModuleDB.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow("cameraid")));
-                uploadModuleDB.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                uploadModuleDB.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow("uploadfilepath")));
-                uploadModuleDB.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                uploadModuleDB.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
-                uploadModuleDBArrayList.add(uploadModuleDB);
+                UploadInfo uploadInfo = new UploadInfo();
+                uploadInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
+                uploadInfo.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow("cameraid")));
+                uploadInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
+                uploadInfo.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow("uploadfilepath")));
+                uploadInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
+                uploadInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                uploadInfoArrayList.add(uploadInfo);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return uploadModuleDBArrayList;
+        return uploadInfoArrayList;
     }
 
     /**
      * 向创建好的新的Upload表里插入数据
      * */
-    public static void insertUploadData(UploadModuleDB uploadModuleDB, String tableName, SQLiteDatabase database){
+    public static void insertUploadData(UploadInfo uploadInfo, String tableName, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", uploadModuleDB.getFileName());
-            values.put("cameraid", uploadModuleDB.getCameraId());
-            values.put("filesdpath", uploadModuleDB.getFileSDPath());
-            values.put("uploadfilepath", uploadModuleDB.getUploadFilePath());
-            values.put("filetype", uploadModuleDB.getFileType());
-            values.put("updatetime", uploadModuleDB.getUpdateTime());
+            values.put("filename", uploadInfo.getFileName());
+            values.put("cameraid", uploadInfo.getCameraId());
+            values.put("filesdpath", uploadInfo.getFileSDPath());
+            values.put("uploadfilepath", uploadInfo.getUploadFilePath());
+            values.put("filetype", uploadInfo.getFileType());
+            values.put("updatetime", uploadInfo.getUpdateTime());
             database.replace(tableName, null, values);
         } catch (Exception e) {
             // TODO: handle exception

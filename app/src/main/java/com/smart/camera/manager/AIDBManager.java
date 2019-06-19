@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.AIModuleDB;
-import com.smart.camera.entity.RemoveModuleDB;
+import com.smart.camera.entity.AIInfo;
 import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -38,16 +37,16 @@ public class AIDBManager {
     }
 
     /**插入一条数据*/
-    public void addAIModule(AIModuleDB aiModuleDB){
+    public void addAIModule(AIInfo aiInfo){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("filename", aiModuleDB.getFileName());
-            values.put("aimode", aiModuleDB.getAiMode());
-            values.put("filesdpath", aiModuleDB.getFileSDPath());
-            values.put("filetype", aiModuleDB.getFileType());
-            values.put("updatetime", aiModuleDB.getUpdateTime());
+            values.put("filename", aiInfo.getFileName());
+            values.put("aimode", aiInfo.getAiMode());
+            values.put("filesdpath", aiInfo.getFileSDPath());
+            values.put("filetype", aiInfo.getFileType());
+            values.put("updatetime", aiInfo.getUpdateTime());
             db.replace("ai", null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -60,24 +59,24 @@ public class AIDBManager {
     }
 
     /**批量插入数据*/
-    public void addMultiAIModule(List<AIModuleDB> aiModuleDBList) {
+    public void addMultiAIModule(List<AIInfo> aiInfoList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             db.beginTransaction();
-            for (int i = 0; i < aiModuleDBList.size(); i++) {
-                AIModuleDB aiModuleDB = aiModuleDBList.get(i);
+            for (int i = 0; i < aiInfoList.size(); i++) {
+                AIInfo aiInfo = aiInfoList.get(i);
 
                 if(i != 0) {
                     sbSQL.delete(0, sbSQL.length());
                 }
                 sbSQL.append(" replace into ").append("ai").append(" (filename, aimode, filesdpath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'").append(aiModuleDB.getFileName()).append("'")
-                        .append(",").append(aiModuleDB.getAiMode())
-                        .append(",").append("'").append(aiModuleDB.getFileSDPath()).append("'")
-                        .append(",").append(aiModuleDB.getFileType())
-                        .append(",").append("'").append(aiModuleDB.getUpdateTime()).append("'")
+                sbSQL.append(" (").append("'").append(aiInfo.getFileName()).append("'")
+                        .append(",").append(aiInfo.getAiMode())
+                        .append(",").append("'").append(aiInfo.getFileSDPath()).append("'")
+                        .append(",").append(aiInfo.getFileType())
+                        .append(",").append("'").append(aiInfo.getUpdateTime()).append("'")
                         .append(");");
                 db.execSQL(sbSQL.toString());
             }
@@ -111,7 +110,7 @@ public class AIDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteMultiAIModule(List<AIModuleDB> fileNameList){
+    public void deleteMultiAIModule(List<AIInfo> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){
@@ -144,21 +143,21 @@ public class AIDBManager {
     }
 
     /**查询一条数据*/
-    public AIModuleDB selectAIModuleByFileName(String fileName){
+    public AIInfo selectAIModuleByFileName(String fileName){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from ai where filename=?", new String[]{fileName});
-            AIModuleDB aiModuleDB = null;
+            AIInfo aiInfo = null;
             if (cursor.moveToFirst()){
-                aiModuleDB = new AIModuleDB();
-                aiModuleDB.setFileName((cursor.getString(0)));
-                aiModuleDB.setAiMode(cursor.getInt(1));
-                aiModuleDB.setFileSDPath(cursor.getString(2));
-                aiModuleDB.setFileType(cursor.getInt(3));
-                aiModuleDB.setUpdateTime(cursor.getString(4));
+                aiInfo = new AIInfo();
+                aiInfo.setFileName((cursor.getString(0)));
+                aiInfo.setAiMode(cursor.getInt(1));
+                aiInfo.setFileSDPath(cursor.getString(2));
+                aiInfo.setFileType(cursor.getInt(3));
+                aiInfo.setUpdateTime(cursor.getString(4));
             }
-            return aiModuleDB;
+            return aiInfo;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -169,20 +168,20 @@ public class AIDBManager {
     }
 
     /**根据文件种类进行查询列表*/
-    public List<AIModuleDB> selectAIModuleListByFileType(String filename){
-        List<AIModuleDB> list = new ArrayList<>();
+    public List<AIInfo> selectAIModuleListByFileType(String filename){
+        List<AIInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from ai where filename=? order by updatetime desc", new String[]{filename});
             if (cursor.moveToFirst()){
-                AIModuleDB aiModuleDB = new AIModuleDB();
-                aiModuleDB.setFileName((cursor.getString(0)));
-                aiModuleDB.setAiMode(cursor.getInt(1));
-                aiModuleDB.setFileSDPath(cursor.getString(2));
-                aiModuleDB.setFileType(cursor.getInt(3));
-                aiModuleDB.setUpdateTime(cursor.getString(4));
-                list.add(aiModuleDB);
+                AIInfo aiInfo = new AIInfo();
+                aiInfo.setFileName((cursor.getString(0)));
+                aiInfo.setAiMode(cursor.getInt(1));
+                aiInfo.setFileSDPath(cursor.getString(2));
+                aiInfo.setFileType(cursor.getInt(3));
+                aiInfo.setUpdateTime(cursor.getString(4));
+                list.add(aiInfo);
             }
             return list;
         }catch (Exception e){
@@ -195,21 +194,21 @@ public class AIDBManager {
     }
 
     /**自定义查询列表*/
-    public List<AIModuleDB> selectAIModuleList(String sql){
-        List<AIModuleDB> list = new ArrayList<>();
+    public List<AIInfo> selectAIModuleList(String sql){
+        List<AIInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
 
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery(sql, new String[]{});
             if (cursor.moveToFirst()){
-                AIModuleDB aiModuleDB = new AIModuleDB();
-                aiModuleDB.setFileName((cursor.getString(0)));
-                aiModuleDB.setAiMode(cursor.getInt(1));
-                aiModuleDB.setFileSDPath(cursor.getString(2));
-                aiModuleDB.setFileType(cursor.getInt(3));
-                aiModuleDB.setUpdateTime(cursor.getString(4));
-                list.add(aiModuleDB);
+                AIInfo aiInfo = new AIInfo();
+                aiInfo.setFileName((cursor.getString(0)));
+                aiInfo.setAiMode(cursor.getInt(1));
+                aiInfo.setFileSDPath(cursor.getString(2));
+                aiInfo.setFileType(cursor.getInt(3));
+                aiInfo.setUpdateTime(cursor.getString(4));
+                list.add(aiInfo);
             }
             return list;
         }catch (Exception e){
@@ -238,20 +237,20 @@ public class AIDBManager {
     }
 
     /**自定义查询sql*/
-    public List<AIModuleDB> customSelectSql(String sql){
-        List<AIModuleDB> list = new ArrayList<>();
+    public List<AIInfo> customSelectSql(String sql){
+        List<AIInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
         try {
             // 执行返回游标的查询
             Cursor cursor = db.rawQuery(sql, null);
             if(cursor.moveToNext()){
-                AIModuleDB aiModuleDB = new AIModuleDB();
-                aiModuleDB.setFileName((cursor.getString(0)));
-                aiModuleDB.setAiMode(cursor.getInt(1));
-                aiModuleDB.setFileSDPath(cursor.getString(2));
-                aiModuleDB.setFileType(cursor.getInt(3));
-                aiModuleDB.setUpdateTime(cursor.getString(4));
-                list.add(aiModuleDB);
+                AIInfo aiInfo = new AIInfo();
+                aiInfo.setFileName((cursor.getString(0)));
+                aiInfo.setAiMode(cursor.getInt(1));
+                aiInfo.setFileSDPath(cursor.getString(2));
+                aiInfo.setFileType(cursor.getInt(3));
+                aiInfo.setUpdateTime(cursor.getString(4));
+                list.add(aiInfo);
             }
             return list;
         }catch (Exception e){

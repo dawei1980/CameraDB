@@ -2,7 +2,7 @@ package com.smart.camera.entity;
 
 import java.io.Serializable;
 
-public class AIModuleDB implements Serializable {
+public class AIInfo implements Serializable {
     private String fileName;
     private int aiMode;
     private String fileSDPath;

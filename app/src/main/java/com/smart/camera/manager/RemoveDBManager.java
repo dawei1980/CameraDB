@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.RemoveModuleDB;
-import com.smart.camera.entity.UploadModuleDB;
+import com.smart.camera.entity.RemoveInfo;
 import com.smart.camera.helper.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -37,15 +36,15 @@ public class RemoveDBManager {
     }
 
     /**插入一条数据*/
-    public void addRemoveModuleData(RemoveModuleDB removeModuleDB){
+    public void addRemoveModuleData(RemoveInfo removeInfo){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("filename", removeModuleDB.getFileName());
-            values.put("filesdpath", removeModuleDB.getFileSDPath());
-            values.put("filetype", removeModuleDB.getFileType());
-            values.put("updatetime", removeModuleDB.getUpdateTime());
+            values.put("filename", removeInfo.getFileName());
+            values.put("filesdpath", removeInfo.getFileSDPath());
+            values.put("filetype", removeInfo.getFileType());
+            values.put("updatetime", removeInfo.getUpdateTime());
             db.replace("remove", null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -58,23 +57,23 @@ public class RemoveDBManager {
     }
 
     /**批量插入数据*/
-    public void addMultiRemoveModule(List<RemoveModuleDB> removeModuleDBList) {
+    public void addMultiRemoveModule(List<RemoveInfo> removeInfoList) {
         StringBuffer sbSQL = new StringBuffer();
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getWritableDatabase();
             db.beginTransaction();
-            for (int i = 0; i < removeModuleDBList.size(); i++) {
-                RemoveModuleDB removeModuleDB = removeModuleDBList.get(i);
+            for (int i = 0; i < removeInfoList.size(); i++) {
+                RemoveInfo removeInfo = removeInfoList.get(i);
 
                 if(i != 0) {
                     sbSQL.delete(0, sbSQL.length());
                 }
                 sbSQL.append(" replace into ").append("remove").append(" (filename, filesdpath, filetype, updatetime) VALUES");
-                sbSQL.append(" (").append("'").append(removeModuleDB.getFileName()).append("'")
-                        .append(",").append("'").append(removeModuleDB.getFileSDPath()).append("'")
-                        .append(",").append(removeModuleDB.getFileType())
-                        .append(",").append("'").append(removeModuleDB.getUpdateTime()).append("'")
+                sbSQL.append(" (").append("'").append(removeInfo.getFileName()).append("'")
+                        .append(",").append("'").append(removeInfo.getFileSDPath()).append("'")
+                        .append(",").append(removeInfo.getFileType())
+                        .append(",").append("'").append(removeInfo.getUpdateTime()).append("'")
                         .append(");");
                 db.execSQL(sbSQL.toString());
             }
@@ -108,7 +107,7 @@ public class RemoveDBManager {
      * fileName是主键
      * 对象是实体类
      * */
-    public void deleteMultiRemoveModule(List<RemoveModuleDB> fileNameList){
+    public void deleteMultiRemoveModule(List<RemoveInfo> fileNameList){
         SQLiteDatabase db = null;
         try {
             for (int i=0; i<fileNameList.size(); i++){
@@ -141,20 +140,20 @@ public class RemoveDBManager {
     }
 
     /**查询一条数据*/
-    public RemoveModuleDB selectRemoveModuleByFileName(String fileName){
+    public RemoveInfo selectRemoveModuleByFileName(String fileName){
         SQLiteDatabase db = null;
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
-            RemoveModuleDB removeModuleDB = null;
+            RemoveInfo removeInfo = null;
             if (cursor.moveToFirst()){
-                removeModuleDB = new RemoveModuleDB();
-                removeModuleDB.setFileName((cursor.getString(0)));
-                removeModuleDB.setFileSDPath(cursor.getString(1));
-                removeModuleDB.setFileType(cursor.getInt(2));
-                removeModuleDB.setUpdateTime(cursor.getString(3));
+                removeInfo = new RemoveInfo();
+                removeInfo.setFileName((cursor.getString(0)));
+                removeInfo.setFileSDPath(cursor.getString(1));
+                removeInfo.setFileType(cursor.getInt(2));
+                removeInfo.setUpdateTime(cursor.getString(3));
             }
-            return removeModuleDB;
+            return removeInfo;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -165,20 +164,20 @@ public class RemoveDBManager {
     }
 
     /**查询列表*/
-    public List<RemoveModuleDB> selectRemoveModuleListByFileName(String fileName){
-        List<RemoveModuleDB> list = new ArrayList<>();
+    public List<RemoveInfo> selectRemoveModuleListByFileName(String fileName){
+        List<RemoveInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
 
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from remove where filename=?", new String[]{fileName});
             if (cursor.moveToFirst()){
-                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
-                removeModuleDB.setFileName((cursor.getString(0)));
-                removeModuleDB.setFileSDPath(cursor.getString(1));
-                removeModuleDB.setFileType(cursor.getInt(2));
-                removeModuleDB.setUpdateTime(cursor.getString(3));
-                list.add(removeModuleDB);
+                RemoveInfo removeInfo = new RemoveInfo();
+                removeInfo.setFileName((cursor.getString(0)));
+                removeInfo.setFileSDPath(cursor.getString(1));
+                removeInfo.setFileType(cursor.getInt(2));
+                removeInfo.setUpdateTime(cursor.getString(3));
+                list.add(removeInfo);
             }
             return list;
         }catch (Exception e){
@@ -190,20 +189,20 @@ public class RemoveDBManager {
         return null;
     }
 
-    public List<RemoveModuleDB> selectRemoveData(String sql){
-        List<RemoveModuleDB> list = new ArrayList<>();
+    public List<RemoveInfo> selectRemoveData(String sql){
+        List<RemoveInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
 
         try {
             db = dbOpenHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery(sql, new String[]{});
             if (cursor.moveToFirst()){
-                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
-                removeModuleDB.setFileName((cursor.getString(0)));
-                removeModuleDB.setFileSDPath(cursor.getString(1));
-                removeModuleDB.setFileType(cursor.getInt(2));
-                removeModuleDB.setUpdateTime(cursor.getString(3));
-                list.add(removeModuleDB);
+                RemoveInfo removeInfo = new RemoveInfo();
+                removeInfo.setFileName((cursor.getString(0)));
+                removeInfo.setFileSDPath(cursor.getString(1));
+                removeInfo.setFileType(cursor.getInt(2));
+                removeInfo.setUpdateTime(cursor.getString(3));
+                list.add(removeInfo);
             }
             return list;
         }catch (Exception e){
@@ -232,19 +231,19 @@ public class RemoveDBManager {
     }
 
     /**自定义查询sql*/
-    public List<RemoveModuleDB> customSelectSql(String sql){
-        List<RemoveModuleDB> list = new ArrayList<>();
+    public List<RemoveInfo> customSelectSql(String sql){
+        List<RemoveInfo> list = new ArrayList<>();
         SQLiteDatabase db = null;
         try {
             // 执行返回游标的查询
             Cursor cursor = db.rawQuery(sql, null);
             if(cursor.moveToNext()){
-                RemoveModuleDB removeModuleDB = new RemoveModuleDB();
-                removeModuleDB.setFileName((cursor.getString(0)));
-                removeModuleDB.setFileSDPath(cursor.getString(1));
-                removeModuleDB.setFileType(cursor.getInt(2));
-                removeModuleDB.setUpdateTime(cursor.getString(3));
-                list.add(removeModuleDB);
+                RemoveInfo removeInfo = new RemoveInfo();
+                removeInfo.setFileName((cursor.getString(0)));
+                removeInfo.setFileSDPath(cursor.getString(1));
+                removeInfo.setFileType(cursor.getInt(2));
+                removeInfo.setUpdateTime(cursor.getString(3));
+                list.add(removeInfo);
             }
             return list;
         }catch (Exception e){

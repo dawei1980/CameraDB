@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.AIModuleDB;
+import com.smart.camera.entity.AIInfo;
 import com.smart.camera.constants.TableConstants;
 
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ public class AIDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<AIModuleDB> aiModuleDBList = getAIData(TableConstants.AI_TABLE_NAME, db);
+        List<AIInfo> aiInfoList = getAIData(TableConstants.AI_TABLE_NAME, db);
 
         /**把数据插入到缓存的临时表中去*/
-        for (AIModuleDB aiModuleDB : aiModuleDBList) {
-            insertAIData(aiModuleDB, TableConstants.AI_CACHED_TABLE_NAME, db);
+        for (AIInfo aiInfo : aiInfoList) {
+            insertAIData(aiInfo, TableConstants.AI_CACHED_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.AI_TABLE_NAME);
 
@@ -50,11 +50,11 @@ public class AIDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<AIModuleDB> cachedAIModuleDBList = getAIData(TableConstants.AI_CACHED_TABLE_NAME, db);
+        List<AIInfo> cachedAIInfoList = getAIData(TableConstants.AI_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
-        for (AIModuleDB aiModuleDB : cachedAIModuleDBList) {
-            insertAIData(aiModuleDB, TableConstants.AI_TABLE_NAME, db);
+        for (AIInfo aiInfo : cachedAIInfoList) {
+            insertAIData(aiInfo, TableConstants.AI_TABLE_NAME, db);
         }
         db.execSQL("drop table " + TableConstants.AI_CACHED_TABLE_NAME);
     }
@@ -62,35 +62,35 @@ public class AIDBUpgrade {
     /**
      * 查询所有的缓存表中的数据
      * */
-    public static List<AIModuleDB> getAIData(String tableName, SQLiteDatabase database) {
+    public static List<AIInfo> getAIData(String tableName, SQLiteDatabase database) {
         Cursor cursor = database.rawQuery("SELECT * FROM " + tableName, new String[]{});
-        ArrayList<AIModuleDB> aiModuleDBArrayList = new ArrayList<>();
+        ArrayList<AIInfo> aiInfoArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                AIModuleDB aiModuleDB = new AIModuleDB();
-                aiModuleDB.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                aiModuleDB.setAiMode(cursor.getInt(cursor.getColumnIndexOrThrow("aimode")));
-                aiModuleDB.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                aiModuleDB.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                aiModuleDB.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
-                aiModuleDBArrayList.add(aiModuleDB);
+                AIInfo aiInfo = new AIInfo();
+                aiInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
+                aiInfo.setAiMode(cursor.getInt(cursor.getColumnIndexOrThrow("aimode")));
+                aiInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
+                aiInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
+                aiInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                aiInfoArrayList.add(aiInfo);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return aiModuleDBArrayList;
+        return aiInfoArrayList;
     }
 
     /**
      * 向创建好的新的AI表里插入数据
      * */
-    public static void insertAIData(AIModuleDB aiModuleDB, String tableName, SQLiteDatabase database) {
+    public static void insertAIData(AIInfo aiInfo, String tableName, SQLiteDatabase database) {
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", aiModuleDB.getFileName());
-            values.put("aimode", aiModuleDB.getAiMode());
-            values.put("filesdpath", aiModuleDB.getFileSDPath());
-            values.put("filetype", aiModuleDB.getFileType());
-            values.put("updatetime", aiModuleDB.getUpdateTime());
+            values.put("filename", aiInfo.getFileName());
+            values.put("aimode", aiInfo.getAiMode());
+            values.put("filesdpath", aiInfo.getFileSDPath());
+            values.put("filetype", aiInfo.getFileType());
+            values.put("updatetime", aiInfo.getUpdateTime());
             database.replace(tableName, null, values);
         } catch (Exception e) {
             // TODO: handle exception
