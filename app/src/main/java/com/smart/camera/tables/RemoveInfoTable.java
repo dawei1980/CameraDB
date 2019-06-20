@@ -12,6 +12,9 @@ public class RemoveInfoTable {
     /** AI Table name. */
     public static final String REMOVE_TABLE_NAME = "remove";
 
+    /**Remove 临时表名*/
+    public static final String REMOVE_CACHED_TABLE_NAME = REMOVE_TABLE_NAME + "snap_cached";
+
     //表格的基本信息的字符串
     public static final String ID = "id";
     public static final String FILENAME = "filename";

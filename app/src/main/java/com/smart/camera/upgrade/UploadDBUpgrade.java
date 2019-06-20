@@ -5,18 +5,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.entity.UploadDBInfo;
+import com.smart.camera.tables.UploadInfoTable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.smart.camera.constants.TableConstants;
 
 public class UploadDBUpgrade {
 
     public static void createNewAITable(SQLiteDatabase db) {
 
         /**创建临时缓存表 用于缓存老表里面的数据*/
-        String createTable = "CREATE TABLE " + TableConstants.UPLOAD_CACHED_TABLE_NAME
+        String createTable = "CREATE TABLE " + UploadInfoTable.UPLOAD_CACHED_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "cameraid" + " varchar(255),"
                 + "filesdpath" + " varchar(255),"
@@ -27,19 +26,19 @@ public class UploadDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<UploadDBInfo> uploadDBInfoList = getAIData(TableConstants.UPLOAD_TABLE_NAME, db);
+        List<UploadDBInfo> uploadDBInfoList = getAIData(UploadInfoTable.UPLOAD_TABLE_NAME, db);
 
         /**把数据插入到缓存的临时表中去*/
         for (UploadDBInfo uploadDBInfo : uploadDBInfoList) {
-            insertUploadData(uploadDBInfo, TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
+            insertUploadData(uploadDBInfo, UploadInfoTable.UPLOAD_CACHED_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.UPLOAD_TABLE_NAME);
+        db.execSQL("drop table " + UploadInfoTable.UPLOAD_TABLE_NAME);
 
         /**
          * 创建新的表结构
          * 可以增加字段，但不能减少字段
          * */
-        String createNewTable = "CREATE TABLE " + TableConstants.UPLOAD_TABLE_NAME
+        String createNewTable = "CREATE TABLE " + UploadInfoTable.UPLOAD_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "cameraid" + " varchar(255),"
                 + "filesdpath" + " varchar(255),"
@@ -50,13 +49,13 @@ public class UploadDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<UploadDBInfo> cachedUploadList = getAIData(TableConstants.UPLOAD_CACHED_TABLE_NAME, db);
+        List<UploadDBInfo> cachedUploadList = getAIData(UploadInfoTable.UPLOAD_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
         for (UploadDBInfo uploadDBInfo : cachedUploadList) {
-            insertUploadData(uploadDBInfo, TableConstants.UPLOAD_TABLE_NAME, db);
+            insertUploadData(uploadDBInfo, UploadInfoTable.UPLOAD_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.UPLOAD_CACHED_TABLE_NAME);
+        db.execSQL("drop table " + UploadInfoTable.UPLOAD_CACHED_TABLE_NAME);
     }
 
     /**

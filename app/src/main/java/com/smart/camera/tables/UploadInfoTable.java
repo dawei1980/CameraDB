@@ -12,6 +12,9 @@ public class UploadInfoTable {
     /** AI Table name. */
     public static final String UPLOAD_TABLE_NAME = "upload";
 
+    /**Upload 临时表名*/
+    public static final String UPLOAD_CACHED_TABLE_NAME = UPLOAD_TABLE_NAME + "snap_cached";
+
     //表格的基本信息的字符串
     public static final String ID = "id";
     public static final String FILENAME = "filename";

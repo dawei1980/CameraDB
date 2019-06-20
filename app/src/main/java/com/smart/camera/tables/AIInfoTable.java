@@ -12,6 +12,9 @@ public class AIInfoTable {
     /** AI Table name. */
     public static final String AI_TABLE_NAME = "ai";
 
+    /**AI 临时表名*/
+    public static final String AI_CACHED_TABLE_NAME = AI_TABLE_NAME + "snap_cached";
+
     //表格的基本信息的字符串
     public static final String ID = "id";
     public static final String FILENAME = "filename";

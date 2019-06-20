@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.smart.camera.entity.AIDBInfo;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.smart.camera.constants.TableConstants;
+import com.smart.camera.tables.AIInfoTable;
 
 /**
  * AI模块数据表升级
@@ -18,7 +17,7 @@ public class AIDBUpgrade {
     public static void createNewAITable(SQLiteDatabase db) {
 
         /**创建临时缓存表 用于缓存老表里面的数据*/
-        String createTable = "CREATE TABLE " + TableConstants.AI_CACHED_TABLE_NAME
+        String createTable = "CREATE TABLE " + AIInfoTable.AI_CACHED_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "aimode" + " integer,"
                 + "filesdpath" + " varchar(255),"
@@ -28,19 +27,19 @@ public class AIDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<AIDBInfo> AIDBInfoList = getAIData(TableConstants.AI_TABLE_NAME, db);
+        List<AIDBInfo> AIDBInfoList = getAIData(AIInfoTable.AI_TABLE_NAME, db);
 
         /**把数据插入到缓存的临时表中去*/
         for (AIDBInfo AIDBInfo : AIDBInfoList) {
-            insertAIData(AIDBInfo, TableConstants.AI_CACHED_TABLE_NAME, db);
+            insertAIData(AIDBInfo, AIInfoTable.AI_CACHED_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.AI_TABLE_NAME);
+        db.execSQL("drop table " + AIInfoTable.AI_TABLE_NAME);
 
         /**
          * 创建新的表结构
          * 可以增加字段，但不能减少字段
          * */
-        String createNewTable = "CREATE TABLE " + TableConstants.AI_TABLE_NAME
+        String createNewTable = "CREATE TABLE " + AIInfoTable.AI_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "aimode" + " integer,"
                 + "filesdpath" + " varchar(255),"
@@ -50,13 +49,13 @@ public class AIDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<AIDBInfo> cachedAIDBInfoList = getAIData(TableConstants.AI_CACHED_TABLE_NAME, db);
+        List<AIDBInfo> cachedAIDBInfoList = getAIData(AIInfoTable.AI_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
         for (AIDBInfo AIDBInfo : cachedAIDBInfoList) {
-            insertAIData(AIDBInfo, TableConstants.AI_TABLE_NAME, db);
+            insertAIData(AIDBInfo, AIInfoTable.AI_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.AI_CACHED_TABLE_NAME);
+        db.execSQL("drop table " + AIInfoTable.AI_CACHED_TABLE_NAME);
     }
 
     /**

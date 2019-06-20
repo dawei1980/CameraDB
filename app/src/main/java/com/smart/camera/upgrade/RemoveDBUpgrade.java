@@ -5,11 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.tables.RemoveInfoTable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.smart.camera.constants.TableConstants;
 
 /**
  * Remove模块数据库升级
@@ -19,7 +18,7 @@ public class RemoveDBUpgrade {
     public static void createNewRemoveTable(SQLiteDatabase db){
 
         /**创建临时缓存表 用于缓存老表里面的数据*/
-        String createTable = "CREATE TABLE " + TableConstants.REMOVE_CACHED_TABLE_NAME
+        String createTable = "CREATE TABLE " + RemoveInfoTable.REMOVE_CACHED_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "filesdpath" + " varchar(255),"
                 + "filetype" + " integer,"
@@ -28,19 +27,19 @@ public class RemoveDBUpgrade {
         db.execSQL(createTable);
 
         /**查询所有的老表数据*/
-        List<RemoveDBInfo> removeDBInfoList = getAIData(TableConstants.REMOVE_TABLE_NAME, db);
+        List<RemoveDBInfo> removeDBInfoList = getAIData(RemoveInfoTable.REMOVE_TABLE_NAME, db);
 
         /**把数据插入到缓存的表中去*/
         for (RemoveDBInfo removeDBInfo : removeDBInfoList) {
-            insertRemoveData(removeDBInfo, TableConstants.REMOVE_CACHED_TABLE_NAME, db);
+            insertRemoveData(removeDBInfo, RemoveInfoTable.REMOVE_CACHED_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.REMOVE_TABLE_NAME);
+        db.execSQL("drop table " + RemoveInfoTable.REMOVE_TABLE_NAME);
 
         /**
          * 创建新的表结构
          * 可以增加字段，但不能减少字段
          * */
-        String createNewTable = "CREATE TABLE " + TableConstants.REMOVE_TABLE_NAME
+        String createNewTable = "CREATE TABLE " + RemoveInfoTable.REMOVE_TABLE_NAME
                 + " (" + "filename" + " varchar(255) PRIMARY KEY AUTOINCREMENT,"
                 + "filesdpath" + " varchar(255),"
                 + "filetype" + " integer,"
@@ -49,13 +48,13 @@ public class RemoveDBUpgrade {
         db.execSQL(createNewTable);
 
         /**查询所有的缓存表中的数据*/
-        List<RemoveDBInfo> cachedRemoveDBInfoList = getAIData(TableConstants.REMOVE_CACHED_TABLE_NAME, db);
+        List<RemoveDBInfo> cachedRemoveDBInfoList = getAIData(RemoveInfoTable.REMOVE_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
         for (RemoveDBInfo aiModuleDB : cachedRemoveDBInfoList) {
-            insertRemoveData(aiModuleDB, TableConstants.REMOVE_TABLE_NAME, db);
+            insertRemoveData(aiModuleDB, RemoveInfoTable.REMOVE_TABLE_NAME, db);
         }
-        db.execSQL("drop table " + TableConstants.REMOVE_CACHED_TABLE_NAME);
+        db.execSQL("drop table " + RemoveInfoTable.REMOVE_CACHED_TABLE_NAME);
     }
 
 
