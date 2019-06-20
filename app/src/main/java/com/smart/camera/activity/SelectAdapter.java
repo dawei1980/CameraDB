@@ -8,9 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.smart.camera.R;
-import com.smart.camera.entity.AIInfo;
-import com.smart.camera.entity.RemoveInfo;
-import com.smart.camera.entity.UploadInfo;
+import com.smart.camera.entity.RemoveDBInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,9 @@ import java.util.List;
 public class SelectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<RemoveInfo> aiInfoList = new ArrayList<>();
+    private List<RemoveDBInfo> aiInfoList = new ArrayList<>();
 
-    public SelectAdapter(Context context, List<RemoveInfo> mList){
+    public SelectAdapter(Context context, List<RemoveDBInfo> mList){
         this.context = context;
         this.aiInfoList = mList;
     }

@@ -4,8 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.RemoveInfo;
-import com.smart.camera.provider.AIDBProvider;
+import com.smart.camera.entity.RemoveDBInfo;
 import com.smart.camera.provider.RemoveProvider;
 
 public class RemoveInfoTable {
@@ -36,7 +35,7 @@ public class RemoveInfoTable {
         return CONTENT_URI;
     }
 
-    public static ContentValues putValues(RemoveInfo info) {
+    public static ContentValues putValues(RemoveDBInfo info) {
         ContentValues values = new ContentValues();
         values.put(FILENAME, info.getFileName());
         values.put(FILESDPATH, info.getFileSDPath());
@@ -45,17 +44,17 @@ public class RemoveInfoTable {
         return values;
     }
 
-    public static RemoveInfo getValues(Cursor cursor) {
+    public static RemoveDBInfo getValues(Cursor cursor) {
         String fileName = cursor.getString(cursor.getColumnIndex(FILENAME));
         String fileSdPath = cursor.getString(cursor.getColumnIndex(FILESDPATH));
         int fileType = cursor.getInt(cursor.getColumnIndex(FILETYPE));
         String updateTime = cursor.getString(cursor.getColumnIndex(UPDATETIME));
 
-        RemoveInfo removeInfo = new RemoveInfo();
-        removeInfo.setFileName(fileName);
-        removeInfo.setFileSDPath(fileSdPath);
-        removeInfo.setFileType(fileType);
-        removeInfo.setUpdateTime(updateTime);
-        return removeInfo;
+        RemoveDBInfo removeDBInfo = new RemoveDBInfo();
+        removeDBInfo.setFileName(fileName);
+        removeDBInfo.setFileSDPath(fileSdPath);
+        removeDBInfo.setFileType(fileType);
+        removeDBInfo.setUpdateTime(updateTime);
+        return removeDBInfo;
     }
 }

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.AIInfo;
+import com.smart.camera.entity.AIDBInfo;
 import com.smart.camera.tables.AIInfoTable;
 
 import java.util.ArrayList;
@@ -15,33 +15,33 @@ import java.util.List;
 public class AIDataManager {
 
     /**插入数据*/
-    public static void addAIData(Context context, AIInfo aiInfo){
+    public static void addAIData(Context context, AIDBInfo AIDBInfo){
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = AIInfoTable.getContentUri();
-        ContentValues values = AIInfoTable.putValues(aiInfo);
+        ContentValues values = AIInfoTable.putValues(AIDBInfo);
         contentResolver.insert(uri,values);
     }
 
     /**批量插入数据*/
-    public static void addMultiAIData(Context context, List<AIInfo> aiInfoList){
-        for (int i = 0; i<aiInfoList.size(); i++){
+    public static void addMultiAIData(Context context, List<AIDBInfo> AIDBInfoList){
+        for (int i = 0; i< AIDBInfoList.size(); i++){
             ContentResolver contentResolver = context.getContentResolver();
             Uri uri = AIInfoTable.getContentUri();
-            ContentValues values = AIInfoTable.putValues(aiInfoList.get(i));
+            ContentValues values = AIInfoTable.putValues(AIDBInfoList.get(i));
             contentResolver.insert(uri,values);
         }
     }
 
     /**更新数据*/
-    public static void updateAIData(Context context, String fileName, AIInfo aiInfo) {
+    public static void updateAIData(Context context, String fileName, AIDBInfo AIDBInfo) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = AIInfoTable.getContentUri();
         ContentValues values = new ContentValues();
-        values.put(AIInfoTable.FILENAME, aiInfo.getFileName());
-        values.put(AIInfoTable.AIMODE, aiInfo.getAiMode());
-        values.put(AIInfoTable.FILESDPATH, aiInfo.getFileSDPath());
-        values.put(AIInfoTable.FILETYPE, aiInfo.getFileType());
-        values.put(AIInfoTable.UPDATETIME, aiInfo.getUpdateTime());
+        values.put(AIInfoTable.FILENAME, AIDBInfo.getFileName());
+        values.put(AIInfoTable.AIMODE, AIDBInfo.getAiMode());
+        values.put(AIInfoTable.FILESDPATH, AIDBInfo.getFileSDPath());
+        values.put(AIInfoTable.FILETYPE, AIDBInfo.getFileType());
+        values.put(AIInfoTable.UPDATETIME, AIDBInfo.getUpdateTime());
         contentResolver.update(uri, values, AIInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
@@ -62,28 +62,28 @@ public class AIDataManager {
     }
 
     /**查询一条数据*/
-    public static AIInfo queryOneAIData(Context context, String fileName) {
-        AIInfo aiInfo = null;
+    public static AIDBInfo queryOneAIData(Context context, String fileName) {
+        AIDBInfo AIDBInfo = null;
         Uri uri = AIInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, AIInfoTable.FILENAME + "=?", new String[]{fileName}, null);
 
         if (cursor != null) {
             if (cursor.moveToNext()) {
-                aiInfo = AIInfoTable.getValues(cursor);
+                AIDBInfo = AIInfoTable.getValues(cursor);
             }
             cursor.close();
         }
-        return aiInfo;
+        return AIDBInfo;
     }
 
     /**查询所有数据*/
-    public static List<AIInfo> queryAllAIData(Context context) {
-        List<AIInfo> list = new ArrayList<>();
+    public static List<AIDBInfo> queryAllAIData(Context context) {
+        List<AIDBInfo> list = new ArrayList<>();
         Uri uri = AIInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                AIInfo info = AIInfoTable.getValues(cursor);
+                AIDBInfo info = AIInfoTable.getValues(cursor);
                 list.add(info);
             }
             cursor.close();

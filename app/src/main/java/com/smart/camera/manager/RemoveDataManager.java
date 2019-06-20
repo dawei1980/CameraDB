@@ -5,7 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.smart.camera.entity.RemoveInfo;
+
+import com.smart.camera.entity.RemoveDBInfo;
 import com.smart.camera.tables.RemoveInfoTable;
 
 import java.util.ArrayList;
@@ -13,32 +14,32 @@ import java.util.List;
 
 public class RemoveDataManager {
     /**插入数据*/
-    public static void addRemoveData(Context context, RemoveInfo removeInfo){
+    public static void addRemoveData(Context context, RemoveDBInfo removeDBInfo){
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = RemoveInfoTable.getContentUri();
-        ContentValues values = RemoveInfoTable.putValues(removeInfo);
+        ContentValues values = RemoveInfoTable.putValues(removeDBInfo);
         contentResolver.insert(uri,values);
     }
 
     /**批量插入数据*/
-    public static void addMultiRemoveData(Context context, List<RemoveInfo> removeInfoList){
-        for (int i = 0; i<removeInfoList.size(); i++){
+    public static void addMultiRemoveData(Context context, List<RemoveDBInfo> removeDBInfoList){
+        for (int i = 0; i< removeDBInfoList.size(); i++){
             ContentResolver contentResolver = context.getContentResolver();
             Uri uri = RemoveInfoTable.getContentUri();
-            ContentValues values = RemoveInfoTable.putValues(removeInfoList.get(i));
+            ContentValues values = RemoveInfoTable.putValues(removeDBInfoList.get(i));
             contentResolver.insert(uri,values);
         }
     }
 
     /**更新数据*/
-    public static void updateRemoveData(Context context, String fileName, RemoveInfo removeInfo) {
+    public static void updateRemoveData(Context context, String fileName, RemoveDBInfo removeDBInfo) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = RemoveInfoTable.getContentUri();
         ContentValues values = new ContentValues();
-        values.put(RemoveInfoTable.FILENAME, removeInfo.getFileName());
-        values.put(RemoveInfoTable.FILESDPATH, removeInfo.getFileSDPath());
-        values.put(RemoveInfoTable.FILETYPE, removeInfo.getFileType());
-        values.put(RemoveInfoTable.UPDATETIME, removeInfo.getUpdateTime());
+        values.put(RemoveInfoTable.FILENAME, removeDBInfo.getFileName());
+        values.put(RemoveInfoTable.FILESDPATH, removeDBInfo.getFileSDPath());
+        values.put(RemoveInfoTable.FILETYPE, removeDBInfo.getFileType());
+        values.put(RemoveInfoTable.UPDATETIME, removeDBInfo.getUpdateTime());
         contentResolver.update(uri, values, RemoveInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
@@ -59,28 +60,28 @@ public class RemoveDataManager {
     }
 
     /**查询一条数据*/
-    public static RemoveInfo queryOneRemoveData(Context context, String fileName) {
-        RemoveInfo removeInfo = null;
+    public static RemoveDBInfo queryOneRemoveData(Context context, String fileName) {
+        RemoveDBInfo removeDBInfo = null;
         Uri uri = RemoveInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, RemoveInfoTable.FILENAME + "=?", new String[]{fileName}, null);
 
         if (cursor != null) {
             if (cursor.moveToNext()) {
-                removeInfo = RemoveInfoTable.getValues(cursor);
+                removeDBInfo = RemoveInfoTable.getValues(cursor);
             }
             cursor.close();
         }
-        return removeInfo;
+        return removeDBInfo;
     }
 
     /**查询所有数据*/
-    public static List<RemoveInfo> queryAllRemoveData(Context context) {
-        List<RemoveInfo> list = new ArrayList<>();
+    public static List<RemoveDBInfo> queryAllRemoveData(Context context) {
+        List<RemoveDBInfo> list = new ArrayList<>();
         Uri uri = RemoveInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                RemoveInfo info = RemoveInfoTable.getValues(cursor);
+                RemoveDBInfo info = RemoveInfoTable.getValues(cursor);
                 list.add(info);
             }
             cursor.close();

@@ -3,7 +3,8 @@ package com.smart.camera.tables;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import com.smart.camera.entity.AIInfo;
+
+import com.smart.camera.entity.AIDBInfo;
 import com.smart.camera.provider.AIDBProvider;
 
 public class AIInfoTable {
@@ -36,7 +37,7 @@ public class AIInfoTable {
         return CONTENT_URI;
     }
 
-    public static ContentValues putValues(AIInfo info) {
+    public static ContentValues putValues(AIDBInfo info) {
         ContentValues values = new ContentValues();
         values.put(FILENAME, info.getFileName());
         values.put(AIMODE, info.getAiMode());
@@ -46,19 +47,19 @@ public class AIInfoTable {
         return values;
     }
 
-    public static AIInfo getValues(Cursor cursor) {
+    public static AIDBInfo getValues(Cursor cursor) {
         String fileName = cursor.getString(cursor.getColumnIndex(FILENAME));
         int aiMode = cursor.getInt(cursor.getColumnIndex(AIMODE));
         String fileSdPath = cursor.getString(cursor.getColumnIndex(FILESDPATH));
         int fileType = cursor.getInt(cursor.getColumnIndex(FILETYPE));
         String updateTime = cursor.getString(cursor.getColumnIndex(UPDATETIME));
 
-        AIInfo aiInfo = new AIInfo();
-        aiInfo.setFileName(fileName);
-        aiInfo.setAiMode(aiMode);
-        aiInfo.setFileSDPath(fileSdPath);
-        aiInfo.setFileType(fileType);
-        aiInfo.setUpdateTime(updateTime);
-        return aiInfo;
+        AIDBInfo AIDBInfo = new AIDBInfo();
+        AIDBInfo.setFileName(fileName);
+        AIDBInfo.setAiMode(aiMode);
+        AIDBInfo.setFileSDPath(fileSdPath);
+        AIDBInfo.setFileType(fileType);
+        AIDBInfo.setUpdateTime(updateTime);
+        return AIDBInfo;
     }
 }

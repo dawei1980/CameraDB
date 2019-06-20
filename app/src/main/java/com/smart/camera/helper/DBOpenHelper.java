@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.smart.camera.entity.RemoveInfo;
 import com.smart.camera.tables.AIInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;

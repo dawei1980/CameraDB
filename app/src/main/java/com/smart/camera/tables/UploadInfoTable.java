@@ -4,9 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.AIInfo;
-import com.smart.camera.entity.UploadInfo;
-import com.smart.camera.provider.AIDBProvider;
+import com.smart.camera.entity.UploadDBInfo;
 import com.smart.camera.provider.UploadProvider;
 
 public class UploadInfoTable {
@@ -41,7 +39,7 @@ public class UploadInfoTable {
         return CONTENT_URI;
     }
 
-    public static ContentValues putValues(UploadInfo info) {
+    public static ContentValues putValues(UploadDBInfo info) {
         ContentValues values = new ContentValues();
         values.put(FILENAME, info.getFileName());
         values.put(CAMERAID, info.getCameraId());
@@ -52,7 +50,7 @@ public class UploadInfoTable {
         return values;
     }
 
-    public static UploadInfo getValues(Cursor cursor) {
+    public static UploadDBInfo getValues(Cursor cursor) {
         String fileName = cursor.getString(cursor.getColumnIndex(FILENAME));
         String cameraId = cursor.getString(cursor.getColumnIndex(CAMERAID));
         String fileSdPath = cursor.getString(cursor.getColumnIndex(FILESDPATH));
@@ -60,14 +58,14 @@ public class UploadInfoTable {
         int fileType = cursor.getInt(cursor.getColumnIndex(FILETYPE));
         String updateTime = cursor.getString(cursor.getColumnIndex(UPDATETIME));
 
-        UploadInfo uploadInfo = new UploadInfo();
-        uploadInfo.setFileName(fileName);
-        uploadInfo.setCameraId(cameraId);
-        uploadInfo.setFileSDPath(fileSdPath);
-        uploadInfo.setUploadFilePath(uploadFilePath);
-        uploadInfo.setFileType(fileType);
-        uploadInfo.setUpdateTime(updateTime);
-        return uploadInfo;
+        UploadDBInfo uploadDBInfo = new UploadDBInfo();
+        uploadDBInfo.setFileName(fileName);
+        uploadDBInfo.setCameraId(cameraId);
+        uploadDBInfo.setFileSDPath(fileSdPath);
+        uploadDBInfo.setUploadFilePath(uploadFilePath);
+        uploadDBInfo.setFileType(fileType);
+        uploadDBInfo.setUpdateTime(updateTime);
+        return uploadDBInfo;
     }
 
 }
