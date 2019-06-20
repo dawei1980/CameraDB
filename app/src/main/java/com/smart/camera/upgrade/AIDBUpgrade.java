@@ -66,13 +66,13 @@ public class AIDBUpgrade {
         ArrayList<AIDBInfo> AIDBInfoArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                AIDBInfo AIDBInfo = new AIDBInfo();
-                AIDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                AIDBInfo.setAiMode(cursor.getInt(cursor.getColumnIndexOrThrow("aimode")));
-                AIDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                AIDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                AIDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
-                AIDBInfoArrayList.add(AIDBInfo);
+                AIDBInfo aidbInfo = new AIDBInfo();
+                aidbInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
+                aidbInfo.setAiMode(cursor.getInt(cursor.getColumnIndexOrThrow("aimode")));
+                aidbInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
+                aidbInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
+                aidbInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                AIDBInfoArrayList.add(aidbInfo);
             } while (cursor.moveToNext());
         }
         cursor.close();
