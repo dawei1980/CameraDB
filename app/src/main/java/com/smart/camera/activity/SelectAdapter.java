@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIInfo;
+import com.smart.camera.entity.UploadInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
 public class SelectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<AIInfo> aiInfoList = new ArrayList<>();
+    private List<UploadInfo> aiInfoList = new ArrayList<>();
 
-    public SelectAdapter(Context context, List<AIInfo> mList){
+    public SelectAdapter(Context context, List<UploadInfo> mList){
         this.context = context;
         this.aiInfoList = mList;
     }
@@ -52,6 +53,7 @@ public class SelectAdapter extends BaseAdapter {
             holder.file_path = convertView.findViewById(R.id.file_path);
             holder.file_type = convertView.findViewById(R.id.file_type);
             holder.update_time = convertView.findViewById(R.id.update_time);
+            holder.destination_file_path = convertView.findViewById(R.id.destination_file_path);
 
             convertView.setTag(holder);
         } else {
@@ -59,8 +61,9 @@ public class SelectAdapter extends BaseAdapter {
         }
 
         holder.file_name.setText(aiInfoList.get(position).getFileName());
-        holder.ai_mode.setText(String.valueOf(aiInfoList.get(position).getAiMode()));
+        holder.ai_mode.setText(aiInfoList.get(position).getCameraId());
         holder.file_path.setText(aiInfoList.get(position).getFileSDPath());
+        holder.destination_file_path.setText(aiInfoList.get(position).getUploadFilePath());
         holder.file_type.setText(String.valueOf(aiInfoList.get(position).getFileType()));
         holder.update_time.setText(aiInfoList.get(position).getUpdateTime());
 
@@ -73,5 +76,6 @@ public class SelectAdapter extends BaseAdapter {
         TextView file_path;
         TextView file_type;
         TextView update_time;
+        TextView destination_file_path;
     }
 }

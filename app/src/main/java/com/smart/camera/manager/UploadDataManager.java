@@ -32,7 +32,7 @@ public class UploadDataManager {
     }
 
     /**更新数据*/
-    public static void updateAIData(Context context, String fileName, UploadInfo uploadInfo) {
+    public static void updateUploadData(Context context, String fileName, UploadInfo uploadInfo) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = UploadInfoTable.getContentUri();
         ContentValues values = new ContentValues();
@@ -46,14 +46,14 @@ public class UploadDataManager {
     }
 
     /**删除数据*/
-    public static void deleteAIData(Context context, String fileName){
+    public static void deleteUploadData(Context context, String fileName){
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = UploadInfoTable.getContentUri();
         contentResolver.delete(uri, UploadInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
     /**批量删除*/
-    public static void deleteMultiAIData(Context context, List<String> fileNameList){
+    public static void deleteMultiUploadData(Context context, List<String> fileNameList){
         for (int i = 0; i < fileNameList.size(); i++){
             ContentResolver contentResolver = context.getContentResolver();
             Uri uri = UploadInfoTable.getContentUri();
@@ -62,7 +62,7 @@ public class UploadDataManager {
     }
 
     /**查询一条数据*/
-    public static UploadInfo queryOneAIData(Context context, String fileName) {
+    public static UploadInfo queryOneUploadData(Context context, String fileName) {
         UploadInfo uploadInfo = null;
         Uri uri = UploadInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, UploadInfoTable.FILENAME + "=?", new String[]{fileName}, null);
@@ -77,7 +77,7 @@ public class UploadDataManager {
     }
 
     /**查询所有数据*/
-    public static List<UploadInfo> queryAllAIData(Context context) {
+    public static List<UploadInfo> queryAllUploadData(Context context) {
         List<UploadInfo> list = new ArrayList<>();
         Uri uri = UploadInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
