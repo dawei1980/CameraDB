@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiInfo3.setFileType(3);
         aiInfo3.setUpdateTime("2019-06-03");
         aiInfoList.add(aiInfo3);
-        AIDataManager.addMultiData(getApplicationContext(),aiInfoList);
+        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 //        AIDBManager.getInstance(getApplicationContext()).addMultiAIModule(aiInfoList);
 
 //        UploadInfo uploadModule = new UploadInfo();

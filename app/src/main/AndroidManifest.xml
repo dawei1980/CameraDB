@@ -25,6 +25,12 @@
         <provider
             android:authorities="com.ai.provider"
             android:name=".provider.AIDBProvider"/>
+        <provider
+            android:authorities="com.remove.provider"
+            android:name=".provider.RemoveProvider"/>
+        <provider
+            android:authorities="com.upload.provider"
+            android:name=".provider.UploadProvider"/>
 
     </application>
 

@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
-import com.smart.camera.table.AIInfoTable;
+import com.smart.camera.tables.AIInfoTable;
 
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public class AIDBProvider extends ContentProvider {
     private String TAG = "SqliteProvider-->";
     private final Object mLock = new Object();
     public static final String AI_INFO_AUTHORITY = "com.ai.provider";
-    public static final Uri AUTHORITY_URI = Uri.parse("content://" + AI_INFO_AUTHORITY);
+    public static final Uri AI_AUTHORITY_URI = Uri.parse("content://" + AI_INFO_AUTHORITY);
 
     //code
     private static final int AI_INFO_CODE = 1;
@@ -138,6 +138,4 @@ public class AIDBProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
     }
-
-
 }

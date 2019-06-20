@@ -1,17 +1,13 @@
 package com.smart.camera.dbmanager;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
 
 import com.smart.camera.entity.AIInfo;
-import com.smart.camera.table.AIInfoTable;
+import com.smart.camera.tables.AIInfoTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +23,7 @@ public class AIDataManager {
     }
 
     /**批量插入数据*/
-    public static void addMultiData(Context context, List<AIInfo> aiInfoList){
+    public static void addMultiAIData(Context context, List<AIInfo> aiInfoList){
         for (int i = 0; i<aiInfoList.size(); i++){
             ContentResolver contentResolver = context.getContentResolver();
             Uri uri = AIInfoTable.getContentUri();
