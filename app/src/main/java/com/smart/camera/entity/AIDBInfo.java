@@ -2,21 +2,12 @@ package com.smart.camera.entity;
 
 import java.io.Serializable;
 
-public class UploadInfo implements Serializable {
-    private String cameraId;
+public class AIDBInfo implements Serializable {
     private String fileName;
+    private int aiMode;
     private String fileSDPath;
-    private String uploadFilePath;
     private int fileType;
     private String updateTime;
-
-    public String getCameraId() {
-        return cameraId;
-    }
-
-    public void setCameraId(String cameraId) {
-        this.cameraId = cameraId;
-    }
 
     public String getFileName() {
         return fileName;
@@ -26,12 +17,20 @@ public class UploadInfo implements Serializable {
         this.fileName = fileName;
     }
 
-    public String getUploadFilePath() {
-        return uploadFilePath;
+    public int getAiMode() {
+        return aiMode;
     }
 
-    public void setUploadFilePath(String uploadFilePath) {
-        this.uploadFilePath = uploadFilePath;
+    public void setAiMode(int aiMode) {
+        this.aiMode = aiMode;
+    }
+
+    public String getFileSDPath() {
+        return fileSDPath;
+    }
+
+    public void setFileSDPath(String fileSDPath) {
+        this.fileSDPath = fileSDPath;
     }
 
     public int getFileType() {
@@ -48,13 +47,5 @@ public class UploadInfo implements Serializable {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getFileSDPath() {
-        return fileSDPath;
-    }
-
-    public void setFileSDPath(String fileSDPath) {
-        this.fileSDPath = fileSDPath;
     }
 }
