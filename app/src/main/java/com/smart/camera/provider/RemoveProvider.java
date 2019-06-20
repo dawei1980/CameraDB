@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
-import com.smart.camera.tables.AIInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class RemoveProvider extends ContentProvider {
 
     static {
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        MATCHER.addURI(REMOVE_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, REMOVE_INFO_CODE);
+        MATCHER.addURI(REMOVE_INFO_AUTHORITY, RemoveInfoTable.REMOVE_TABLE_NAME , REMOVE_INFO_CODE);
     }
 
     @Override
