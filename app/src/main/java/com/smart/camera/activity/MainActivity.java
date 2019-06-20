@@ -8,8 +8,7 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIInfo;
-import com.smart.camera.dbmanager.AIDataManager;
-import com.smart.camera.manager.AIDBManager;
+import com.smart.camera.provider_manager.AIDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,32 +71,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        aiInfo.setUpdateTime("2019-06-13");
 //        AIDataManager.addAIData(MainActivity.this,aiInfo);
 
-        List<AIInfo> aiInfoList = new ArrayList<>();
-        AIInfo aiInfo = new AIInfo();
-        aiInfo.setFileName("001");
-        aiInfo.setAiMode(3);
-        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo.setFileType(3);
-        aiInfo.setUpdateTime("2019-06-01");
-        aiInfoList.add(aiInfo);
-
-        AIInfo aiInfo2 = new AIInfo();
-        aiInfo2.setFileName("002");
-        aiInfo2.setAiMode(3);
-        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo2.setFileType(3);
-        aiInfo2.setUpdateTime("2019-06-02");
-        aiInfoList.add(aiInfo2);
-
-        AIInfo aiInfo3 = new AIInfo();
-        aiInfo3.setFileName("003");
-        aiInfo3.setAiMode(3);
-        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo3.setFileType(3);
-        aiInfo3.setUpdateTime("2019-06-03");
-        aiInfoList.add(aiInfo3);
-        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
-//        AIDBManager.getInstance(getApplicationContext()).addMultiAIModule(aiInfoList);
+//        List<AIInfo> aiInfoList = new ArrayList<>();
+//        AIInfo aiInfo = new AIInfo();
+//        aiInfo.setFileName("001");
+//        aiInfo.setAiMode(3);
+//        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo.setFileType(3);
+//        aiInfo.setUpdateTime("2019-06-01");
+//        aiInfoList.add(aiInfo);
+//
+//        AIInfo aiInfo2 = new AIInfo();
+//        aiInfo2.setFileName("002");
+//        aiInfo2.setAiMode(3);
+//        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo2.setFileType(3);
+//        aiInfo2.setUpdateTime("2019-06-02");
+//        aiInfoList.add(aiInfo2);
+//
+//        AIInfo aiInfo3 = new AIInfo();
+//        aiInfo3.setFileName("003");
+//        aiInfo3.setAiMode(3);
+//        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo3.setFileType(3);
+//        aiInfo3.setUpdateTime("2019-06-03");
+//        aiInfoList.add(aiInfo3);
+//        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 
 //        UploadInfo uploadModule = new UploadInfo();
 //        uploadModule.setCameraId("Camera_004");

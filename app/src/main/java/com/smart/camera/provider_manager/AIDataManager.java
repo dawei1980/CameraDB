@@ -1,4 +1,4 @@
-package com.smart.camera.dbmanager;
+package com.smart.camera.provider_manager;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
