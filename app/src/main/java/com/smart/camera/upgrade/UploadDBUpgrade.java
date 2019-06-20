@@ -7,7 +7,7 @@ import com.smart.camera.entity.UploadInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import constants.TableConstants;
+import com.smart.camera.constants.TableConstants;
 
 public class UploadDBUpgrade {
 

@@ -1,4 +1,4 @@
-package constants;
+package com.smart.camera.constants;
 
 public class TableConstants {
     /** AI Table name. */

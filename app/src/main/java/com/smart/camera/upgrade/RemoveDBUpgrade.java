@@ -7,7 +7,7 @@ import com.smart.camera.entity.RemoveInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import constants.TableConstants;
+import com.smart.camera.constants.TableConstants;
 
 /**
  * Remove模块数据库升级

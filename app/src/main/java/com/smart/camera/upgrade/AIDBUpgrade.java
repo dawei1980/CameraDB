@@ -8,7 +8,7 @@ import com.smart.camera.entity.AIInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import constants.TableConstants;
+import com.smart.camera.constants.TableConstants;
 
 /**
  * AI模块数据表升级
