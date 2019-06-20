@@ -3,12 +3,11 @@ package com.smart.camera.upgrade;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.smart.camera.entity.RemoveInfo;
-import com.smart.camera.constants.TableConstants;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import constants.TableConstants;
 
 /**
  * Remove模块数据库升级

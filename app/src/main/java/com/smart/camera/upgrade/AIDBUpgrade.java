@@ -5,10 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.entity.AIInfo;
-import com.smart.camera.constants.TableConstants;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import constants.TableConstants;
 
 /**
  * AI模块数据表升级

@@ -8,7 +8,9 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.entity.AIInfo;
-import com.smart.camera.provider_manager.AIDataManager;
+import com.smart.camera.entity.UploadInfo;
+import com.smart.camera.manager.AIDataManager;
+import com.smart.camera.manager.UploadDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,14 +99,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        aiInfoList.add(aiInfo3);
 //        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 
-//        UploadInfo uploadModule = new UploadInfo();
-//        uploadModule.setCameraId("Camera_004");
-//        uploadModule.setFileName("20161233");
-//        uploadModule.setFileSDPath("D:\\VUE_Test");
-//        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
-//        uploadModule.setFileType(3);
-//        uploadModule.setUpdateTime("2019-06-10");
-//        uploadDBManager.addUploadModule(uploadModule);
+        UploadInfo uploadModule = new UploadInfo();
+        uploadModule.setFileName("1");
+        uploadModule.setCameraId("Camera_004");
+        uploadModule.setFileSDPath("D:\\VUE_Test");
+        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule.setFileType(3);
+        uploadModule.setUpdateTime("2019-06-10");
+        UploadDataManager.addUploadData(getApplicationContext(),uploadModule);
 
 //        List<UploadInfo> uploadModuleDBList = new ArrayList<>();
 //        UploadInfo uploadModule = new UploadInfo();
