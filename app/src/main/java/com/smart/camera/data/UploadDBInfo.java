@@ -1,4 +1,4 @@
-package com.smart.camera.entity;
+package com.smart.camera.data;
 
 import java.io.Serializable;
 

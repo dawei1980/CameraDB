@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.provider.RemoveProvider;
 
 public class RemoveInfoTable {

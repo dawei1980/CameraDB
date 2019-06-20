@@ -1,10 +1,9 @@
-package com.smart.camera.entity;
+package com.smart.camera.data;
 
 import java.io.Serializable;
 
-public class AIDBInfo implements Serializable {
+public class RemoveDBInfo implements Serializable {
     private String fileName;
-    private int aiMode;
     private String fileSDPath;
     private int fileType;
     private String updateTime;
@@ -15,14 +14,6 @@ public class AIDBInfo implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public int getAiMode() {
-        return aiMode;
-    }
-
-    public void setAiMode(int aiMode) {
-        this.aiMode = aiMode;
     }
 
     public String getFileSDPath() {

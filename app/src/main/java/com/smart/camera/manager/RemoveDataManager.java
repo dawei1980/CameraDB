@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.tables.RemoveInfoTable;
 
 import java.util.ArrayList;

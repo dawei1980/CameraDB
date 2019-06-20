@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.AIDBInfo;
+import com.smart.camera.data.AIDBInfo;
 import com.smart.camera.provider.AIDBProvider;
 
 public class AIInfoTable {

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.smart.camera.entity.AIDBInfo;
+import com.smart.camera.data.AIDBInfo;
 import com.smart.camera.tables.AIInfoTable;
 
 import java.util.ArrayList;

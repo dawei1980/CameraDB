@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.smart.camera.R;
-import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.data.RemoveDBInfo;
 
 import java.util.ArrayList;
 import java.util.List;

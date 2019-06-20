@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.AIDBInfo;
+import com.smart.camera.data.AIDBInfo;
 import java.util.ArrayList;
 import java.util.List;
 import com.smart.camera.tables.AIInfoTable;

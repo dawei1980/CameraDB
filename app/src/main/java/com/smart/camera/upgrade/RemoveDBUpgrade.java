@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.tables.RemoveInfoTable;
 
 import java.util.ArrayList;

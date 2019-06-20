@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.smart.camera.entity.UploadDBInfo;
+import com.smart.camera.data.UploadDBInfo;
 import com.smart.camera.tables.UploadInfoTable;
 
 import java.util.ArrayList;

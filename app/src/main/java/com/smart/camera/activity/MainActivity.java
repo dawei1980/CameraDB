@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.smart.camera.R;
-import com.smart.camera.entity.RemoveDBInfo;
+import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.manager.RemoveDataManager;
 
 import java.util.List;
