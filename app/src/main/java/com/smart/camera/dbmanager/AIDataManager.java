@@ -1,10 +1,14 @@
 package com.smart.camera.dbmanager;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
 
 import com.smart.camera.entity.AIInfo;
 import com.smart.camera.table.AIInfoTable;
@@ -14,13 +18,25 @@ import java.util.List;
 
 public class AIDataManager {
 
-    public static void AddAIData(Context context, AIInfo aiInfo){
+    /**插入数据*/
+    public static void addAIData(Context context, AIInfo aiInfo){
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = AIInfoTable.getContentUri();
         ContentValues values = AIInfoTable.putValues(aiInfo);
         contentResolver.insert(uri,values);
     }
 
+    /**批量插入数据*/
+    public static void addMultiData(Context context, List<AIInfo> aiInfoList){
+        for (int i = 0; i<aiInfoList.size(); i++){
+            ContentResolver contentResolver = context.getContentResolver();
+            Uri uri = AIInfoTable.getContentUri();
+            ContentValues values = AIInfoTable.putValues(aiInfoList.get(i));
+            contentResolver.insert(uri,values);
+        }
+    }
+
+    /**更新数据*/
     public static void updateAIData(Context context, String fileName, AIInfo aiInfo) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = AIInfoTable.getContentUri();
@@ -33,12 +49,23 @@ public class AIDataManager {
         contentResolver.update(uri, values, AIInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
+    /**删除数据*/
     public static void deleteAIData(Context context, String fileName){
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = AIInfoTable.getContentUri();
         contentResolver.delete(uri, AIInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
+    /**批量删除*/
+    public static void deleteMultiAIData(Context context, List<String> fileNameList){
+        for (int i = 0; i < fileNameList.size(); i++){
+            ContentResolver contentResolver = context.getContentResolver();
+            Uri uri = AIInfoTable.getContentUri();
+            contentResolver.delete(uri, AIInfoTable.FILENAME + "=?", new String[]{fileNameList.get(i)});
+        }
+    }
+
+    /**查询一条数据*/
     public static AIInfo queryOneAIData(Context context, String fileName) {
         AIInfo aiInfo = null;
         Uri uri = AIInfoTable.getContentUri();
@@ -53,6 +80,7 @@ public class AIDataManager {
         return aiInfo;
     }
 
+    /**查询所有数据*/
     public static List<AIInfo> queryAllAIData(Context context) {
         List<AIInfo> list = new ArrayList<>();
         Uri uri = AIInfoTable.getContentUri();
@@ -66,6 +94,5 @@ public class AIDataManager {
         }
         return list;
     }
-
 
 }

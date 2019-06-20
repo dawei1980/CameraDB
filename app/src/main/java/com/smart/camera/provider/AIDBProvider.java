@@ -13,9 +13,12 @@ import android.util.Log;
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.table.AIInfoTable;
 
+import java.util.Objects;
+
 public class AIDBProvider extends ContentProvider {
     private DBOpenHelper dbOpenHelper;
     private static UriMatcher MATCHER;
+    private static String PARAMETER_NOTIFY = "数据已更新";
 
     private String TAG = "SqliteProvider-->";
     private final Object mLock = new Object();
@@ -86,7 +89,7 @@ public class AIDBProvider extends ContentProvider {
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
                 long rowid = db.replace(AIInfoTable.AI_TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
-                this.getContext().getContentResolver().notifyChange(uri, null);
+                Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
                 return insertUri;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -109,7 +112,6 @@ public class AIDBProvider extends ContentProvider {
             case AI_INFO_CODE:
                 count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
                 return count;
-
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -136,4 +138,6 @@ public class AIDBProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
     }
+
+
 }

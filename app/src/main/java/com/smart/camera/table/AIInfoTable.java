@@ -7,6 +7,8 @@ import android.net.Uri;
 import com.smart.camera.entity.AIInfo;
 import com.smart.camera.provider.AIDBProvider;
 
+import java.util.List;
+
 public class AIInfoTable {
     //表名称
     /** AI Table name. */
