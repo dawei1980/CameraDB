@@ -13,7 +13,7 @@ public class AIInfoTable {
     public static final String AI_TABLE_NAME = "ai";
 
     /**AI 临时表名*/
-    public static final String AI_CACHED_TABLE_NAME = AI_TABLE_NAME + "snap_cached";
+    public static final String AI_TEMP_TABLE_NAME = AI_TABLE_NAME + "_temp";
 
     //表格的基本信息的字符串
     public static final String ID = "id";
@@ -31,6 +31,24 @@ public class AIInfoTable {
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
+
+    //创建临时表
+    public static final String CREATE_AI_INFO_TABLE_TEMP = "create table " + AI_TEMP_TABLE_NAME+
+            "(" + ID + " integer primary key autoincrement,"+
+            FILENAME + " varchar(255)," +
+            AIMODE +" integer," +
+            FILESDPATH + " varchar(255),"+
+            FILETYPE + " integer," +
+            UPDATETIME + " varchar(255)"+")";
+
+    //创建新的AI数据表
+    public static final String CREATE_NEW_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
+            "(" + ID + " integer primary key autoincrement,"+
+            FILENAME + " varchar(255)," +
+            AIMODE +" integer," +
+            FILESDPATH + " varchar(255),"+
+            FILETYPE + " integer," +
+            UPDATETIME + " varchar(255)"+ ")";
 
     //需要进行操作的uri对象
     private static final Uri CONTENT_URI = Uri.withAppendedPath(AIDBProvider.AI_AUTHORITY_URI, AI_TABLE_NAME);

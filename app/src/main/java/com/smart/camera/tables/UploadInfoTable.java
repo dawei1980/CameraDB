@@ -13,7 +13,7 @@ public class UploadInfoTable {
     public static final String UPLOAD_TABLE_NAME = "upload";
 
     /**Upload 临时表名*/
-    public static final String UPLOAD_CACHED_TABLE_NAME = UPLOAD_TABLE_NAME + "snap_cached";
+    public static final String UPLOAD_TEMP_TABLE_NAME = UPLOAD_TABLE_NAME + "_temp";
 
     //表格的基本信息的字符串
     public static final String ID = "id";
@@ -26,6 +26,24 @@ public class UploadInfoTable {
 
     //创建个人信息表格的字符串命令 ，四个属性自增主键id，姓名，年龄，身高，体重，备注
     public static final String CREATE_UPLOAD_INFO_TABLE = "create table " + UPLOAD_TABLE_NAME+
+            "(" + ID + " integer primary key autoincrement,"+
+            FILENAME + " varchar(255)," +
+            CAMERAID +" varchar(255)," +
+            FILESDPATH + " varchar(255),"+
+            UPLOADFILEPATH + " varchar(255),"+
+            FILETYPE + " integer," +
+            UPDATETIME + " varchar(255)"+")";
+
+    public static final String CREATE_UPLOAD_INFO_TABLE_TEMP = "create table " + UPLOAD_TEMP_TABLE_NAME+
+            "(" + ID + " integer primary key autoincrement,"+
+            FILENAME + " varchar(255)," +
+            CAMERAID +" varchar(255)," +
+            FILESDPATH + " varchar(255),"+
+            UPLOADFILEPATH + " varchar(255),"+
+            FILETYPE + " integer," +
+            UPDATETIME + " varchar(255)"+")";
+
+    public static final String CREATE_NEW_UPLOAD_INFO_TABLE = "create table " + UPLOAD_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             CAMERAID +" varchar(255)," +
