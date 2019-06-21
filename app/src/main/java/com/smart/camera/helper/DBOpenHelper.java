@@ -43,11 +43,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("DROP TABLE IF EXISTS ai");
-//        db.execSQL("DROP TABLE IF EXISTS upload");
-//        db.execSQL("DROP TABLE IF EXISTS remove");
-//        onCreate(db);
-
         for (int j = oldVersion; j <= newVersion; j++) {
             switch (j) {
                 case 1:
