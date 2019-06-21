@@ -30,8 +30,8 @@ public class AIDBUpgrade {
         List<AIDBInfo> AIDBInfoList = getAIData(AIInfoTable.AI_TABLE_NAME, db);
 
         /**把数据插入到缓存的临时表中去*/
-        for (AIDBInfo AIDBInfo : AIDBInfoList) {
-            insertAIData(AIDBInfo, AIInfoTable.AI_CACHED_TABLE_NAME, db);
+        for (AIDBInfo aidbInfo : AIDBInfoList) {
+            insertAIData(aidbInfo, AIInfoTable.AI_CACHED_TABLE_NAME, db);
         }
         db.execSQL("drop table " + AIInfoTable.AI_TABLE_NAME);
 
@@ -52,8 +52,8 @@ public class AIDBUpgrade {
         List<AIDBInfo> cachedAIDBInfoList = getAIData(AIInfoTable.AI_CACHED_TABLE_NAME, db);
 
         /**把数据插入到新的表中去*/
-        for (AIDBInfo AIDBInfo : cachedAIDBInfoList) {
-            insertAIData(AIDBInfo, AIInfoTable.AI_TABLE_NAME, db);
+        for (AIDBInfo aidbInfo : cachedAIDBInfoList) {
+            insertAIData(aidbInfo, AIInfoTable.AI_TABLE_NAME, db);
         }
         db.execSQL("drop table " + AIInfoTable.AI_CACHED_TABLE_NAME);
     }
@@ -82,14 +82,14 @@ public class AIDBUpgrade {
     /**
      * 向创建好的新的AI表里插入数据
      * */
-    public static void insertAIData(AIDBInfo AIDBInfo, String tableName, SQLiteDatabase database) {
+    public static void insertAIData(AIDBInfo aidbInfo, String tableName, SQLiteDatabase database) {
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", AIDBInfo.getFileName());
-            values.put("aimode", AIDBInfo.getAiMode());
-            values.put("filesdpath", AIDBInfo.getFileSDPath());
-            values.put("filetype", AIDBInfo.getFileType());
-            values.put("updatetime", AIDBInfo.getUpdateTime());
+            values.put("filename", aidbInfo.getFileName());
+            values.put("aimode", aidbInfo.getAiMode());
+            values.put("filesdpath", aidbInfo.getFileSDPath());
+            values.put("filetype", aidbInfo.getFileType());
+            values.put("updatetime", aidbInfo.getUpdateTime());
             database.replace(tableName, null, values);
         } catch (Exception e) {
             // TODO: handle exception
