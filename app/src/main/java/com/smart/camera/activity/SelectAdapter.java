@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.smart.camera.R;
+import com.smart.camera.data.AIDBInfo;
 import com.smart.camera.data.RemoveDBInfo;
 
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ import java.util.List;
 public class SelectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<RemoveDBInfo> aiInfoList = new ArrayList<>();
+    private List<AIDBInfo> aiInfoList = new ArrayList<>();
 
-    public SelectAdapter(Context context, List<RemoveDBInfo> mList){
+    public SelectAdapter(Context context, List<AIDBInfo> mList){
         this.context = context;
         this.aiInfoList = mList;
     }
@@ -60,6 +61,7 @@ public class SelectAdapter extends BaseAdapter {
         }
 
         holder.file_name.setText(aiInfoList.get(position).getFileName());
+        holder.ai_mode.setText(aiInfoList.get(position).getAiMode());
 //        holder.ai_mode.setText(aiInfoList.get(position).getCameraId());
         holder.file_path.setText(aiInfoList.get(position).getFileSDPath());
 //        holder.destination_file_path.setText(aiInfoList.get(position).getUploadFilePath());

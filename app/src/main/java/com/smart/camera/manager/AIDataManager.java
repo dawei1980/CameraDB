@@ -91,4 +91,18 @@ public class AIDataManager {
         return list;
     }
 
+    public static List<AIDBInfo> queryAllAIDataByAIMode(Context context,String aiMode) {
+        List<AIDBInfo> list = new ArrayList<>();
+        Uri uri = AIInfoTable.getContentUri();
+        Cursor cursor = context.getContentResolver().query(uri, null, AIInfoTable.AIMODE + "=?", new String[]{aiMode}, "updatetime desc");
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                AIDBInfo info = AIInfoTable.getValues(cursor);
+                list.add(info);
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
 }

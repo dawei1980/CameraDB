@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class AIDBInfo implements Serializable {
     private String fileName;
-    private int aiMode;
+    private String aiMode;
     private String fileSDPath;
     private int fileType;
     private String updateTime;
@@ -17,11 +17,11 @@ public class AIDBInfo implements Serializable {
         this.fileName = fileName;
     }
 
-    public int getAiMode() {
+    public String getAiMode() {
         return aiMode;
     }
 
-    public void setAiMode(int aiMode) {
+    public void setAiMode(String aiMode) {
         this.aiMode = aiMode;
     }
 

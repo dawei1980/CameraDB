@@ -7,9 +7,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.smart.camera.R;
+import com.smart.camera.data.AIDBInfo;
 import com.smart.camera.data.RemoveDBInfo;
+import com.smart.camera.manager.AIDataManager;
 import com.smart.camera.manager.RemoveDataManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,37 +67,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void addData() {
 //        AIDBInfo aiInfo = new AIDBInfo();
 //        aiInfo.setFileName("s_005");
-//        aiInfo.setAiMode(3);
+//        aiInfo.setAiMode("1");
 //        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
 //        aiInfo.setFileType(3);
 //        aiInfo.setUpdateTime("2019-06-13");
 //        AIDataManager.addAIData(MainActivity.this,aiInfo);
 
-//        List<AIDBInfo> aiInfoList = new ArrayList<>();
-//        AIDBInfo aiInfo = new AIDBInfo();
-//        aiInfo.setFileName("001");
-//        aiInfo.setAiMode(3);
-//        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
-//        aiInfo.setFileType(3);
-//        aiInfo.setUpdateTime("2019-06-01");
-//        aiInfoList.add(aiInfo);
-//
-//        AIDBInfo aiInfo2 = new AIDBInfo();
-//        aiInfo2.setFileName("002");
-//        aiInfo2.setAiMode(3);
-//        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
-//        aiInfo2.setFileType(3);
-//        aiInfo2.setUpdateTime("2019-06-02");
-//        aiInfoList.add(aiInfo2);
-//
-//        AIDBInfo aiInfo3 = new AIDBInfo();
-//        aiInfo3.setFileName("003");
-//        aiInfo3.setAiMode(3);
-//        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
-//        aiInfo3.setFileType(3);
-//        aiInfo3.setUpdateTime("2019-06-03");
-//        aiInfoList.add(aiInfo3);
-//        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
+        List<AIDBInfo> aiInfoList = new ArrayList<>();
+        AIDBInfo aiInfo = new AIDBInfo();
+        aiInfo.setFileName("001");
+        aiInfo.setAiMode("1");
+        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiInfo.setFileType(3);
+        aiInfo.setUpdateTime("2019-06-01");
+        aiInfoList.add(aiInfo);
+
+        AIDBInfo aiInfo2 = new AIDBInfo();
+        aiInfo2.setFileName("002");
+        aiInfo2.setAiMode("1");
+        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiInfo2.setFileType(3);
+        aiInfo2.setUpdateTime("2019-06-02");
+        aiInfoList.add(aiInfo2);
+
+        AIDBInfo aiInfo3 = new AIDBInfo();
+        aiInfo3.setFileName("003");
+        aiInfo3.setAiMode("1");
+        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+        aiInfo3.setFileType(3);
+        aiInfo3.setUpdateTime("2019-06-03");
+        aiInfoList.add(aiInfo3);
+        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 
 //        UploadDBInfo uploadModule = new UploadDBInfo();
 //        uploadModule.setFileName("1");
@@ -216,17 +219,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void querayData() {
-//        List<AIDBInfo> mList = AIDataManager.queryAllAIData(MainActivity.this);
-//        mAdapter = new SelectAdapter(this,mList);
-//        select_lv.setAdapter(mAdapter);
+        List<AIDBInfo> mList = AIDataManager.queryAllAIDataByAIMode(MainActivity.this,"1");
+        mAdapter = new SelectAdapter(this,mList);
+        select_lv.setAdapter(mAdapter);
 
 //        UploadDataManager.queryOneUploadData(getApplicationContext(),"2");
 //        List<UploadDBInfo> mList = UploadDataManager.queryAllUploadData(MainActivity.this);
 //        mAdapter = new SelectAdapter(this,mList);
 //        select_lv.setAdapter(mAdapter);
 
-        List<RemoveDBInfo> removeDBInfoList = RemoveDataManager.queryAllRemoveData(MainActivity.this);
-        mAdapter = new SelectAdapter(this, removeDBInfoList);
-        select_lv.setAdapter(mAdapter);
+//        List<RemoveDBInfo> removeDBInfoList = RemoveDataManager.queryAllRemoveData(MainActivity.this);
+//        mAdapter = new SelectAdapter(this, removeDBInfoList);
+//        select_lv.setAdapter(mAdapter);
     }
 }

@@ -27,7 +27,7 @@ public class AIInfoTable {
     public static final String CREATE_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
-            AIMODE +" integer," +
+            AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
@@ -36,7 +36,7 @@ public class AIInfoTable {
     public static final String CREATE_AI_INFO_TABLE_TEMP = "create table " + AI_TEMP_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
-            AIMODE +" integer," +
+            AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
@@ -45,7 +45,7 @@ public class AIInfoTable {
     public static final String CREATE_NEW_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
-            AIMODE +" integer," +
+            AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+ ")";
@@ -70,7 +70,7 @@ public class AIInfoTable {
 
     public static AIDBInfo getValues(Cursor cursor) {
         String fileName = cursor.getString(cursor.getColumnIndex(FILENAME));
-        int aiMode = cursor.getInt(cursor.getColumnIndex(AIMODE));
+        String aiMode = cursor.getString(cursor.getColumnIndex(AIMODE));
         String fileSdPath = cursor.getString(cursor.getColumnIndex(FILESDPATH));
         int fileType = cursor.getInt(cursor.getColumnIndex(FILETYPE));
         String updateTime = cursor.getString(cursor.getColumnIndex(UPDATETIME));
