@@ -23,7 +23,7 @@ public class AIInfoTable {
     public static final String FILETYPE = "filetype";
     public static final String UPDATETIME = "updatetime";
 
-    //创建个人信息表格的字符串命令 ，四个属性自增主键id，姓名，年龄，身高，体重，备注
+    //创建AI信息表格的字符串命令
     public static final String CREATE_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
