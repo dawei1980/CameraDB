@@ -107,10 +107,13 @@ public class AIDBProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        //更新主键从1开始"
+        String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME +"'";
         int count = 0;
         switch (MATCHER.match(uri)) {
             case AI_INFO_CODE:
                 count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
+                db.execSQL(sql);
                 return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());

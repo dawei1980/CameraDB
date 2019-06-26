@@ -31,7 +31,7 @@ public class RemoveInfoTable {
             UPDATETIME + " varchar(255)"+")";
 
     public static final String CREATE_REMOVE_INFO_TABLE_TEMP = "create table " + REMOVE_TEMP_TABLE_NAME+
-            "(" + ID + " integer primary key autoincrement,"+
+            "(" + ID + " integer primary key autoincrement, "+
             FILENAME + " varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +

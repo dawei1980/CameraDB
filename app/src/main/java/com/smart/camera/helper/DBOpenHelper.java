@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String mDbName = SDPathHelper.DB_DIR + "module.db";
+    public static final String mDbName = SDPathHelper.DB_DIR + "database.db";
     private static final int DATABASE_FIRST_VERSION = 1;//数据库版本
     private static final int DATABASE_NEW_VERSION =2;//新版数据库版本
 
@@ -37,10 +37,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
-//        db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE);
-//        db.execSQL(UploadInfoTable.CREATE_UPLOAD_INFO_TABLE);
-
         createAITable(db);
         createRemoveTable(db);
         createUploadTable(db);

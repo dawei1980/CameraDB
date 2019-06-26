@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void deleteData() {
 //        AIDataManager.deleteAIData(MainActivity.this,"s_005");
 
+        AIDataManager.clearAIData(MainActivity.this);
+
 //        List<String> aiModuleDBList = new ArrayList<>();
 //        aiModuleDBList.add("002");
 //        aiModuleDBList.add("003");

@@ -105,4 +105,10 @@ public class AIDataManager {
         return list;
     }
 
+    public static void clearAIData(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = AIInfoTable.getContentUri();
+        contentResolver.delete(uri, AIInfoTable.FILENAME, new String[]{});
+    }
+
 }
