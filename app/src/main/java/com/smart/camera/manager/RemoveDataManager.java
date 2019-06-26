@@ -88,4 +88,10 @@ public class RemoveDataManager {
         }
         return list;
     }
+
+    public static void clearAIData(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = RemoveInfoTable.getContentUri();
+        contentResolver.delete(uri, null, new String[]{});
+    }
 }
