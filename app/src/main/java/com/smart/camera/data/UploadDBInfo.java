@@ -9,6 +9,7 @@ public class UploadDBInfo implements Serializable {
     private String uploadFilePath;
     private int fileType;
     private String updateTime;
+    private String urgentGroup;
 
     public String getCameraId() {
         return cameraId;
@@ -56,5 +57,13 @@ public class UploadDBInfo implements Serializable {
 
     public void setFileSDPath(String fileSDPath) {
         this.fileSDPath = fileSDPath;
+    }
+
+    public String getUrgentGroup() {
+        return urgentGroup;
+    }
+
+    public void setUrgentGroup(String urgentGroup) {
+        this.urgentGroup = urgentGroup;
     }
 }

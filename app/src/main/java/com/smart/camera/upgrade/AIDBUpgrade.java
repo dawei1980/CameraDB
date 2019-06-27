@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.smart.camera.data.AIDBInfo;
+import com.smart.camera.tables.AIInfoTable;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.smart.camera.tables.AIInfoTable;
 
 /**
  * AI模块数据表升级
@@ -23,8 +24,8 @@ public class AIDBUpgrade {
         List<AIDBInfo> AIDBInfoList = getLowVersionAIData(db);
 
         /**把数据插入到缓存的临时表中去*/
-        for (AIDBInfo AIDBInfo : AIDBInfoList) {
-            insertTempAIData(AIDBInfo,db);
+        for (AIDBInfo aidbInfo : AIDBInfoList) {
+            insertTempAIData(aidbInfo,db);
         }
         db.execSQL("drop table " + AIInfoTable.AI_TABLE_NAME);
 
@@ -38,8 +39,8 @@ public class AIDBUpgrade {
         List<AIDBInfo> cachedAIDBInfoList = getTempVersionAIData(db);
 
         /**把数据插入到新的表中去*/
-        for (AIDBInfo AIDBInfo : cachedAIDBInfoList) {
-            insertHighVersionAIData(AIDBInfo, db);
+        for (AIDBInfo aidbInfo : cachedAIDBInfoList) {
+            insertHighVersionAIData(aidbInfo, db);
         }
         db.execSQL("drop table " + AIInfoTable.AI_TEMP_TABLE_NAME);
     }
@@ -53,11 +54,12 @@ public class AIDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 AIDBInfo aidbInfo = new AIDBInfo();
-                aidbInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                aidbInfo.setAiMode(cursor.getString(cursor.getColumnIndexOrThrow("aimode")));
-                aidbInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                aidbInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                aidbInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                aidbInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.FILENAME)));
+                aidbInfo.setAiMode(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.AIMODE)));
+                aidbInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.FILESDPATH)));
+                aidbInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(AIInfoTable.FILETYPE)));
+                aidbInfo.setBaseUrl(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.BASEURL)));
+                aidbInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.UPDATETIME)));
                 AIDBInfoArrayList.add(aidbInfo);
             } while (cursor.moveToNext());
         }
@@ -71,11 +73,12 @@ public class AIDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 AIDBInfo aidbInfo = new AIDBInfo();
-                aidbInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                aidbInfo.setAiMode(cursor.getString(cursor.getColumnIndexOrThrow("aimode")));
-                aidbInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                aidbInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                aidbInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                aidbInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.FILENAME)));
+                aidbInfo.setAiMode(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.AIMODE)));
+                aidbInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.FILESDPATH)));
+                aidbInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(AIInfoTable.FILETYPE)));
+                aidbInfo.setBaseUrl(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.BASEURL)));
+                aidbInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(AIInfoTable.UPDATETIME)));
                 AIDBInfoArrayList.add(aidbInfo);
             } while (cursor.moveToNext());
         }
@@ -89,11 +92,12 @@ public class AIDBUpgrade {
     public static void insertTempAIData(AIDBInfo aidbInfo, SQLiteDatabase database) {
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", aidbInfo.getFileName());
-            values.put("aimode", aidbInfo.getAiMode());
-            values.put("filesdpath", aidbInfo.getFileSDPath());
-            values.put("filetype", aidbInfo.getFileType());
-            values.put("updatetime", aidbInfo.getUpdateTime());
+            values.put(AIInfoTable.FILENAME, aidbInfo.getFileName());
+            values.put(AIInfoTable.AIMODE, aidbInfo.getAiMode());
+            values.put(AIInfoTable.FILESDPATH, aidbInfo.getFileSDPath());
+            values.put(AIInfoTable.FILETYPE, aidbInfo.getFileType());
+            values.put(AIInfoTable.BASEURL,aidbInfo.getBaseUrl());
+            values.put(AIInfoTable.UPDATETIME, aidbInfo.getUpdateTime());
             database.replace(AIInfoTable.AI_TEMP_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -111,11 +115,12 @@ public class AIDBUpgrade {
     public static void insertHighVersionAIData(AIDBInfo aidbInfo, SQLiteDatabase database) {
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", aidbInfo.getFileName());
-            values.put("aimode", aidbInfo.getAiMode());
-            values.put("filesdpath", aidbInfo.getFileSDPath());
-            values.put("filetype", aidbInfo.getFileType());
-            values.put("updatetime", aidbInfo.getUpdateTime());
+            values.put(AIInfoTable.FILENAME, aidbInfo.getFileName());
+            values.put(AIInfoTable.AIMODE, aidbInfo.getAiMode());
+            values.put(AIInfoTable.FILESDPATH, aidbInfo.getFileSDPath());
+            values.put(AIInfoTable.FILETYPE, aidbInfo.getFileType());
+            values.put(AIInfoTable.BASEURL,aidbInfo.getBaseUrl());
+            values.put(AIInfoTable.UPDATETIME, aidbInfo.getUpdateTime());
             database.replace(AIInfoTable.AI_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception

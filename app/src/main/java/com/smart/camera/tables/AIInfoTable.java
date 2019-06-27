@@ -17,19 +17,21 @@ public class AIInfoTable {
 
     //表格的基本信息的字符串
     public static final String ID = "id";
-    public static final String FILENAME = "filename";
-    public static final String AIMODE = "aimode";
-    public static final String FILESDPATH = "filesdpath";
-    public static final String FILETYPE = "filetype";
-    public static final String UPDATETIME = "updatetime";
+    public static final String FILENAME = "file_name";
+    public static final String AIMODE = "ai_mode";
+    public static final String FILESDPATH = "file_sd_path";
+    public static final String FILETYPE = "file_type";
+    public static final String UPDATETIME = "update_time";
+    public static final String BASEURL = "base_url";
 
-    //创建AI信息表格的字符串命令
+    //创建个人信息表格的字符串命令 ，四个属性自增主键id，姓名，年龄，身高，体重，备注
     public static final String CREATE_AI_INFO_TABLE = "create table if not exists " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
+            BASEURL + " varchar(255)," +
             UPDATETIME + " varchar(255)"+")";
 
     //创建临时表
@@ -39,6 +41,7 @@ public class AIInfoTable {
             AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
+            BASEURL + " varchar(255)," +
             UPDATETIME + " varchar(255)"+")";
 
     //创建新的AI数据表
@@ -48,6 +51,7 @@ public class AIInfoTable {
             AIMODE +" varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
+            BASEURL + " varchar(255)," +
             UPDATETIME + " varchar(255)"+ ")";
 
     //需要进行操作的uri对象
@@ -64,7 +68,9 @@ public class AIInfoTable {
         values.put(AIMODE, info.getAiMode());
         values.put(FILESDPATH, info.getFileSDPath());
         values.put(FILETYPE, info.getFileType());
+        values.put(BASEURL, info.getBaseUrl());
         values.put(UPDATETIME, info.getUpdateTime());
+
         return values;
     }
 
@@ -73,14 +79,16 @@ public class AIInfoTable {
         String aiMode = cursor.getString(cursor.getColumnIndex(AIMODE));
         String fileSdPath = cursor.getString(cursor.getColumnIndex(FILESDPATH));
         int fileType = cursor.getInt(cursor.getColumnIndex(FILETYPE));
+        String baseUrl = cursor.getString(cursor.getColumnIndex(BASEURL));
         String updateTime = cursor.getString(cursor.getColumnIndex(UPDATETIME));
 
-        AIDBInfo AIDBInfo = new AIDBInfo();
-        AIDBInfo.setFileName(fileName);
-        AIDBInfo.setAiMode(aiMode);
-        AIDBInfo.setFileSDPath(fileSdPath);
-        AIDBInfo.setFileType(fileType);
-        AIDBInfo.setUpdateTime(updateTime);
-        return AIDBInfo;
+        AIDBInfo aidbInfo = new AIDBInfo();
+        aidbInfo.setFileName(fileName);
+        aidbInfo.setAiMode(aiMode);
+        aidbInfo.setFileSDPath(fileSdPath);
+        aidbInfo.setFileType(fileType);
+        aidbInfo.setBaseUrl(baseUrl);
+        aidbInfo.setUpdateTime(updateTime);
+        return aidbInfo;
     }
 }

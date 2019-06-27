@@ -51,10 +51,10 @@ public class RemoveDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 RemoveDBInfo removeDBInfo = new RemoveDBInfo();
-                removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILENAME)));
+                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILESDPATH)));
+                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILETYPE)));
+                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATETIME)));
                 removeDBInfoArrayList.add(removeDBInfo);
             } while (cursor.moveToNext());
         }
@@ -65,10 +65,10 @@ public class RemoveDBUpgrade {
     public static void insertTempRemoveData(RemoveDBInfo removeDBInfo, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", removeDBInfo.getFileName());
-            values.put("filesdpath", removeDBInfo.getFileSDPath());
-            values.put("filetype", removeDBInfo.getFileType());
-            values.put("updatetime", removeDBInfo.getUpdateTime());
+            values.put(RemoveInfoTable.FILENAME, removeDBInfo.getFileName());
+            values.put(RemoveInfoTable.FILESDPATH, removeDBInfo.getFileSDPath());
+            values.put(RemoveInfoTable.FILETYPE, removeDBInfo.getFileType());
+            values.put(RemoveInfoTable.UPDATETIME, removeDBInfo.getUpdateTime());
             database.replace(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE_TEMP, null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -86,10 +86,10 @@ public class RemoveDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 RemoveDBInfo removeDBInfo = new RemoveDBInfo();
-                removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILENAME)));
+                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILESDPATH)));
+                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILETYPE)));
+                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATETIME)));
                 removeDBInfoArrayList.add(removeDBInfo);
             } while (cursor.moveToNext());
         }
@@ -100,10 +100,10 @@ public class RemoveDBUpgrade {
     public static void insertHighVersionRemoveData(RemoveDBInfo removeDBInfo, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", removeDBInfo.getFileName());
-            values.put("filesdpath", removeDBInfo.getFileSDPath());
-            values.put("filetype", removeDBInfo.getFileType());
-            values.put("updatetime", removeDBInfo.getUpdateTime());
+            values.put(RemoveInfoTable.FILENAME, removeDBInfo.getFileName());
+            values.put(RemoveInfoTable.FILESDPATH, removeDBInfo.getFileSDPath());
+            values.put(RemoveInfoTable.FILETYPE, removeDBInfo.getFileType());
+            values.put(RemoveInfoTable.UPDATETIME, removeDBInfo.getUpdateTime());
             database.replace(RemoveInfoTable.REMOVE_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception

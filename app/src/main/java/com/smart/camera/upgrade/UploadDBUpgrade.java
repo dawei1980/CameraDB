@@ -51,12 +51,13 @@ public class UploadDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 UploadDBInfo uploadDBInfo = new UploadDBInfo();
-                uploadDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                uploadDBInfo.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow("cameraid")));
-                uploadDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                uploadDBInfo.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow("uploadfilepath")));
-                uploadDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                uploadDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                uploadDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.FILENAME)));
+                uploadDBInfo.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.CAMERA_ID)));
+                uploadDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.FILE_SD_PATH)));
+                uploadDBInfo.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.UPLOAD_FILE_PATH)));
+                uploadDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(UploadInfoTable.FILE_TYPE)));
+                uploadDBInfo.setUrgentGroup(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.URGENT_GROUP)));
+                uploadDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.UPDATE_TIME)));
                 uploadDBInfoArrayList.add(uploadDBInfo);
             } while (cursor.moveToNext());
         }
@@ -70,12 +71,13 @@ public class UploadDBUpgrade {
         if (cursor.moveToFirst()) {
             do {
                 UploadDBInfo uploadDBInfo = new UploadDBInfo();
-                uploadDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow("filename")));
-                uploadDBInfo.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow("cameraid")));
-                uploadDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow("filesdpath")));
-                uploadDBInfo.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow("uploadfilepath")));
-                uploadDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow("filetype")));
-                uploadDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow("updatetime")));
+                uploadDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.FILENAME)));
+                uploadDBInfo.setCameraId(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.CAMERA_ID)));
+                uploadDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.FILE_SD_PATH)));
+                uploadDBInfo.setUploadFilePath(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.UPLOAD_FILE_PATH)));
+                uploadDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(UploadInfoTable.FILE_TYPE)));
+                uploadDBInfo.setUrgentGroup(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.URGENT_GROUP)));
+                uploadDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(UploadInfoTable.UPDATE_TIME)));
                 uploadDBInfoArrayList.add(uploadDBInfo);
             } while (cursor.moveToNext());
         }
@@ -89,12 +91,13 @@ public class UploadDBUpgrade {
     public static void insertTempUploadData(UploadDBInfo uploadDBInfo, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", uploadDBInfo.getFileName());
-            values.put("cameraid", uploadDBInfo.getCameraId());
-            values.put("filesdpath", uploadDBInfo.getFileSDPath());
-            values.put("uploadfilepath", uploadDBInfo.getUploadFilePath());
-            values.put("filetype", uploadDBInfo.getFileType());
-            values.put("updatetime", uploadDBInfo.getUpdateTime());
+            values.put(UploadInfoTable.FILENAME, uploadDBInfo.getFileName());
+            values.put(UploadInfoTable.CAMERA_ID, uploadDBInfo.getCameraId());
+            values.put(UploadInfoTable.FILE_SD_PATH, uploadDBInfo.getFileSDPath());
+            values.put(UploadInfoTable.UPLOAD_FILE_PATH, uploadDBInfo.getUploadFilePath());
+            values.put(UploadInfoTable.FILE_TYPE, uploadDBInfo.getFileType());
+            values.put(UploadInfoTable.URGENT_GROUP,uploadDBInfo.getUrgentGroup());
+            values.put(UploadInfoTable.UPDATE_TIME, uploadDBInfo.getUpdateTime());
             database.replace(UploadInfoTable.UPLOAD_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -109,12 +112,13 @@ public class UploadDBUpgrade {
     public static void insertHighVersionUploadData(UploadDBInfo uploadDBInfo, SQLiteDatabase database){
         try {
             ContentValues values = new ContentValues();
-            values.put("filename", uploadDBInfo.getFileName());
-            values.put("cameraid", uploadDBInfo.getCameraId());
-            values.put("filesdpath", uploadDBInfo.getFileSDPath());
-            values.put("uploadfilepath", uploadDBInfo.getUploadFilePath());
-            values.put("filetype", uploadDBInfo.getFileType());
-            values.put("updatetime", uploadDBInfo.getUpdateTime());
+            values.put(UploadInfoTable.FILENAME, uploadDBInfo.getFileName());
+            values.put(UploadInfoTable.CAMERA_ID, uploadDBInfo.getCameraId());
+            values.put(UploadInfoTable.FILE_SD_PATH, uploadDBInfo.getFileSDPath());
+            values.put(UploadInfoTable.UPLOAD_FILE_PATH, uploadDBInfo.getUploadFilePath());
+            values.put(UploadInfoTable.FILE_TYPE, uploadDBInfo.getFileType());
+            values.put(UploadInfoTable.URGENT_GROUP,uploadDBInfo.getUrgentGroup());
+            values.put(UploadInfoTable.UPDATE_TIME, uploadDBInfo.getUpdateTime());
             database.replace(UploadInfoTable.UPLOAD_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception

@@ -8,6 +8,15 @@ public class AIDBInfo implements Serializable {
     private String fileSDPath;
     private int fileType;
     private String updateTime;
+    private String baseUrl;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public String getFileName() {
         return fileName;
