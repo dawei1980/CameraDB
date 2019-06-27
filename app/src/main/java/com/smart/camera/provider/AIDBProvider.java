@@ -58,7 +58,11 @@ public class AIDBProvider extends ContentProvider {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case AI_INFO_CODE:
-                        return db.query(AIInfoTable.AI_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                        if(tableIsExist(AIInfoTable.AI_TABLE_NAME)){
+                            return db.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                        }else {
+                            return db.query(AIInfoTable.AI_TABLE_NAME, null, null, null, null, null, null);
+                        }
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -66,6 +70,31 @@ public class AIDBProvider extends ContentProvider {
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    /**
+     * Judge table whether or not exist
+     * */
+    public boolean tableIsExist(String tableName){
+        boolean result = false;
+        if(tableName == null){
+            return false;
+        }
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            cursor = db.rawQuery("select * from " + AIInfoTable.AI_TABLE_NAME, null);
+            if(cursor.moveToNext()){
+                int count = cursor.getInt(0);
+                if(count>0){
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
@@ -108,7 +137,7 @@ public class AIDBProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         //更新主键从1开始"
-        String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME +"'";
+        String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
         int count = 0;
         switch (MATCHER.match(uri)) {
             case AI_INFO_CODE:

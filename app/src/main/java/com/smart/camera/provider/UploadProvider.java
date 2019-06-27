@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
+import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
 
 import java.util.Objects;
@@ -58,7 +59,13 @@ public class UploadProvider extends ContentProvider {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case UPLOAD_INFO_CODE:
-                        return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+//                        return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+
+                        if(tableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
+                            return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                        }else {
+                            return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,null,null,null,null,null,null);
+                        }
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -67,6 +74,30 @@ public class UploadProvider extends ContentProvider {
             return null;
         }
     }
+
+    //===============================================================================================
+    public boolean tableIsExist(String tableName){
+        boolean result = false;
+        if(tableName == null){
+            return false;
+        }
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            cursor = db.rawQuery("select * from " + UploadInfoTable.UPLOAD_TABLE_NAME, null);
+            if(cursor.moveToNext()){
+                int count = cursor.getInt(0);
+                if(count>0){
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //===============================================================================================
 
     @Override
     public String getType(Uri uri) {
