@@ -42,7 +42,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         createUploadTable(db);
     }
 
-
     /**
      * 执行Sql语句"drop if table exists 表名"
      */
