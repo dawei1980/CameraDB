@@ -11,8 +11,10 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
+import com.smart.camera.tables.AIInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
+import com.smart.camera.utils.DBUtil;
 
 import java.util.Objects;
 
@@ -59,9 +61,7 @@ public class UploadProvider extends ContentProvider {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case UPLOAD_INFO_CODE:
-//                        return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
-
-                        if(tableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
+                        if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
                             return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                         }else {
                             return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,null,null,null,null,null,null);
@@ -114,11 +114,18 @@ public class UploadProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        //更新主键从1开始"
+        String sql = "update sqlite_sequence set seq=0 where name='" + UploadInfoTable.UPLOAD_TABLE_NAME + "'";
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-                count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
-                return count;
+                if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
+                    count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
+                    db.execSQL(sql);
+                    return count;
+                }else {
+                    return count;
+                }
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -139,15 +146,19 @@ public class UploadProvider extends ContentProvider {
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-                count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
-                return count;
+
+                if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
+                    count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
+                    return count;
+                }else {
+                    return count;
+                }
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
     }
 
-    //===============================================================================================
-    public boolean tableIsExist(String tableName){
+    public boolean uploadTableIsExist(String tableName){
         boolean result = false;
         if(tableName == null){
             return false;
@@ -168,6 +179,4 @@ public class UploadProvider extends ContentProvider {
         }
         return result;
     }
-    //===============================================================================================
-
 }

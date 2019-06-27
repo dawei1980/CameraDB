@@ -58,7 +58,7 @@ public class AIDBProvider extends ContentProvider {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case AI_INFO_CODE:
-                        if(tableIsExist(AIInfoTable.AI_TABLE_NAME)){
+                        if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
                             return db.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                         }else {
                             return db.query(AIInfoTable.AI_TABLE_NAME, null, null, null, null, null, null);
@@ -72,8 +72,6 @@ public class AIDBProvider extends ContentProvider {
         }
     }
 
-
-
     @Override
     public String getType(Uri uri) {
         return null;
@@ -81,7 +79,6 @@ public class AIDBProvider extends ContentProvider {
 
     /**
      * 插入数据
-     *
      * @param uri
      * @param values
      * @return
@@ -118,9 +115,14 @@ public class AIDBProvider extends ContentProvider {
         int count = 0;
         switch (MATCHER.match(uri)) {
             case AI_INFO_CODE:
-                count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
-                db.execSQL(sql);
-                return count;
+
+                if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
+                    count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
+                    db.execSQL(sql);
+                    return count;
+                }else {
+                    return count;
+                }
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -141,8 +143,12 @@ public class AIDBProvider extends ContentProvider {
         int count = 0;
         switch (MATCHER.match(uri)) {
             case AI_INFO_CODE:
-                count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
-                return count;
+                if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
+                    count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
+                    return count;
+                }else {
+                    return count;
+                }
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -151,7 +157,7 @@ public class AIDBProvider extends ContentProvider {
     /**
      * Judge table whether or not exist
      * */
-    public boolean tableIsExist(String tableName){
+    public boolean aiTableIsExist(String tableName){
         boolean result = false;
         if(tableName == null){
             return false;
