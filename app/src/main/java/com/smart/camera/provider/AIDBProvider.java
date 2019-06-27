@@ -72,30 +72,7 @@ public class AIDBProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Judge table whether or not exist
-     * */
-    public boolean tableIsExist(String tableName){
-        boolean result = false;
-        if(tableName == null){
-            return false;
-        }
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try {
-            db = dbOpenHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from " + AIInfoTable.AI_TABLE_NAME, null);
-            if(cursor.moveToNext()){
-                int count = cursor.getInt(0);
-                if(count>0){
-                    result = true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+
 
     @Override
     public String getType(Uri uri) {
@@ -169,5 +146,30 @@ public class AIDBProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
+    }
+
+    /**
+     * Judge table whether or not exist
+     * */
+    public boolean tableIsExist(String tableName){
+        boolean result = false;
+        if(tableName == null){
+            return false;
+        }
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            cursor = db.rawQuery("select * from " + AIInfoTable.AI_TABLE_NAME, null);
+            if(cursor.moveToNext()){
+                int count = cursor.getInt(0);
+                if(count>0){
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

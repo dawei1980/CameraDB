@@ -75,30 +75,6 @@ public class UploadProvider extends ContentProvider {
         }
     }
 
-    //===============================================================================================
-    public boolean tableIsExist(String tableName){
-        boolean result = false;
-        if(tableName == null){
-            return false;
-        }
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try {
-            db = dbOpenHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from " + UploadInfoTable.UPLOAD_TABLE_NAME, null);
-            if(cursor.moveToNext()){
-                int count = cursor.getInt(0);
-                if(count>0){
-                    result = true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    //===============================================================================================
-
     @Override
     public String getType(Uri uri) {
         return null;
@@ -169,4 +145,29 @@ public class UploadProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
     }
+
+    //===============================================================================================
+    public boolean tableIsExist(String tableName){
+        boolean result = false;
+        if(tableName == null){
+            return false;
+        }
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = dbOpenHelper.getReadableDatabase();
+            cursor = db.rawQuery("select * from " + UploadInfoTable.UPLOAD_TABLE_NAME, null);
+            if(cursor.moveToNext()){
+                int count = cursor.getInt(0);
+                if(count>0){
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //===============================================================================================
+
 }
