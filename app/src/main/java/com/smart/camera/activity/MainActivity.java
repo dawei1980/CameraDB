@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiInfo.setFileType(3);
         aiInfo.setUpdateTime("2019-06-01");
+        aiInfo.setBaseUrl("dddddddddddd");
         aiInfoList.add(aiInfo);
 
         AIDBInfo aiInfo2 = new AIDBInfo();
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiInfo2.setFileType(3);
         aiInfo2.setUpdateTime("2019-06-02");
+        aiInfo2.setBaseUrl("vvvvvvvvvvv");
         aiInfoList.add(aiInfo2);
 
         AIDBInfo aiInfo3 = new AIDBInfo();
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
         aiInfo3.setFileType(3);
         aiInfo3.setUpdateTime("2019-06-03");
+        aiInfo2.setBaseUrl("tttttttttt");
         aiInfoList.add(aiInfo3);
         AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 

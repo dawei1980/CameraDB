@@ -37,11 +37,11 @@ public class UploadDataManager {
         Uri uri = UploadInfoTable.getContentUri();
         ContentValues values = new ContentValues();
         values.put(UploadInfoTable.FILENAME, uploadDBInfo.getFileName());
-        values.put(UploadInfoTable.CAMERAID, uploadDBInfo.getCameraId());
-        values.put(UploadInfoTable.FILESDPATH, uploadDBInfo.getFileSDPath());
-        values.put(UploadInfoTable.UPLOADFILEPATH, uploadDBInfo.getUploadFilePath());
-        values.put(UploadInfoTable.FILETYPE, uploadDBInfo.getFileType());
-        values.put(UploadInfoTable.UPDATETIME, uploadDBInfo.getUpdateTime());
+        values.put(UploadInfoTable.CAMERA_ID, uploadDBInfo.getCameraId());
+        values.put(UploadInfoTable.FILE_SD_PATH, uploadDBInfo.getFileSDPath());
+        values.put(UploadInfoTable.UPLOAD_FILE_PATH, uploadDBInfo.getUploadFilePath());
+        values.put(UploadInfoTable.FILE_TYPE, uploadDBInfo.getFileType());
+        values.put(UploadInfoTable.UPDATE_TIME, uploadDBInfo.getUpdateTime());
         contentResolver.update(uri, values, UploadInfoTable.FILENAME + "=?", new String[]{fileName});
     }
 
