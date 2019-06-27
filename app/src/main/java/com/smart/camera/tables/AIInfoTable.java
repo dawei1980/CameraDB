@@ -24,7 +24,7 @@ public class AIInfoTable {
     public static final String UPDATETIME = "updatetime";
 
     //创建AI信息表格的字符串命令
-    public static final String CREATE_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
+    public static final String CREATE_AI_INFO_TABLE = "create table if not exists " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             AIMODE +" varchar(255)," +
@@ -33,7 +33,7 @@ public class AIInfoTable {
             UPDATETIME + " varchar(255)"+")";
 
     //创建临时表
-    public static final String CREATE_AI_INFO_TABLE_TEMP = "create table " + AI_TEMP_TABLE_NAME+
+    public static final String CREATE_AI_INFO_TABLE_TEMP = "create table if not exists " + AI_TEMP_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             AIMODE +" varchar(255)," +
@@ -42,7 +42,7 @@ public class AIInfoTable {
             UPDATETIME + " varchar(255)"+")";
 
     //创建新的AI数据表
-    public static final String CREATE_NEW_AI_INFO_TABLE = "create table " + AI_TABLE_NAME+
+    public static final String CREATE_NEW_AI_INFO_TABLE = "create table if not exists " + AI_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             AIMODE +" varchar(255)," +

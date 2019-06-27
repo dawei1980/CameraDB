@@ -23,21 +23,21 @@ public class RemoveInfoTable {
     public static final String UPDATETIME = "updatetime";
 
     //创建个人信息表格的字符串命令 ，四个属性自增主键id，姓名，年龄，身高，体重，备注
-    public static final String CREATE_REMOVE_INFO_TABLE = "create table " + REMOVE_TABLE_NAME+
+    public static final String CREATE_REMOVE_INFO_TABLE = "create table if not exists " + REMOVE_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
 
-    public static final String CREATE_REMOVE_INFO_TABLE_TEMP = "create table " + REMOVE_TEMP_TABLE_NAME+
+    public static final String CREATE_REMOVE_INFO_TABLE_TEMP = "create table if not exists " + REMOVE_TEMP_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement, "+
             FILENAME + " varchar(255)," +
             FILESDPATH + " varchar(255),"+
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
 
-    public static final String CREATE_NEW_REMOVE_INFO_TABLE = "create table " + REMOVE_TABLE_NAME+
+    public static final String CREATE_NEW_REMOVE_INFO_TABLE = "create table if not exists " + REMOVE_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             FILESDPATH + " varchar(255),"+

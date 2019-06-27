@@ -25,7 +25,7 @@ public class UploadInfoTable {
     public static final String UPDATETIME = "updatetime";
 
     //创建个人信息表格的字符串命令 ，四个属性自增主键id，姓名，年龄，身高，体重，备注
-    public static final String CREATE_UPLOAD_INFO_TABLE = "create table " + UPLOAD_TABLE_NAME+
+    public static final String CREATE_UPLOAD_INFO_TABLE = "create table if not exists " + UPLOAD_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             CAMERAID +" varchar(255)," +
@@ -34,7 +34,7 @@ public class UploadInfoTable {
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
 
-    public static final String CREATE_UPLOAD_INFO_TABLE_TEMP = "create table " + UPLOAD_TEMP_TABLE_NAME+
+    public static final String CREATE_UPLOAD_INFO_TABLE_TEMP = "create table if not exists " + UPLOAD_TEMP_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             CAMERAID +" varchar(255)," +
@@ -43,7 +43,7 @@ public class UploadInfoTable {
             FILETYPE + " integer," +
             UPDATETIME + " varchar(255)"+")";
 
-    public static final String CREATE_NEW_UPLOAD_INFO_TABLE = "create table " + UPLOAD_TABLE_NAME+
+    public static final String CREATE_NEW_UPLOAD_INFO_TABLE = "create table if not exists " + UPLOAD_TABLE_NAME+
             "(" + ID + " integer primary key autoincrement,"+
             FILENAME + " varchar(255)," +
             CAMERAID +" varchar(255)," +
