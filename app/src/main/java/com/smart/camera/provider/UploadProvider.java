@@ -20,6 +20,8 @@ import java.util.Objects;
 
 public class UploadProvider extends ContentProvider {
     private DBOpenHelper dbOpenHelper;
+    private SQLiteDatabase mDatabase;
+
     private static UriMatcher MATCHER;
     private static String PARAMETER_NOTIFY = "数据已更新";
 
@@ -39,7 +41,8 @@ public class UploadProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.d(TAG, " onCreate ");
-        this.dbOpenHelper = new DBOpenHelper(this.getContext());
+        dbOpenHelper = new DBOpenHelper(this.getContext());
+        mDatabase = dbOpenHelper.getWritableDatabase();
         return true;
     }
 
@@ -58,10 +61,9 @@ public class UploadProvider extends ContentProvider {
         Log.d(TAG, " query ");
         try {
             synchronized (mLock) {
-                SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case UPLOAD_INFO_CODE:
-                        return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                        return mDatabase.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -86,11 +88,10 @@ public class UploadProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         Log.d(TAG, " insert ");
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
-                long rowid = db.replace(UploadInfoTable.UPLOAD_TABLE_NAME, null, values);
+                long rowid = mDatabase.replace(UploadInfoTable.UPLOAD_TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
                 Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
                 return insertUri;
@@ -109,14 +110,13 @@ public class UploadProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         //更新主键从1开始"
         String sql = "update sqlite_sequence set seq=0 where name='" + UploadInfoTable.UPLOAD_TABLE_NAME + "'";
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-                count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
-                db.execSQL(sql);
+                count = mDatabase.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
+                mDatabase.execSQL(sql);
                 return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -134,11 +134,10 @@ public class UploadProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-                count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
+                count = mDatabase.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
                 return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());

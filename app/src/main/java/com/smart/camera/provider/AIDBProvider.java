@@ -17,6 +17,8 @@ import java.util.Objects;
 
 public class AIDBProvider extends ContentProvider {
     private DBOpenHelper dbOpenHelper;
+    private SQLiteDatabase mDatabase;
+
     private static UriMatcher MATCHER;
     private static String PARAMETER_NOTIFY = "数据已更新";
 
@@ -39,7 +41,8 @@ public class AIDBProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.d(TAG, " onCreate ");
-        this.dbOpenHelper = new DBOpenHelper(this.getContext());
+        dbOpenHelper = new DBOpenHelper(this.getContext());
+        mDatabase = dbOpenHelper.getWritableDatabase();
         return true;
     }
 
@@ -58,10 +61,9 @@ public class AIDBProvider extends ContentProvider {
         Log.d(TAG, " query ");
         try {
             synchronized (mLock) {
-                SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case CODE_NOPARAM:
-                        return db.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                        return mDatabase.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -73,15 +75,7 @@ public class AIDBProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        switch(MATCHER.match(uri))
-        {
-            case CODE_NOPARAM:
-                return "com.ai.provider.dir/ai";
-            case CODE_PARAM:
-                return "com.ai.provider.item/ai";
-            default:
-                throw new IllegalArgumentException("this is unkown uri:" + uri);
-        }
+        return null;
     }
 
     /**
@@ -92,12 +86,11 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        Log.d(TAG, " insert ");
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+
         switch (MATCHER.match(uri)) {
             case CODE_NOPARAM:
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
-                long rowid = db.replace(AIInfoTable.AI_TABLE_NAME, null, values);
+                long rowid = mDatabase.insert(AIInfoTable.AI_TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
                 Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
                 return insertUri;
@@ -116,18 +109,22 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         //更新主键从1开始"
         String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
-        int count = 0;
-        switch (MATCHER.match(uri)) {
-            case CODE_NOPARAM:
-                count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
-                db.execSQL(sql);
-                return count;
-            default:
-                throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+        int count;
+        try {
+            switch (MATCHER.match(uri)) {
+                case CODE_NOPARAM:
+                    count = mDatabase.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
+                    mDatabase.execSQL(sql);
+                    return count;
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+        return 0;
     }
 
     /**
@@ -141,11 +138,10 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         int count = 0;
         switch (MATCHER.match(uri)) {
             case CODE_NOPARAM:
-                count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
+                count = mDatabase.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
                 return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());

@@ -5,20 +5,16 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.smart.camera.data.CommandInfo;
-import com.smart.camera.provider.CommandProvider;
+import com.smart.camera.provider.InstructionProvider;
 
-/**
- * 创建表格
- * @author 蒋大卫
- * */
-public class CommandInfoTable {
+public class InstructionInfoTable {
+
     /** AI Table name. */
-    public static final String COMMAND_TABLE_NAME = "command";
+    public static final String INSTRUCTION_TABLE_NAME = "instruction";
 
     /**AI 临时表名*/
-    public static final String COMMAND_TEMP_TABLE_NAME = COMMAND_TABLE_NAME + "_temp";
+    public static final String INSTRUCTION_TEMP_TABLE_NAME = INSTRUCTION_TABLE_NAME + "_temp";
 
-    //==============================================================================================
     //表格的基本信息的字符串
     public static final String ID = "id";
     public static final String START_TIME = "start_time";
@@ -33,13 +29,13 @@ public class CommandInfoTable {
     public static final String COMPRESS_INTERVAL = "compress_interval";
     public static final String VIDEO_FPS = "video_fps";
     public static final String VIDEO_BITRATE = "video_bitrate";
-    public static final String AI_MODE = "ai_mode";
-    public static final String AI_INTERVAL = "ai_interval";
     public static final String DELETE_FLAG = "delete_flag";
+    public static final String AI_INTERVAL = "ai_interval";
+    public static final String AI_MODE = "ai_mode";
     public static final String MAX_DEBUG_RESULT = "max_debug_result";
     public static final String JSON_RETENTION_TIME = "json_retention_time";
     public static final String VIDEO_FRAME_NUM = "video_frame_num";
-    public static final String DETECT_PARAMENTER = "detect_parameter";
+    public static final String DETECT_PARAMETER = "detect_parameter";
     public static final String MAX_DONE_RESOURCE = "max_done_resource";
     public static final String DEBUG_LEVEL = "debug_level";
     public static final String ROLLOVER_ANGLE = "rollover_angle";
@@ -48,12 +44,9 @@ public class CommandInfoTable {
     public static final String BASE_URL = "base_url";
     public static final String ALTERNATE_FLAG = "alternate_flag";
     public static final String UPDATE_DEBUG_RESULT_FLAG = "update_debug_result_flag";
-    //==============================================================================================
 
-
-    //创建AI信息表格的字符串命令
-    public static final String CREATE_COMMAND_INFO_TABLE = "create table if not exists " + COMMAND_TABLE_NAME+
-            "(" + ID + " integer primary key autoincrement,"+
+    public static final String CREATE_INSTRUCTION_INFO_TABLE = "create table if not exists " + INSTRUCTION_TABLE_NAME +
+            " (" + ID + " integer primary key autoincrement,"+
             START_TIME +" varchar(255)," +
             END_TIME + " varchar(255),"+
             WIDTH + " integer,"+
@@ -72,7 +65,7 @@ public class CommandInfoTable {
             MAX_DEBUG_RESULT + " integer," +
             JSON_RETENTION_TIME + " integer," +
             VIDEO_FRAME_NUM + " integer," +
-            DETECT_PARAMENTER + " varchar(255)," +
+            DETECT_PARAMETER + " varchar(255)," +
             MAX_DONE_RESOURCE + " integer," +
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
@@ -82,9 +75,8 @@ public class CommandInfoTable {
             ALTERNATE_FLAG + " varchar(255)," +
             UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
 
-    //创建临时表
-    public static final String CREATE_COMMAND_TEMP_TABLE = "create table if not exists " + COMMAND_TEMP_TABLE_NAME+
-            "(" + ID + " integer primary key autoincrement,"+
+    public static final String CREATE_INSTRUCTION_INFO_TABLE_TEMP = "create table if not exists " + INSTRUCTION_TABLE_NAME +
+            " (" + ID + " integer primary key autoincrement,"+
             START_TIME +" varchar(255)," +
             END_TIME + " varchar(255),"+
             WIDTH + " integer,"+
@@ -103,7 +95,7 @@ public class CommandInfoTable {
             MAX_DEBUG_RESULT + " integer," +
             JSON_RETENTION_TIME + " integer," +
             VIDEO_FRAME_NUM + " integer," +
-            DETECT_PARAMENTER + " varchar(255)," +
+            DETECT_PARAMETER + " varchar(255)," +
             MAX_DONE_RESOURCE + " integer," +
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
@@ -113,9 +105,8 @@ public class CommandInfoTable {
             ALTERNATE_FLAG + " varchar(255)," +
             UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
 
-    //创建新的AI数据表
-    public static final String CREATE_NEW_COMMAND_TABLE = "create table if not exists " + COMMAND_TEMP_TABLE_NAME+
-            "(" + ID + " integer primary key autoincrement,"+
+    public static final String CREATE_NEW_INSTRUCTION_INFO_TABLE_TEMP = "create table if not exists " + INSTRUCTION_TABLE_NAME +
+            " (" + ID + " integer primary key autoincrement,"+
             START_TIME +" varchar(255)," +
             END_TIME + " varchar(255),"+
             WIDTH + " integer,"+
@@ -134,7 +125,7 @@ public class CommandInfoTable {
             MAX_DEBUG_RESULT + " integer," +
             JSON_RETENTION_TIME + " integer," +
             VIDEO_FRAME_NUM + " integer," +
-            DETECT_PARAMENTER + " varchar(255)," +
+            DETECT_PARAMETER + " varchar(255)," +
             MAX_DONE_RESOURCE + " integer," +
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
@@ -145,7 +136,7 @@ public class CommandInfoTable {
             UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
 
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(CommandProvider.COMMAND_AUTHORITY_URI, COMMAND_TABLE_NAME);
+    private static final Uri CONTENT_URI = Uri.withAppendedPath(InstructionProvider.INSTRUCTION_AUTHORITY_URI, INSTRUCTION_TABLE_NAME);
 
     //返回AIInfo表格操作的uri地址对象
     public static Uri getContentUri() {
@@ -172,7 +163,7 @@ public class CommandInfoTable {
         values.put(MAX_DEBUG_RESULT, info.getMaxDebugResult());
         values.put(JSON_RETENTION_TIME, info.getJsonRetentionTime());
         values.put(VIDEO_FRAME_NUM,info.getVideoFrameNum());
-        values.put(DETECT_PARAMENTER, info.getDetectParameter());
+        values.put(DETECT_PARAMETER, info.getDetectParameter());
         values.put(MAX_DONE_RESOURCE, info.getMaxDoneResource());
         values.put(DEBUG_LEVEL,info.getDebugLevel());
         values.put(ROLLOVER_ANGLE,info.getRolloverAngle());
@@ -203,7 +194,7 @@ public class CommandInfoTable {
         int maxDebugResult = cursor.getInt(cursor.getColumnIndex(MAX_DEBUG_RESULT));
         int jsonRetentionTime = cursor.getInt(cursor.getColumnIndex(JSON_RETENTION_TIME));
         int videoFrameNum = cursor.getInt(cursor.getColumnIndex(VIDEO_FRAME_NUM));
-        String detectParameter = cursor.getString(cursor.getColumnIndex(DETECT_PARAMENTER));
+        String detectParameter = cursor.getString(cursor.getColumnIndex(DETECT_PARAMETER));
         int maxDoneResource = cursor.getInt(cursor.getColumnIndex(MAX_DONE_RESOURCE));
         int debugLevel = cursor.getInt(cursor.getColumnIndex(DEBUG_LEVEL));
         int rolloverAngle = cursor.getInt(cursor.getColumnIndex(ROLLOVER_ANGLE));
