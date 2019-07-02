@@ -28,14 +28,13 @@ public class AIDBProvider extends ContentProvider {
     public static final Uri AI_AUTHORITY_URI = Uri.parse("content://" + AI_INFO_AUTHORITY);
 
     //code
-    private static final int CODE_NOPARAM = 1;
-    private static final int CODE_PARAM = 2;
+    private static final int AI_INFO_CODE = 1;
 
     static {
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         // 对等待匹配的URI进行匹配操作，必须符合com.ai.provider/ai格式
         // 匹配返回CODE_NOPARAM，不匹配返回-1
-        MATCHER.addURI(AI_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, CODE_NOPARAM);
+        MATCHER.addURI(AI_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, AI_INFO_CODE);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class AIDBProvider extends ContentProvider {
         try {
             synchronized (mLock) {
                 switch (MATCHER.match(uri)) {
-                    case CODE_NOPARAM:
+                    case AI_INFO_CODE:
                         return mDatabase.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -88,7 +87,7 @@ public class AIDBProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         try {
             switch (MATCHER.match(uri)) {
-                case CODE_NOPARAM:
+                case AI_INFO_CODE:
                     // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
                     long rowid = mDatabase.insert(AIInfoTable.AI_TABLE_NAME, null, values);
                     Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
@@ -118,7 +117,7 @@ public class AIDBProvider extends ContentProvider {
         int count;
         try {
             switch (MATCHER.match(uri)) {
-                case CODE_NOPARAM:
+                case AI_INFO_CODE:
                     count = mDatabase.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
                     mDatabase.execSQL(sql);
                     return count;
@@ -145,7 +144,7 @@ public class AIDBProvider extends ContentProvider {
         try {
             int count = 0;
             switch (MATCHER.match(uri)) {
-                case CODE_NOPARAM:
+                case AI_INFO_CODE:
                     count = mDatabase.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
                     return count;
                 default:
