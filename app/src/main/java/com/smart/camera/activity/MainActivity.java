@@ -8,8 +8,10 @@ import android.widget.ListView;
 
 import com.smart.camera.R;
 import com.smart.camera.data.AIDBInfo;
+import com.smart.camera.data.CommandInfo;
 import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.manager.AIDataManager;
+import com.smart.camera.manager.CommandDataManager;
 import com.smart.camera.manager.RemoveDataManager;
 
 import java.util.ArrayList;
@@ -65,6 +67,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addData() {
+
+//        CommandInfo commandInfo = new CommandInfo();
+//        commandInfo.setUpdateDebugResultFlag(true);
+//        commandInfo.setBaseUrl("http://gggggggg");
+//        commandInfo.setEdge(false);
+//        commandInfo.setReduceScale(1.0);
+//        commandInfo.setRolloverAngle(2);
+//        commandInfo.setDebugLevel(5);
+//        commandInfo.setDetectParameter("fffff");
+//        commandInfo.setVideoFrameNum(8);
+//        commandInfo.setHeight(10);
+//        commandInfo.setWidth(8);
+//        commandInfo.setAiInterval(2);
+//        commandInfo.setAiMode("1");
+//        commandInfo.setAlternateFlag(true);
+//        commandInfo.setCompressCount(3);
+//        commandInfo.setCompressInterval(6);
+//        commandInfo.setContinueTime(20190628);
+//        commandInfo.setDeleteFlag(false);
+//        commandInfo.setEndTime("2019-06-29 10:10:12");
+//        commandInfo.setJsonRetentionTime(20190629);
+//        commandInfo.setMaxDebugResult(24);
+//        commandInfo.setMaxDoneResource(3);
+//        commandInfo.setShootInterval(8);
+//        commandInfo.setStartTime("2019-06-28 10:10:12");
+//        commandInfo.setShootMode(1);
+//        commandInfo.setVideoBitRate(6);
+//        commandInfo.setSleepInterval(10);
+//        commandInfo.setVideoFps(9);
+//        CommandDataManager.insert(getApplicationContext(),commandInfo);
+
 //        AIDBInfo aiInfo = new AIDBInfo();
 //        aiInfo.setFileName("s_005");
 //        aiInfo.setAiMode("1");
@@ -73,34 +106,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        aiInfo.setUpdateTime("2019-06-13");
 //        AIDataManager.addAIData(MainActivity.this,aiInfo);
 
-        List<AIDBInfo> aiInfoList = new ArrayList<>();
-        AIDBInfo aiInfo = new AIDBInfo();
-        aiInfo.setFileName("001");
-        aiInfo.setAiMode("1");
-        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo.setFileType(3);
-        aiInfo.setUpdateTime("2019-06-01");
-        aiInfo.setBaseUrl("dddddddddddd");
-        aiInfoList.add(aiInfo);
-
-        AIDBInfo aiInfo2 = new AIDBInfo();
-        aiInfo2.setFileName("002");
-        aiInfo2.setAiMode("1");
-        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo2.setFileType(3);
-        aiInfo2.setUpdateTime("2019-06-02");
-        aiInfo2.setBaseUrl("vvvvvvvvvvv");
-        aiInfoList.add(aiInfo2);
-
-        AIDBInfo aiInfo3 = new AIDBInfo();
-        aiInfo3.setFileName("003");
-        aiInfo3.setAiMode("1");
-        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo3.setFileType(3);
-        aiInfo3.setUpdateTime("2019-06-03");
-        aiInfo2.setBaseUrl("tttttttttt");
-        aiInfoList.add(aiInfo3);
-        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
+//        List<AIDBInfo> aiInfoList = new ArrayList<>();
+//        AIDBInfo aiInfo = new AIDBInfo();
+//        aiInfo.setFileName("001");
+//        aiInfo.setAiMode("1");
+//        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo.setFileType(3);
+//        aiInfo.setUpdateTime("2019-06-01");
+//        aiInfo.setBaseUrl("dddddddddddd");
+//        aiInfoList.add(aiInfo);
+//
+//        AIDBInfo aiInfo2 = new AIDBInfo();
+//        aiInfo2.setFileName("002");
+//        aiInfo2.setAiMode("1");
+//        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo2.setFileType(3);
+//        aiInfo2.setUpdateTime("2019-06-02");
+//        aiInfo2.setBaseUrl("vvvvvvvvvvv");
+//        aiInfoList.add(aiInfo2);
+//
+//        AIDBInfo aiInfo3 = new AIDBInfo();
+//        aiInfo3.setFileName("003");
+//        aiInfo3.setAiMode("1");
+//        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo3.setFileType(3);
+//        aiInfo3.setUpdateTime("2019-06-03");
+//        aiInfo3.setBaseUrl("tttttttttt");
+//        aiInfoList.add(aiInfo3);
+//        AIDataManager.addMultiAIData(getApplicationContext(),aiInfoList);
 
 //        UploadDBInfo uploadModule = new UploadDBInfo();
 //        uploadModule.setFileName("1");
@@ -172,9 +205,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void deleteData() {
+        CommandDataManager.clear(getApplicationContext());
+
 //        AIDataManager.deleteAIData(MainActivity.this,"s_005");
 
-        AIDataManager.clearAIData(MainActivity.this);
+//        AIDataManager.clearAIData(MainActivity.this);
 
 //        List<String> aiModuleDBList = new ArrayList<>();
 //        aiModuleDBList.add("002");

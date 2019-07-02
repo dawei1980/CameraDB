@@ -31,7 +31,9 @@
         <provider
             android:authorities="com.upload.provider"
             android:name=".provider.UploadProvider"/>
-
+        <provider
+            android:authorities="com.command.provider"
+            android:name=".provider.CommandProvider"/>
     </application>
 
 </manifest>

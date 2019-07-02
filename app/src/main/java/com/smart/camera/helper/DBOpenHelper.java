@@ -4,17 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.smart.camera.data.AIDBInfo;
-import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.tables.AIInfoTable;
+import com.smart.camera.tables.CommandInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
 import com.smart.camera.upgrade.AIDBUpgrade;
+import com.smart.camera.upgrade.CommandUpgrade;
 import com.smart.camera.upgrade.RemoveDBUpgrade;
 import com.smart.camera.upgrade.UploadDBUpgrade;
-
-import java.util.List;
-
 
 /**
  * 默认就在数据库里创建4张表
@@ -37,9 +34,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        createAITable(db);
-        createRemoveTable(db);
-        createUploadTable(db);
+        createTable(db);
     }
 
     /**
@@ -50,6 +45,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         for (int j = oldVersion; j <= newVersion; j++) {
             switch (j) {
                 case 1:
+                    CommandUpgrade.createNewCommandTable(db);
                     AIDBUpgrade.createNewAITable(db);
                     RemoveDBUpgrade.createNewRemoveTable(db);
                     UploadDBUpgrade.createNewAITable(db);
@@ -60,33 +56,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    private void createAITable(SQLiteDatabase db){
+    private void createTable(SQLiteDatabase db){
         try {
-            try {
-                db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
-                //如果上面运行的是第一个版本的sql则需要调用onUpgrade
-                onUpgrade(db,DATABASE_FIRST_VERSION,DATABASE_NEW_VERSION);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void createRemoveTable(SQLiteDatabase db){
-        try {
+            db.execSQL(CommandInfoTable.CREATE_COMMAND_INFO_TABLE);
+            db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
             db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE);
-            //如果上面运行的是第一个版本的sql则需要调用onUpgrade
-            onUpgrade(db,DATABASE_FIRST_VERSION,DATABASE_NEW_VERSION);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void createUploadTable(SQLiteDatabase db){
-        try {
             db.execSQL(UploadInfoTable.CREATE_UPLOAD_INFO_TABLE);
+
             //如果上面运行的是第一个版本的sql则需要调用onUpgrade
             onUpgrade(db,DATABASE_FIRST_VERSION,DATABASE_NEW_VERSION);
         }catch (Exception e){
