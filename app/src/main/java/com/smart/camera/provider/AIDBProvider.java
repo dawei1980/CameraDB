@@ -26,11 +26,14 @@ public class AIDBProvider extends ContentProvider {
     public static final Uri AI_AUTHORITY_URI = Uri.parse("content://" + AI_INFO_AUTHORITY);
 
     //code
-    private static final int AI_INFO_CODE = 1;
+    private static final int CODE_NOPARAM = 1;
+    private static final int CODE_PARAM = 2;
 
     static {
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        MATCHER.addURI(AI_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, AI_INFO_CODE);
+        // 对等待匹配的URI进行匹配操作，必须符合com.ai.provider/ai格式
+        // 匹配返回CODE_NOPARAM，不匹配返回-1
+        MATCHER.addURI(AI_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, CODE_NOPARAM);
     }
 
     @Override
@@ -57,12 +60,8 @@ public class AIDBProvider extends ContentProvider {
             synchronized (mLock) {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
-                    case AI_INFO_CODE:
-                        if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
-                            return db.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-                        }else {
-                            return db.query(AIInfoTable.AI_TABLE_NAME, null, null, null, null, null, null);
-                        }
+                    case CODE_NOPARAM:
+                        return db.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -74,7 +73,15 @@ public class AIDBProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return null;
+        switch(MATCHER.match(uri))
+        {
+            case CODE_NOPARAM:
+                return "com.ai.provider.dir/ai";
+            case CODE_PARAM:
+                return "com.ai.provider.item/ai";
+            default:
+                throw new IllegalArgumentException("this is unkown uri:" + uri);
+        }
     }
 
     /**
@@ -88,7 +95,7 @@ public class AIDBProvider extends ContentProvider {
         Log.d(TAG, " insert ");
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         switch (MATCHER.match(uri)) {
-            case AI_INFO_CODE:
+            case CODE_NOPARAM:
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
                 long rowid = db.replace(AIInfoTable.AI_TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
@@ -114,15 +121,10 @@ public class AIDBProvider extends ContentProvider {
         String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
         int count = 0;
         switch (MATCHER.match(uri)) {
-            case AI_INFO_CODE:
-
-                if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
-                    count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
-                    db.execSQL(sql);
-                    return count;
-                }else {
-                    return count;
-                }
+            case CODE_NOPARAM:
+                count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
+                db.execSQL(sql);
+                return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -142,40 +144,11 @@ public class AIDBProvider extends ContentProvider {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         int count = 0;
         switch (MATCHER.match(uri)) {
-            case AI_INFO_CODE:
-                if(aiTableIsExist(AIInfoTable.AI_TABLE_NAME)){
-                    count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
-                    return count;
-                }else {
-                    return count;
-                }
+            case CODE_NOPARAM:
+                count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
+                return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
-    }
-
-    /**
-     * Judge table whether or not exist
-     * */
-    public boolean aiTableIsExist(String tableName){
-        boolean result = false;
-        if(tableName == null){
-            return false;
-        }
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try {
-            db = dbOpenHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from " + AIInfoTable.AI_TABLE_NAME, null);
-            if(cursor.moveToNext()){
-                int count = cursor.getInt(0);
-                if(count>0){
-                    result = true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 }
