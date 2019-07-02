@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.smart.camera.tables.AIInfoTable;
+import com.smart.camera.tables.InstructionInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
 import com.smart.camera.upgrade.AIDBUpgrade;
+import com.smart.camera.upgrade.InstructionUpgrade;
 import com.smart.camera.upgrade.RemoveDBUpgrade;
 import com.smart.camera.upgrade.UploadDBUpgrade;
 
@@ -47,7 +49,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         for (int j = oldVersion; j <= newVersion; j++) {
             switch (j) {
                 case 1:
-//                    CommandUpgrade.createNewCommandTable(db);
+                    InstructionUpgrade.createNewInstructionTable(db);
                     AIDBUpgrade.createNewAITable(db);
                     RemoveDBUpgrade.createNewRemoveTable(db);
                     UploadDBUpgrade.createNewAITable(db);
@@ -60,7 +62,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     private void createTable(SQLiteDatabase db){
         try {
-//            db.execSQL(CommandInfoTable.CREATE_COMMAND_INFO_TABLE);
+            db.execSQL(InstructionInfoTable.CREATE_INSTRUCTION_INFO_TABLE);
             db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
             db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE);
             db.execSQL(UploadInfoTable.CREATE_UPLOAD_INFO_TABLE);

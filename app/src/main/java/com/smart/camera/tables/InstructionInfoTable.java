@@ -105,7 +105,7 @@ public class InstructionInfoTable {
             ALTERNATE_FLAG + " varchar(255)," +
             UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
 
-    public static final String CREATE_NEW_INSTRUCTION_INFO_TABLE_TEMP = "create table if not exists " + INSTRUCTION_TABLE_NAME +
+    public static final String CREATE_NEW_INSTRUCTION_INFO_TABLE = "create table if not exists " + INSTRUCTION_TABLE_NAME +
             " (" + ID + " integer primary key autoincrement,"+
             START_TIME +" varchar(255)," +
             END_TIME + " varchar(255),"+
