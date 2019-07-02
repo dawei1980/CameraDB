@@ -20,6 +20,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data android:mimeType="com.ai.provider.dir/ai" />
+            </intent-filter>
+            <intent-filter>
+                <data android:mimeType="com.ai.provider.item/ai" />
+            </intent-filter>
         </activity>
 
         <provider
@@ -32,8 +39,8 @@
             android:authorities="com.upload.provider"
             android:name=".provider.UploadProvider"/>
         <provider
-            android:authorities="com.command.provider"
-            android:name=".provider.CommandProvider"/>
+            android:authorities="com.instruction.provider"
+            android:name=".provider.InstructionProvider"/>
     </application>
 
 </manifest>
