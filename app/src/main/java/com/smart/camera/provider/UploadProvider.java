@@ -61,11 +61,7 @@ public class UploadProvider extends ContentProvider {
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 switch (MATCHER.match(uri)) {
                     case UPLOAD_INFO_CODE:
-                        if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
-                            return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
-                        }else {
-                            return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,null,null,null,null,null,null);
-                        }
+                        return db.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
@@ -119,13 +115,9 @@ public class UploadProvider extends ContentProvider {
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-                if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
-                    count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
-                    db.execSQL(sql);
-                    return count;
-                }else {
-                    return count;
-                }
+                count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
+                db.execSQL(sql);
+                return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -146,37 +138,10 @@ public class UploadProvider extends ContentProvider {
         int count = 0;
         switch (MATCHER.match(uri)) {
             case UPLOAD_INFO_CODE:
-
-                if(uploadTableIsExist(UploadInfoTable.UPLOAD_TABLE_NAME)){
-                    count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
-                    return count;
-                }else {
-                    return count;
-                }
+                count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
+                return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
-    }
-
-    public boolean uploadTableIsExist(String tableName){
-        boolean result = false;
-        if(tableName == null){
-            return false;
-        }
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try {
-            db = dbOpenHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from " + UploadInfoTable.UPLOAD_TABLE_NAME, null);
-            if(cursor.moveToNext()){
-                int count = cursor.getInt(0);
-                if(count>0){
-                    result = true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 }
