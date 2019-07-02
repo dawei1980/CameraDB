@@ -86,17 +86,21 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-
-        switch (MATCHER.match(uri)) {
-            case CODE_NOPARAM:
-                // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
-                long rowid = mDatabase.insert(AIInfoTable.AI_TABLE_NAME, null, values);
-                Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
-                Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
-                return insertUri;
-            default:
-                throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+        try {
+            switch (MATCHER.match(uri)) {
+                case CODE_NOPARAM:
+                    // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
+                    long rowid = mDatabase.insert(AIInfoTable.AI_TABLE_NAME, null, values);
+                    Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
+                    Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
+                    return insertUri;
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -138,13 +142,18 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        int count = 0;
-        switch (MATCHER.match(uri)) {
-            case CODE_NOPARAM:
-                count = mDatabase.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
-                return count;
-            default:
-                throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+        try {
+            int count = 0;
+            switch (MATCHER.match(uri)) {
+                case CODE_NOPARAM:
+                    count = mDatabase.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
+                    return count;
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+        return 0;
     }
 }
