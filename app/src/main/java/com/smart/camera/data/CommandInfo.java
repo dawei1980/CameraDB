@@ -9,9 +9,9 @@ import java.util.Objects;
 public class CommandInfo {
 
     private String endTime;
-    private int height;
     private String startTime;
     private int width;
+    private int height;
     private int sleepInterval;
     private int shootMode;
     private int continueTime;
