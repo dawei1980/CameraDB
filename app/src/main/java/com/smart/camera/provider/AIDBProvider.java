@@ -15,9 +15,12 @@ import com.smart.camera.tables.AIInfoTable;
 
 import java.util.Objects;
 
+/**
+ * 实现Content provider
+ * @author 蒋大卫
+ * */
 public class AIDBProvider extends ContentProvider {
     private DBOpenHelper dbOpenHelper;
-    private SQLiteDatabase mDatabase;
 
     private static UriMatcher MATCHER;
     private static String PARAMETER_NOTIFY = "数据已更新";
@@ -41,7 +44,6 @@ public class AIDBProvider extends ContentProvider {
     public boolean onCreate() {
         Log.d(TAG, " onCreate ");
         dbOpenHelper = new DBOpenHelper(this.getContext());
-        mDatabase = dbOpenHelper.getWritableDatabase();
         return true;
     }
 
@@ -59,6 +61,7 @@ public class AIDBProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Log.d(TAG, " query ");
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getReadableDatabase();
             synchronized (mLock) {
                 switch (MATCHER.match(uri)) {
                     case AI_INFO_CODE:
@@ -68,8 +71,9 @@ public class AIDBProvider extends ContentProvider {
                 }
             }
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -86,6 +90,7 @@ public class AIDBProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             switch (MATCHER.match(uri)) {
                 case AI_INFO_CODE:
                     // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
@@ -112,10 +117,11 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        //更新主键从1开始"
-        String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
-        int count;
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
+            //更新主键从1开始"
+            String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
+            int count;
             switch (MATCHER.match(uri)) {
                 case AI_INFO_CODE:
                     count = mDatabase.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
@@ -142,6 +148,7 @@ public class AIDBProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             int count = 0;
             switch (MATCHER.match(uri)) {
                 case AI_INFO_CODE:

@@ -18,7 +18,6 @@ import java.util.Objects;
 public class InstructionProvider extends ContentProvider {
 
     private DBOpenHelper dbOpenHelper;
-    private SQLiteDatabase mDatabase;
 
     private static UriMatcher MATCHER;
     private static String PARAMETER_NOTIFY = "数据已更新";
@@ -40,7 +39,6 @@ public class InstructionProvider extends ContentProvider {
     public boolean onCreate() {
         Log.d(TAG, " onCreate ");
         dbOpenHelper = new DBOpenHelper(this.getContext());
-        mDatabase = dbOpenHelper.getWritableDatabase();
         return true;
     }
 
@@ -48,6 +46,7 @@ public class InstructionProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Log.d(TAG, " query ");
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getReadableDatabase();
             synchronized (mLock) {
                 switch (MATCHER.match(uri)) {
                     case INSTRUCTION_INFO_CODE:
@@ -57,18 +56,20 @@ public class InstructionProvider extends ContentProvider {
                 }
             }
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
-    public String getType( Uri uri) {
+    public String getType(Uri uri) {
         return null;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             Log.d(TAG, " insert ");
             switch (MATCHER.match(uri)) {
                 case INSTRUCTION_INFO_CODE:
@@ -89,6 +90,7 @@ public class InstructionProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             //更新主键从1开始"
             String sql = "update sqlite_sequence set seq=0 where name='" + InstructionInfoTable.INSTRUCTION_TABLE_NAME +"'";
             int count;
@@ -109,6 +111,7 @@ public class InstructionProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         try {
+            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             int count;
             switch (MATCHER.match(uri)) {
                 case INSTRUCTION_INFO_CODE:
