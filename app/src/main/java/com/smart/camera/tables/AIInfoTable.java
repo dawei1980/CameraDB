@@ -7,6 +7,10 @@ import android.net.Uri;
 import com.smart.camera.data.AIDBInfo;
 import com.smart.camera.provider.AIDBProvider;
 
+/**
+ * 创建表格
+ * @author 蒋大卫
+ * */
 public class AIInfoTable {
     //表名称
     /** AI Table name. */

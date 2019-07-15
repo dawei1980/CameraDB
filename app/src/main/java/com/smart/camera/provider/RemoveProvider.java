@@ -5,10 +5,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.tables.RemoveInfoTable;
@@ -22,13 +20,8 @@ import java.util.Objects;
 public class RemoveProvider extends ContentProvider {
 
     private DBOpenHelper dbOpenHelper;
-
-    private UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
+    private SQLiteDatabase db = null;
     private static UriMatcher MATCHER;
-    private static String PARAMETER_NOTIFY = "数据已更新";
-
-    private String TAG = "SqliteProvider-->";
     private final Object mLock = new Object();
     public static final String REMOVE_INFO_AUTHORITY = "com.remove.provider";
     public static final Uri REMOVE_AUTHORITY_URI = Uri.parse("content://" + REMOVE_INFO_AUTHORITY);
@@ -41,10 +34,27 @@ public class RemoveProvider extends ContentProvider {
         MATCHER.addURI(REMOVE_INFO_AUTHORITY, RemoveInfoTable.REMOVE_TABLE_NAME , REMOVE_INFO_CODE);
     }
 
+    /**
+     * 当程序第一次调用getWritableDatabase或getReadableDatabase()方法后，
+     * SQLiteOpenHelp会缓存已获得的SQLiteDatabase实例，
+     * SQLiteDatabase实例正常情况下会维持数据库的打开状态，
+     * 因此程序退出时候应该关闭不再使用的SQLiteDatabase。
+     * 一旦SQLiteOpenHelp缓存了SQLiteDatabase实例之后，
+     * 多次调用getWritableDatabase或getReadableDatabase()方法得到的都是同一个SQLiteDatabase实例。
+     * */
     @Override
     public boolean onCreate() {
-        Log.d(TAG, " onCreate ");
-        dbOpenHelper = new DBOpenHelper(this.getContext());
+        dbOpenHelper = DBOpenHelper.getInstance(this.getContext());
+        try {
+            db = dbOpenHelper.getWritableDatabase();
+            while (db.isDbLockedByCurrentThread()|| db.isDbLockedByOtherThreads()){
+                Thread.sleep(10);
+            }
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
         return true;
     }
 
@@ -60,9 +70,8 @@ public class RemoveProvider extends ContentProvider {
      */
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.d(TAG, " query ");
+        SQLiteDatabase mDatabase = dbOpenHelper.getReadableDatabase();
         try {
-            SQLiteDatabase mDatabase = dbOpenHelper.getReadableDatabase();
             synchronized (mLock) {
                 switch (MATCHER.match(uri)) {
                     case REMOVE_INFO_CODE:
@@ -72,7 +81,7 @@ public class RemoveProvider extends ContentProvider {
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -93,20 +102,25 @@ public class RemoveProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        db.beginTransaction();  //开始事务
         try {
-            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
-            switch (MATCHER.match(uri)) {
-                case REMOVE_INFO_CODE:
-                    // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
-                    long rowid = mDatabase.insert(RemoveInfoTable.REMOVE_TABLE_NAME, null, values);
-                    Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
-                    Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
-                    return insertUri;
-                default:
-                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            synchronized (mLock){
+                switch (MATCHER.match(uri)) {
+                    case REMOVE_INFO_CODE:
+                        // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
+                        long rowid = db.insert(RemoveInfoTable.REMOVE_TABLE_NAME, null, values);
+                        Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
+                        Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
+                        db.setTransactionSuccessful();//设置事务成功完成
+                        return insertUri;
+                    default:
+                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+                }
             }
-        }catch (SQLException e){
+        }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            db.endTransaction();//结束事务
         }
         return null;
     }
@@ -121,21 +135,26 @@ public class RemoveProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        db.beginTransaction();  //开始事务
         try {
-            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             //更新主键从1开始"
             String sql = "update sqlite_sequence set seq=0 where name='" + RemoveInfoTable.REMOVE_TABLE_NAME + "'";
             int count = 0;
-            switch (MATCHER.match(uri)) {
-                case REMOVE_INFO_CODE:
-                    count = mDatabase.delete(RemoveInfoTable.REMOVE_TABLE_NAME, selection, selectionArgs);
-                    mDatabase.execSQL(sql);
-                    return count;
-                default:
-                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            synchronized (mLock){
+                switch (MATCHER.match(uri)) {
+                    case REMOVE_INFO_CODE:
+                        count = db.delete(RemoveInfoTable.REMOVE_TABLE_NAME, selection, selectionArgs);
+                        db.execSQL(sql);
+                        db.setTransactionSuccessful();//设置事务成功完成
+                        return count;
+                    default:
+                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+                }
             }
-        }catch (SQLException e){
+        }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            db.endTransaction();//结束事务
         }
         return 0;
     }
@@ -151,18 +170,23 @@ public class RemoveProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        db.beginTransaction();  //开始事务
         try {
-            SQLiteDatabase mDatabase = dbOpenHelper.getWritableDatabase();
             int count;
-            switch (MATCHER.match(uri)) {
-                case REMOVE_INFO_CODE:
-                    count = mDatabase.update(RemoveInfoTable.REMOVE_TABLE_NAME, values, selection, selectionArgs);
-                    return count;
-                default:
-                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+            synchronized (mLock){
+                switch (MATCHER.match(uri)) {
+                    case REMOVE_INFO_CODE:
+                        count = db.update(RemoveInfoTable.REMOVE_TABLE_NAME, values, selection, selectionArgs);
+                        db.setTransactionSuccessful();//设置事务成功完成
+                        return count;
+                    default:
+                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+                }
             }
-        }catch (SQLException e){
+        }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            db.endTransaction();//结束事务
         }
         return 0;
     }

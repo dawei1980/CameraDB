@@ -12,37 +12,42 @@ import java.util.List;
 
 /**
  * Remove模块数据库升级
+ * @author 蒋大卫
  * */
 public class RemoveDBUpgrade {
 
     public static void createNewRemoveTable(SQLiteDatabase db){
 
-        /**创建临时缓存表 用于缓存老表里面的数据*/
-        db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE_TEMP);
+        try {
+            /**创建临时缓存表 用于缓存老表里面的数据*/
+            db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE_TEMP);
 
-        /**查询所有的老表数据*/
-        List<RemoveDBInfo> removeDBInfoList = getLowVersionRemoveData(db);
+            /**查询所有的老表数据*/
+            List<RemoveDBInfo> removeDBInfoList = getLowVersionRemoveData(db);
 
-        /**把数据插入到缓存的表中去*/
-        for (RemoveDBInfo removeDBInfo : removeDBInfoList) {
-            insertTempRemoveData(removeDBInfo, db);
+            /**把数据插入到缓存的表中去*/
+            for (RemoveDBInfo removeDBInfo : removeDBInfoList) {
+                insertTempRemoveData(removeDBInfo, db);
+            }
+            db.execSQL("drop table " + RemoveInfoTable.REMOVE_TABLE_NAME);
+
+            /**
+             * 创建新的表结构
+             * 可以增加字段，但不能减少字段
+             * */
+            db.execSQL(RemoveInfoTable.CREATE_NEW_REMOVE_INFO_TABLE);
+
+            /**查询所有的缓存表中的数据*/
+            List<RemoveDBInfo> cachedRemoveDBInfoList = getTempRemoveData(db);
+
+            /**把数据插入到新的表中去*/
+            for (RemoveDBInfo aiModuleDB : cachedRemoveDBInfoList) {
+                insertHighVersionRemoveData(aiModuleDB, db);
+            }
+            db.execSQL("drop table " + RemoveInfoTable.REMOVE_TEMP_TABLE_NAME);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        db.execSQL("drop table " + RemoveInfoTable.REMOVE_TABLE_NAME);
-
-        /**
-         * 创建新的表结构
-         * 可以增加字段，但不能减少字段
-         * */
-        db.execSQL(RemoveInfoTable.CREATE_NEW_REMOVE_INFO_TABLE);
-
-        /**查询所有的缓存表中的数据*/
-        List<RemoveDBInfo> cachedRemoveDBInfoList = getTempRemoveData(db);
-
-        /**把数据插入到新的表中去*/
-        for (RemoveDBInfo aiModuleDB : cachedRemoveDBInfoList) {
-            insertHighVersionRemoveData(aiModuleDB, db);
-        }
-        db.execSQL("drop table " + RemoveInfoTable.REMOVE_TEMP_TABLE_NAME);
     }
 
     public static List<RemoveDBInfo> getLowVersionRemoveData(SQLiteDatabase database) {
@@ -52,9 +57,9 @@ public class RemoveDBUpgrade {
             do {
                 RemoveDBInfo removeDBInfo = new RemoveDBInfo();
                 removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILENAME)));
-                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILESDPATH)));
-                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILETYPE)));
-                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATETIME)));
+                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILE_SD_PATH)));
+                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILE_TYPE)));
+                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATE_TIME)));
                 removeDBInfoArrayList.add(removeDBInfo);
             } while (cursor.moveToNext());
         }
@@ -66,9 +71,9 @@ public class RemoveDBUpgrade {
         try {
             ContentValues values = new ContentValues();
             values.put(RemoveInfoTable.FILENAME, removeDBInfo.getFileName());
-            values.put(RemoveInfoTable.FILESDPATH, removeDBInfo.getFileSDPath());
-            values.put(RemoveInfoTable.FILETYPE, removeDBInfo.getFileType());
-            values.put(RemoveInfoTable.UPDATETIME, removeDBInfo.getUpdateTime());
+            values.put(RemoveInfoTable.FILE_SD_PATH, removeDBInfo.getFileSDPath());
+            values.put(RemoveInfoTable.FILE_TYPE, removeDBInfo.getFileType());
+            values.put(RemoveInfoTable.UPDATE_TIME, removeDBInfo.getUpdateTime());
             database.replace(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE_TEMP, null, values);
         } catch (Exception e) {
             // TODO: handle exception
@@ -87,9 +92,9 @@ public class RemoveDBUpgrade {
             do {
                 RemoveDBInfo removeDBInfo = new RemoveDBInfo();
                 removeDBInfo.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILENAME)));
-                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILESDPATH)));
-                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILETYPE)));
-                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATETIME)));
+                removeDBInfo.setFileSDPath(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILE_SD_PATH)));
+                removeDBInfo.setFileType(cursor.getInt(cursor.getColumnIndexOrThrow(RemoveInfoTable.FILE_TYPE)));
+                removeDBInfo.setUpdateTime(cursor.getString(cursor.getColumnIndexOrThrow(RemoveInfoTable.UPDATE_TIME)));
                 removeDBInfoArrayList.add(removeDBInfo);
             } while (cursor.moveToNext());
         }
@@ -101,9 +106,9 @@ public class RemoveDBUpgrade {
         try {
             ContentValues values = new ContentValues();
             values.put(RemoveInfoTable.FILENAME, removeDBInfo.getFileName());
-            values.put(RemoveInfoTable.FILESDPATH, removeDBInfo.getFileSDPath());
-            values.put(RemoveInfoTable.FILETYPE, removeDBInfo.getFileType());
-            values.put(RemoveInfoTable.UPDATETIME, removeDBInfo.getUpdateTime());
+            values.put(RemoveInfoTable.FILE_SD_PATH, removeDBInfo.getFileSDPath());
+            values.put(RemoveInfoTable.FILE_TYPE, removeDBInfo.getFileType());
+            values.put(RemoveInfoTable.UPDATE_TIME, removeDBInfo.getUpdateTime());
             database.replace(RemoveInfoTable.REMOVE_TABLE_NAME, null, values);
         } catch (Exception e) {
             // TODO: handle exception

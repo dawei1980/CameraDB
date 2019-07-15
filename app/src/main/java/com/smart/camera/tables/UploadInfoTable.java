@@ -7,9 +7,13 @@ import android.net.Uri;
 import com.smart.camera.data.UploadDBInfo;
 import com.smart.camera.provider.UploadProvider;
 
+/**
+ * 创建表格
+ * @author 蒋大卫
+ * */
 public class UploadInfoTable {
     //表名称
-    /** AI Table name. */
+    /** upload Table name. */
     public static final String UPLOAD_TABLE_NAME = "upload";
 
     /**Upload 临时表名*/
@@ -94,5 +98,4 @@ public class UploadInfoTable {
         uploadDBInfo.setUpdateTime(updateTime);
         return uploadDBInfo;
     }
-
 }

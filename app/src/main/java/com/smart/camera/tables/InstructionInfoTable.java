@@ -7,12 +7,17 @@ import android.net.Uri;
 import com.smart.camera.data.CommandInfo;
 import com.smart.camera.provider.InstructionProvider;
 
+
 public class InstructionInfoTable {
 
-    /** AI Table name. */
+    /**
+     * Instruction Table name.
+     */
     public static final String INSTRUCTION_TABLE_NAME = "instruction";
 
-    /**AI 临时表名*/
+    /**
+     * Instruction 临时表名
+     */
     public static final String INSTRUCTION_TEMP_TABLE_NAME = INSTRUCTION_TABLE_NAME + "_temp";
 
     //表格的基本信息的字符串
@@ -43,14 +48,16 @@ public class InstructionInfoTable {
     public static final String IS_EDGE = "is_edge";
     public static final String BASE_URL = "base_url";
     public static final String ALTERNATE_FLAG = "alternate_flag";
-    public static final String UPDATE_DEBUG_RESULT_FLAG = "update_debug_result_flag";
+    public static final String UPLOAD_DEBUG_RESULT_FLAG = "upload_debug_result_flag";
+    public static final String UPLOAD_REDUCE_SCALE_RESULT_FLAG = "upload_reduce_scale_result_flag";
+    public static final String MAX_REDUCE_SCALE_RESULT = "max_reduce_scale_result";
 
     public static final String CREATE_INSTRUCTION_INFO_TABLE = "create table if not exists " + INSTRUCTION_TABLE_NAME +
-            " (" + ID + " integer primary key autoincrement,"+
-            START_TIME +" varchar(255)," +
-            END_TIME + " varchar(255),"+
-            WIDTH + " integer,"+
-            HEIGHT + " integer,"+
+            " (" + ID + " integer primary key autoincrement," +
+            START_TIME + " varchar(255)," +
+            END_TIME + " varchar(255)," +
+            WIDTH + " integer," +
+            HEIGHT + " integer," +
             SLEEP_INTERVAL + " integer," +
             SHOOT_MODE + " integer," +
             CONTINUE_TIME + " integer," +
@@ -59,7 +66,7 @@ public class InstructionInfoTable {
             COMPRESS_INTERVAL + " integer," +
             VIDEO_FPS + " integer," +
             VIDEO_BITRATE + " integer," +
-            DELETE_FLAG + " varchar(255)," +
+            DELETE_FLAG + " text," +
             AI_INTERVAL + " integer," +
             AI_MODE + " varchar(255)," +
             MAX_DEBUG_RESULT + " integer," +
@@ -70,17 +77,19 @@ public class InstructionInfoTable {
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
             REDUCE_SCALE + " double," +
-            IS_EDGE + " varchar(255)," +
+            IS_EDGE + " text," +
             BASE_URL + " varchar(255)," +
-            ALTERNATE_FLAG + " varchar(255)," +
-            UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
+            ALTERNATE_FLAG + " text," +
+            UPLOAD_DEBUG_RESULT_FLAG + " text," +
+            UPLOAD_REDUCE_SCALE_RESULT_FLAG + " text," +
+            MAX_REDUCE_SCALE_RESULT + " integer" + ")";
 
-    public static final String CREATE_INSTRUCTION_INFO_TABLE_TEMP = "create table if not exists " + INSTRUCTION_TABLE_NAME +
-            " (" + ID + " integer primary key autoincrement,"+
-            START_TIME +" varchar(255)," +
-            END_TIME + " varchar(255),"+
-            WIDTH + " integer,"+
-            HEIGHT + " integer,"+
+    public static final String CREATE_INSTRUCTION_INFO_TABLE_TEMP = "create table if not exists " + INSTRUCTION_TEMP_TABLE_NAME +
+            " (" + ID + " integer primary key autoincrement," +
+            START_TIME + " varchar(255)," +
+            END_TIME + " varchar(255)," +
+            WIDTH + " integer," +
+            HEIGHT + " integer," +
             SLEEP_INTERVAL + " integer," +
             SHOOT_MODE + " integer," +
             CONTINUE_TIME + " integer," +
@@ -89,7 +98,7 @@ public class InstructionInfoTable {
             COMPRESS_INTERVAL + " integer," +
             VIDEO_FPS + " integer," +
             VIDEO_BITRATE + " integer," +
-            DELETE_FLAG + " varchar(255)," +
+            DELETE_FLAG + " text," +
             AI_INTERVAL + " integer," +
             AI_MODE + " varchar(255)," +
             MAX_DEBUG_RESULT + " integer," +
@@ -100,17 +109,19 @@ public class InstructionInfoTable {
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
             REDUCE_SCALE + " double," +
-            IS_EDGE + " varchar(255)," +
+            IS_EDGE + " text," +
             BASE_URL + " varchar(255)," +
-            ALTERNATE_FLAG + " varchar(255)," +
-            UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
+            ALTERNATE_FLAG + " text," +
+            UPLOAD_DEBUG_RESULT_FLAG + " text," +
+            UPLOAD_REDUCE_SCALE_RESULT_FLAG + " text," +
+            MAX_REDUCE_SCALE_RESULT + " integer" + ")";
 
     public static final String CREATE_NEW_INSTRUCTION_INFO_TABLE = "create table if not exists " + INSTRUCTION_TABLE_NAME +
-            " (" + ID + " integer primary key autoincrement,"+
-            START_TIME +" varchar(255)," +
-            END_TIME + " varchar(255),"+
-            WIDTH + " integer,"+
-            HEIGHT + " integer,"+
+            " (" + ID + " integer primary key autoincrement," +
+            START_TIME + " varchar(255)," +
+            END_TIME + " varchar(255)," +
+            WIDTH + " integer," +
+            HEIGHT + " integer," +
             SLEEP_INTERVAL + " integer," +
             SHOOT_MODE + " integer," +
             CONTINUE_TIME + " integer," +
@@ -119,7 +130,7 @@ public class InstructionInfoTable {
             COMPRESS_INTERVAL + " integer," +
             VIDEO_FPS + " integer," +
             VIDEO_BITRATE + " integer," +
-            DELETE_FLAG + " varchar(255)," +
+            DELETE_FLAG + " text," +
             AI_INTERVAL + " integer," +
             AI_MODE + " varchar(255)," +
             MAX_DEBUG_RESULT + " integer," +
@@ -130,10 +141,12 @@ public class InstructionInfoTable {
             DEBUG_LEVEL + " integer," +
             ROLLOVER_ANGLE + " integer," +
             REDUCE_SCALE + " double," +
-            IS_EDGE + " varchar(255)," +
+            IS_EDGE + " text," +
             BASE_URL + " varchar(255)," +
-            ALTERNATE_FLAG + " varchar(255)," +
-            UPDATE_DEBUG_RESULT_FLAG + " varchar(255)" + ")";
+            ALTERNATE_FLAG + " text," +
+            UPLOAD_DEBUG_RESULT_FLAG + " text," +
+            UPLOAD_REDUCE_SCALE_RESULT_FLAG + " text," +
+            MAX_REDUCE_SCALE_RESULT + " integer" + ")";
 
     //需要进行操作的uri对象
     private static final Uri CONTENT_URI = Uri.withAppendedPath(InstructionProvider.INSTRUCTION_AUTHORITY_URI, INSTRUCTION_TABLE_NAME);
@@ -162,16 +175,18 @@ public class InstructionInfoTable {
         values.put(AI_MODE, info.getAiMode());
         values.put(MAX_DEBUG_RESULT, info.getMaxDebugResult());
         values.put(JSON_RETENTION_TIME, info.getJsonRetentionTime());
-        values.put(VIDEO_FRAME_NUM,info.getVideoFrameNum());
+        values.put(VIDEO_FRAME_NUM, info.getVideoFrameNum());
         values.put(DETECT_PARAMETER, info.getDetectParameter());
         values.put(MAX_DONE_RESOURCE, info.getMaxDoneResource());
-        values.put(DEBUG_LEVEL,info.getDebugLevel());
-        values.put(ROLLOVER_ANGLE,info.getRolloverAngle());
-        values.put(REDUCE_SCALE,info.getReduceScale());
-        values.put(IS_EDGE,info.isEdge());
+        values.put(DEBUG_LEVEL, info.getDebugLevel());
+        values.put(ROLLOVER_ANGLE, info.getRolloverAngle());
+        values.put(REDUCE_SCALE, info.getReduceScale());
+        values.put(IS_EDGE, info.isEdge());
         values.put(BASE_URL, info.getBaseUrl());
-        values.put(ALTERNATE_FLAG,info.getAlternateFlag());
-        values.put(UPDATE_DEBUG_RESULT_FLAG, info.isUpdateDebugResultFlag());
+        values.put(ALTERNATE_FLAG, info.getAlternateFlag());
+        values.put(UPLOAD_DEBUG_RESULT_FLAG, info.isUploadDebugResultFlag());
+        values.put(UPLOAD_REDUCE_SCALE_RESULT_FLAG, info.isUploadReduceScaleResultFlag());
+        values.put(MAX_REDUCE_SCALE_RESULT, info.getMaxReduceScaleResult());
         return values;
     }
 
@@ -202,7 +217,9 @@ public class InstructionInfoTable {
         String isEdge = cursor.getString(cursor.getColumnIndex(IS_EDGE)); //Boolean
         String baseUrl = cursor.getString(cursor.getColumnIndex(BASE_URL));
         String alternateFlag = cursor.getString(cursor.getColumnIndex(ALTERNATE_FLAG)); //Boolean
-        String updateDebugResultFlag = cursor.getString(cursor.getColumnIndex(UPDATE_DEBUG_RESULT_FLAG));
+        String uploadDebugResultFlag = cursor.getString(cursor.getColumnIndex(UPLOAD_DEBUG_RESULT_FLAG));
+        String uploadReduceSaleResultFlag = cursor.getString(cursor.getColumnIndex(UPLOAD_REDUCE_SCALE_RESULT_FLAG));
+        int maxReduceScaleResult = cursor.getInt(cursor.getColumnIndex(MAX_REDUCE_SCALE_RESULT));
 
         CommandInfo info = new CommandInfo();
         info.setStartTime(startTime);
@@ -217,7 +234,12 @@ public class InstructionInfoTable {
         info.setCompressInterval(compressInterval);
         info.setVideoFps(videoFps);
         info.setVideoBitRate(videoBitRate);
-        info.setDeleteFlag(Boolean.valueOf(deleteFlag));
+
+        if ("0".equals(deleteFlag)) {
+            info.setDeleteFlag(false);
+        } else if ("1".equals(deleteFlag)) {
+            info.setDeleteFlag(true);
+        }
         info.setAiInterval(aiInterval);
         info.setAiMode(aiMode);
         info.setMaxDebugResult(maxDebugResult);
@@ -228,10 +250,34 @@ public class InstructionInfoTable {
         info.setDebugLevel(debugLevel);
         info.setRolloverAngle(rolloverAngle);
         info.setReduceScale(reduceScale);
-        info.setEdge(Boolean.valueOf(isEdge));
+
+        if ("0".equals(isEdge)) {
+            info.setEdge(false);
+        } else if ("1".equals(isEdge)) {
+            info.setEdge(true);
+        }
+
         info.setBaseUrl(baseUrl);
-        info.setAlternateFlag(Boolean.valueOf(alternateFlag));
-        info.setUpdateDebugResultFlag(Boolean.valueOf(updateDebugResultFlag));
+
+        if ("0".equals(alternateFlag)) {
+            info.setAlternateFlag(false);
+        } else if ("1".equals(alternateFlag)) {
+            info.setAlternateFlag(true);
+        }
+
+        if ("0".equals(uploadDebugResultFlag)) {
+            info.setUploadDebugResultFlag(false);
+        } else if ("1".equals(uploadDebugResultFlag)) {
+            info.setUploadDebugResultFlag(true);
+        }
+
+        if ("0".equals(uploadReduceSaleResultFlag)) {
+            info.setUploadReduceScaleResultFlag(false);
+        } else if ("1".equals(uploadReduceSaleResultFlag)) {
+            info.setUploadReduceScaleResultFlag(true);
+        }
+
+        info.setMaxReduceScaleResult(maxReduceScaleResult);
         return info;
     }
 }

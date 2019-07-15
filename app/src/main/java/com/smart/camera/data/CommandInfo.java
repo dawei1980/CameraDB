@@ -9,9 +9,9 @@ import java.util.Objects;
 public class CommandInfo {
 
     private String endTime;
+    private int height;
     private String startTime;
     private int width;
-    private int height;
     private int sleepInterval;
     private int shootMode;
     private int continueTime;
@@ -34,7 +34,9 @@ public class CommandInfo {
     private boolean isEdge; //是否手机端识别
     private String baseUrl;    //存储路径
     private boolean alternateFlag;    //是否进行AI与非AI切换
-    private boolean updateDebugResultFlag; //是否上传框图或是缩略图
+    private boolean uploadDebugResultFlag; //是否上传框图或是缩略图
+    private boolean uploadReduceScaleResultFlag;    //
+    private int maxReduceScaleResult;   //保留缩略图的张数
 
     public String getEndTime() {
         return endTime;
@@ -248,12 +250,28 @@ public class CommandInfo {
         return alternateFlag;
     }
 
-    public boolean isUpdateDebugResultFlag() {
-        return updateDebugResultFlag;
+    public boolean isUploadDebugResultFlag() {
+        return uploadDebugResultFlag;
     }
 
-    public void setUpdateDebugResultFlag(boolean updateDebugResultFlag) {
-        this.updateDebugResultFlag = updateDebugResultFlag;
+    public void setUploadDebugResultFlag(boolean uploadDebugResultFlag) {
+        this.uploadDebugResultFlag = uploadDebugResultFlag;
+    }
+
+    public int getMaxReduceScaleResult() {
+        return maxReduceScaleResult;
+    }
+
+    public void setMaxReduceScaleResult(int maxReduceScaleResult) {
+        this.maxReduceScaleResult = maxReduceScaleResult;
+    }
+
+    public boolean isUploadReduceScaleResultFlag() {
+        return uploadReduceScaleResultFlag;
+    }
+
+    public void setUploadReduceScaleResultFlag(boolean uploadReduceScaleResultFlag) {
+        this.uploadReduceScaleResultFlag = uploadReduceScaleResultFlag;
     }
 
     public boolean equals(Object o) {
@@ -277,7 +295,8 @@ public class CommandInfo {
                 && Objects.equals(maxDoneResource, commandInfo.maxDoneResource) && Objects.equals(debugLevel, commandInfo.debugLevel) //查看两个对象的name和type属性值是否相等,返回结果
                 && Objects.equals(rolloverAngle, commandInfo.rolloverAngle) && Objects.equals(reduceScale, commandInfo.reduceScale) //查看两个对象的name和type属性值是否相等,返回结果
                 && Objects.equals(isEdge, commandInfo.isEdge) && Objects.equals(baseUrl, commandInfo.baseUrl) //查看两个对象的name和type属性值是否相等,返回结果
-                && Objects.equals(alternateFlag, commandInfo.alternateFlag) && Objects.equals(updateDebugResultFlag, commandInfo.updateDebugResultFlag);  //查看两个对象的name和type属性值是否相等,返回结果
+                && Objects.equals(alternateFlag, commandInfo.alternateFlag) && Objects.equals(uploadDebugResultFlag, commandInfo.uploadDebugResultFlag)
+                && Objects.equals(maxReduceScaleResult, commandInfo.maxReduceScaleResult) && Objects.equals(uploadReduceScaleResultFlag, commandInfo.uploadReduceScaleResultFlag);  //查看两个对象的name和type属性值是否相等,返回结果
 
     }
 }
