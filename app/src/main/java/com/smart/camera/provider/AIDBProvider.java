@@ -11,6 +11,7 @@ import android.net.Uri;
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.tables.AIInfoTable;
 
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -45,8 +46,12 @@ public class AIDBProvider extends ContentProvider {
      * */
     @Override
     public boolean onCreate() {
-        dbOpenHelper = DBOpenHelper.getInstance(this.getContext());
+        dbOpenHelper = new DBOpenHelper(this.getContext());
         try {
+            File dbFile = this.getContext().getDatabasePath(DBOpenHelper.mDbName);
+            if(!dbFile.exists()){
+                return dbFile.exists();
+            }
             db = dbOpenHelper.getWritableDatabase();
             while (db.isDbLockedByCurrentThread()|| db.isDbLockedByOtherThreads()){
                 Thread.sleep(10);
@@ -100,7 +105,6 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        db.beginTransaction();  //开始事务
         try {
             synchronized (mLock){
                 switch (MATCHER.match(uri)) {
@@ -109,7 +113,6 @@ public class AIDBProvider extends ContentProvider {
                         long rowId = db.insert(AIInfoTable.AI_TABLE_NAME, null, values);
                         Uri insertUri = ContentUris.withAppendedId(uri, rowId);// 得到代表新增记录的Uri
                         Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
-                        db.setTransactionSuccessful();//设置事务成功完成
                         return insertUri;
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -117,8 +120,6 @@ public class AIDBProvider extends ContentProvider {
             }
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            db.endTransaction();//结束事务
         }
         return null;
     }
@@ -132,7 +133,6 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        db.beginTransaction();  //开始事务
         try {
             //更新主键从1开始"
             String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
@@ -142,7 +142,6 @@ public class AIDBProvider extends ContentProvider {
                     case AI_INFO_CODE:
                         count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
                         db.execSQL(sql);
-                        db.setTransactionSuccessful();//设置事务成功完成
                         return count;
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -150,8 +149,6 @@ public class AIDBProvider extends ContentProvider {
             }
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            db.endTransaction();//结束事务
         }
         return 0;
     }
@@ -166,14 +163,12 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        db.beginTransaction();  //开始事务
         try {
-            int count = 0;
+            int count;
             synchronized (mLock){
                 switch (MATCHER.match(uri)) {
                     case AI_INFO_CODE:
                         count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
-                        db.setTransactionSuccessful();//设置事务成功
                         return count;
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -181,8 +176,6 @@ public class AIDBProvider extends ContentProvider {
             }
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            db.endTransaction();//结束事务
         }
         return 0;
     }

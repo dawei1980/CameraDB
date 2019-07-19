@@ -1,6 +1,7 @@
 package com.smart.camera.helper;
 
 import android.content.Context;
+import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -21,10 +22,10 @@ import com.smart.camera.upgrade.UploadDBUpgrade;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-//    public static final String mDbName = SDPathHelper.DB_DIR + "camera.db";
-    public static final String mDbName = "camera.db";//默认路径（/data/data/package/...）+数据库名称
-    private static final int DATABASE_FIRST_VERSION = 1;//数据库版本
-    private static final int DATABASE_NEW_VERSION =2;//新版数据库版本
+    public static final String mDbName = SDPathHelper.DB_DIR + "camera.db";
+//    public static final String mDbName = "camera.db";//默认路径（/data/data/package/...）+数据库名称
+    private static final int DATABASE_FIRST_VERSION = 2;//数据库版本
+    private static final int DATABASE_NEW_VERSION =3;//新版数据库版本
 
     private static DBOpenHelper instance;
 
@@ -32,12 +33,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         super(context, mDbName, null, DATABASE_NEW_VERSION);
     }
 
-    public synchronized static DBOpenHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new DBOpenHelper(context);
-        }
-        return instance;
-    }
+//    public synchronized static DBOpenHelper getInstance(Context context) {
+//        if (instance == null) {
+//            instance = new DBOpenHelper(context, mDbName, null, DATABASE_FIRST_VERSION);
+//        }
+//        return instance;
+//    }
+
+    // 构造方法不对外暴露
+//    private DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+//        super(context, name, factory, version);
+//    }
 
     /**
      * 创建了几张表

@@ -40,7 +40,7 @@ public class InstructionProvider extends ContentProvider {
      * */
     @Override
     public boolean onCreate() {
-        dbOpenHelper = DBOpenHelper.getInstance(this.getContext());
+        dbOpenHelper = new DBOpenHelper(this.getContext());
         try {
             db = dbOpenHelper.getWritableDatabase();
             while (db.isDbLockedByCurrentThread()|| db.isDbLockedByOtherThreads()){

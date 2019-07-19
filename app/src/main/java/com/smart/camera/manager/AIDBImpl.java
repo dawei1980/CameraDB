@@ -27,16 +27,16 @@ public class AIDBImpl implements AI {
     /**
      * 单例模式
      */
-    public static AIDBImpl getInstance() {
-        return SingletonHolder.instance;
-    }
-
-    /**
-     * 静态内部类,只有在装载该内部类时才会去创建单例对象
-     */
-    private static class SingletonHolder {
-        private static final AIDBImpl instance = new AIDBImpl();
-    }
+//    public static AIDBImpl getInstance() {
+//        return SingletonHolder.instance;
+//    }
+//
+//    /**
+//     * 静态内部类,只有在装载该内部类时才会去创建单例对象
+//     */
+//    private static class SingletonHolder {
+//        private static final AIDBImpl instance = new AIDBImpl();
+//    }
 
     /**
      * Insert data to database

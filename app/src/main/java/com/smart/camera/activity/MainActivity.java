@@ -1,10 +1,17 @@
 package com.smart.camera.activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.smart.camera.R;
 import com.smart.camera.data.AIDBInfo;
@@ -25,15 +32,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SelectAdapter mAdapter;
 
+    public static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        verifyStoragePermissions(MainActivity.this);
+
         initView();
         addData();
 
-//        querayData();
+        querayData();
     }
 
     private void initView() {
@@ -68,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addData() {
+        AIDBImpl aidb = new AIDBImpl();
         List<AIDBInfo> aiInfoList = new ArrayList<>();
         AIDBInfo aiInfo = new AIDBInfo();
         aiInfo.setFileName("001");
@@ -95,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aiInfo3.setUpdateTime("2019-06-03");
         aiInfo3.setBaseUrl("tttttttttt");
         aiInfoList.add(aiInfo3);
-        AIDBImpl aidb = AIDBImpl.getInstance();
+//        AIDBImpl aidb = AIDBImpl.getInstance();
         aidb.batchInsert(getApplicationContext(),aiInfoList);
 
 //        UploadDBImpl uploadDB = UploadDBImpl.getInstance();
@@ -211,22 +224,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void querayData() {
-
-        AIDBImpl aidb = AIDBImpl.getInstance();
-        List<AIDBInfo> mList = aidb.query(getApplicationContext());;
-        mAdapter = new SelectAdapter(this,mList);
-        select_lv.setAdapter(mAdapter);
+//        AIDBImpl aidb = AIDBImpl.getInstance();
+//        AIDBImpl aidb = new AIDBImpl();
+//        List<AIDBInfo> mList = aidb.query(getApplicationContext());
+//        mAdapter = new SelectAdapter(this,mList);
+//        select_lv.setAdapter(mAdapter);
 
 //        instructionDB.query(getApplicationContext());
 //        uploadDB.queryDataByUrgentGroup(getApplicationContext(),"fsfwefwefew");
 
 //        UploadDataManager.queryOneUploadData(getApplicationContext(),"2");
-//        List<UploadDBInfo> mList = UploadDataManager.queryAllUploadData(MainActivity.this);
-//        mAdapter = new SelectAdapter(this,mList);
-//        select_lv.setAdapter(mAdapter);
+        UploadDBImpl uploadDB = new UploadDBImpl();
+        List<UploadDBInfo> mList = uploadDB.query(MainActivity.this);
+        mAdapter = new SelectAdapter(this,mList);
+        select_lv.setAdapter(mAdapter);
 
 //        List<RemoveDBInfo> removeDBInfoList = RemoveDataManager.queryAllRemoveData(MainActivity.this);
 //        mAdapter = new SelectAdapter(this, removeDBInfoList);
 //        select_lv.setAdapter(mAdapter);
+    }
+
+    /**
+     * 验证读取sd卡的权限
+     *
+     * @param activity
+     */
+    public boolean verifyStoragePermissions(Activity activity) {
+/*******below android 6.0*******/
+        if (Build.VERSION.SDK_INT < 23) {
+            return true;
+        }
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+      * 请求权限回调
+      *
+      * @param requestCode
+      * @param permissions
+      * @param grantResults
+      */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(),"授权成功",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(),"授权失败,请去设置打开权限",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
