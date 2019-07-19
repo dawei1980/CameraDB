@@ -11,6 +11,7 @@ import android.net.Uri;
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.tables.InstructionInfoTable;
 
+import java.io.File;
 import java.util.Objects;
 
 public class InstructionProvider extends ContentProvider {
@@ -42,6 +43,10 @@ public class InstructionProvider extends ContentProvider {
     public boolean onCreate() {
         dbOpenHelper = new DBOpenHelper(this.getContext());
         try {
+            File dbFile = this.getContext().getDatabasePath(DBOpenHelper.mDbName);
+            if(!dbFile.exists()){
+                return dbFile.exists();
+            }
             db = dbOpenHelper.getWritableDatabase();
             while (db.isDbLockedByCurrentThread()|| db.isDbLockedByOtherThreads()){
                 Thread.sleep(10);
