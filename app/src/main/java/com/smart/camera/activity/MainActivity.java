@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         verifyStoragePermissions(MainActivity.this);
 
         initView();
-        addData();
+//        addData();
 
         querayData();
     }
@@ -225,19 +225,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void querayData() {
 //        AIDBImpl aidb = AIDBImpl.getInstance();
-//        AIDBImpl aidb = new AIDBImpl();
-//        List<AIDBInfo> mList = aidb.query(getApplicationContext());
-//        mAdapter = new SelectAdapter(this,mList);
-//        select_lv.setAdapter(mAdapter);
+        AIDBImpl aidb = new AIDBImpl();
+        List<AIDBInfo> mList = aidb.query(getApplicationContext());
+        mAdapter = new SelectAdapter(this,mList);
+        select_lv.setAdapter(mAdapter);
 
 //        instructionDB.query(getApplicationContext());
 //        uploadDB.queryDataByUrgentGroup(getApplicationContext(),"fsfwefwefew");
 
 //        UploadDataManager.queryOneUploadData(getApplicationContext(),"2");
-        UploadDBImpl uploadDB = new UploadDBImpl();
-        List<UploadDBInfo> mList = uploadDB.query(MainActivity.this);
-        mAdapter = new SelectAdapter(this,mList);
-        select_lv.setAdapter(mAdapter);
+//        UploadDBImpl uploadDB = new UploadDBImpl();
+//        List<UploadDBInfo> mList = uploadDB.query(MainActivity.this);
+//        mAdapter = new SelectAdapter(this,mList);
+//        select_lv.setAdapter(mAdapter);
 
 //        List<RemoveDBInfo> removeDBInfoList = RemoveDataManager.queryAllRemoveData(MainActivity.this);
 //        mAdapter = new SelectAdapter(this, removeDBInfoList);
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param activity
      */
     public boolean verifyStoragePermissions(Activity activity) {
-/*******below android 6.0*******/
+        /*******below android 6.0*******/
         if (Build.VERSION.SDK_INT < 23) {
             return true;
         }

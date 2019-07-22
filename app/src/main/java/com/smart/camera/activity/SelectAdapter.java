@@ -18,9 +18,9 @@ import java.util.List;
 public class SelectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<UploadDBInfo> aiInfoList = new ArrayList<>();
+    private List<AIDBInfo> aiInfoList;
 
-    public SelectAdapter(Context context, List<UploadDBInfo> mList){
+    public SelectAdapter(Context context, List<AIDBInfo> mList){
         this.context = context;
         this.aiInfoList = mList;
     }
@@ -62,10 +62,10 @@ public class SelectAdapter extends BaseAdapter {
         }
 
         holder.file_name.setText(aiInfoList.get(position).getFileName());
-//        holder.ai_mode.setText(aiInfoList.get(position).getAiMode());
-        holder.ai_mode.setText(aiInfoList.get(position).getCameraId());
+        holder.ai_mode.setText(aiInfoList.get(position).getAiMode());
+//        holder.ai_mode.setText(aiInfoList.get(position).getCameraId());
         holder.file_path.setText(aiInfoList.get(position).getFileSDPath());
-        holder.destination_file_path.setText(aiInfoList.get(position).getUploadFilePath());
+//        holder.destination_file_path.setText(aiInfoList.get(position).getUploadFilePath());
         holder.file_type.setText(String.valueOf(aiInfoList.get(position).getFileType()));
         holder.update_time.setText(aiInfoList.get(position).getUpdateTime());
 

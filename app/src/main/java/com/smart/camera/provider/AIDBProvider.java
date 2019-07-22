@@ -6,12 +6,15 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.tables.AIInfoTable;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -29,11 +32,24 @@ public class AIDBProvider extends ContentProvider {
     //code
     private static final int AI_INFO_CODE = 1;
 
+    private static final HashMap<String,String> mMap;
+    private static final int PPInf = 1;
+    private static final int PPInf_ID = 2;
+
     static {
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         // 对等待匹配的URI进行匹配操作，必须符合com.ai.provider/ai格式
         // 匹配返回CODE_NOPARAM，不匹配返回-1
         MATCHER.addURI(AI_INFO_AUTHORITY, AIInfoTable.AI_TABLE_NAME, AI_INFO_CODE);
+
+        mMap = new HashMap<>();
+        mMap.put(AIInfoTable.ID, AIInfoTable.ID);
+        mMap.put(AIInfoTable.FILENAME, AIInfoTable.FILENAME);
+        mMap.put(AIInfoTable.AIMODE, AIInfoTable.AIMODE);
+        mMap.put(AIInfoTable.FILESDPATH, AIInfoTable.FILESDPATH);
+        mMap.put(AIInfoTable.FILETYPE, AIInfoTable.FILETYPE);
+        mMap.put(AIInfoTable.UPDATETIME, AIInfoTable.UPDATETIME);
+        mMap.put(AIInfoTable.BASEURL, AIInfoTable.BASEURL);
     }
 
     /**
@@ -48,7 +64,7 @@ public class AIDBProvider extends ContentProvider {
     public boolean onCreate() {
         dbOpenHelper = new DBOpenHelper(this.getContext());
         try {
-            File dbFile = this.getContext().getDatabasePath(DBOpenHelper.mDbName);
+            File dbFile = Objects.requireNonNull(this.getContext()).getDatabasePath(DBOpenHelper.mDbName);
             if(!dbFile.exists()){
                 return dbFile.exists();
             }
@@ -61,7 +77,7 @@ public class AIDBProvider extends ContentProvider {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return true;
+        return db != null;
     }
 
     /**
@@ -81,6 +97,7 @@ public class AIDBProvider extends ContentProvider {
                 switch (MATCHER.match(uri)) {
                     case AI_INFO_CODE:
                         Cursor cursor = mDatabase.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                        cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                         return cursor;
                     default:
                         throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -90,6 +107,29 @@ public class AIDBProvider extends ContentProvider {
             e.printStackTrace();
         }
         return null;
+
+//        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+//        synchronized (mLock){
+//            switch(MATCHER.match(uri))
+//            {
+//                case PPInf:
+//                    qb.setTables(AIInfoTable.AI_TABLE_NAME);
+//                    qb.setProjectionMap(mMap);
+//                    break;
+//                case PPInf_ID:
+//                    qb.setTables(AIInfoTable.AI_TABLE_NAME);
+//                    qb.setProjectionMap(mMap);
+//                    qb.appendWhere(PPInf_ID + "=" + uri.getPathSegments().get(1));
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Unknown URI" + uri);
+//            }
+//            SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+//            Cursor c = qb.query(db, projection, selection, selectionArgs, null, null,sortOrder);
+//            //---注册一个观察者来监视Uri的变化---
+//            c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+//            return c;
+//        }
     }
 
     @Override
@@ -105,23 +145,20 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        try {
-            synchronized (mLock){
-                switch (MATCHER.match(uri)) {
-                    case AI_INFO_CODE:
-                        // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
-                        long rowId = db.insert(AIInfoTable.AI_TABLE_NAME, null, values);
+        synchronized (mLock){
+            switch (MATCHER.match(uri)) {
+                case AI_INFO_CODE:
+                    // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
+                    long rowId = db.insert(AIInfoTable.AI_TABLE_NAME, null, values);
+                    if (rowId > 0){
                         Uri insertUri = ContentUris.withAppendedId(uri, rowId);// 得到代表新增记录的Uri
                         Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
                         return insertUri;
-                    default:
-                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
-                }
+                    }
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }
-        return null;
     }
 
     /**
@@ -133,24 +170,19 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        try {
-            //更新主键从1开始"
-            String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
-            int count;
-            synchronized (mLock){
-                switch (MATCHER.match(uri)) {
-                    case AI_INFO_CODE:
-                        count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
-                        db.execSQL(sql);
-                        return count;
-                    default:
-                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
-                }
+        //更新主键从1开始"
+        String sql = "update sqlite_sequence set seq=0 where name='" + AIInfoTable.AI_TABLE_NAME + "'";
+        int count;
+        synchronized (mLock){
+            switch (MATCHER.match(uri)) {
+                case AI_INFO_CODE:
+                    count = db.delete(AIInfoTable.AI_TABLE_NAME, selection, selectionArgs);
+                    db.execSQL(sql);
+                    return count;
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }
-        return 0;
     }
 
     /**
@@ -163,20 +195,15 @@ public class AIDBProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        try {
-            int count;
-            synchronized (mLock){
-                switch (MATCHER.match(uri)) {
-                    case AI_INFO_CODE:
-                        count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
-                        return count;
-                    default:
-                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
-                }
+        int count;
+        synchronized (mLock){
+            switch (MATCHER.match(uri)) {
+                case AI_INFO_CODE:
+                    count = db.update(AIInfoTable.AI_TABLE_NAME, values, selection, selectionArgs);
+                    return count;
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }
-        return 0;
     }
 }
