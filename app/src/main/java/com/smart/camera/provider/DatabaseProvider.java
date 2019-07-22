@@ -16,7 +16,6 @@ import com.smart.camera.tables.UploadInfoTable;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.Objects;
 
 public class DatabaseProvider extends ContentProvider {

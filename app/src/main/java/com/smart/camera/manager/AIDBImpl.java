@@ -114,7 +114,6 @@ public class AIDBImpl implements AI {
         AIDBInfo AIDBInfo = null;
         Uri uri = AIInfoTable.getContentUri();
         Cursor cursor = context.getContentResolver().query(uri, null, AIInfoTable.FILENAME + "=?", new String[]{fileName}, null);
-
         if (cursor != null) {
             if (cursor.moveToNext()) {
                 AIDBInfo = AIInfoTable.getValues(cursor);

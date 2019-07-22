@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 aidb.query(MainActivity.this);
             }
-        });
+        }).start();
 
 //        final List<AIDBInfo> aiInfoList = new ArrayList<>();
 //        AIDBInfo aiInfo = new AIDBInfo();
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 uploadDB.batchInsert(getApplicationContext(),uploadModuleDBList);
             }
-        });
+        }).start();
 
         final List<RemoveDBInfo> removeModuleDBList = new ArrayList<>();
 //        final RemoveDBImpl removeDB = RemoveDBImpl.getInstance();
@@ -216,7 +216,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         commandInfo.setAlternateFlag(true);
         commandInfo.setUploadDebugResultFlag(true);
 
-        instructionDB.insert(getApplicationContext(),commandInfo);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                instructionDB.insert(getApplicationContext(),commandInfo);
+            }
+        }).start();
     }
 
     private void deleteData() {
