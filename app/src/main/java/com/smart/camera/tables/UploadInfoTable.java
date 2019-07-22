@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.smart.camera.data.UploadDBInfo;
-import com.smart.camera.provider.UploadProvider;
+import com.smart.camera.provider.DatabaseProvider;
 
 /**
  * 创建表格
@@ -60,7 +60,7 @@ public class UploadInfoTable {
             URGENT_GROUP + " varchar(255),"+
             UPDATE_TIME + " varchar(255)"+")";
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(UploadProvider.UPLOAD_AUTHORITY_URI, UPLOAD_TABLE_NAME);
+    private static final Uri CONTENT_URI = Uri.withAppendedPath(DatabaseProvider.AUTHORITY_URI, UPLOAD_TABLE_NAME);
 
     //返回AIInfo表格操作的uri地址对象
     public static Uri getContentUri() {

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.smart.camera.data.RemoveDBInfo;
-import com.smart.camera.provider.RemoveProvider;
+import com.smart.camera.provider.DatabaseProvider;
 
 
 /**
@@ -50,7 +50,7 @@ public class RemoveInfoTable {
             UPDATE_TIME + " varchar(255)"+")";
 
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(RemoveProvider.REMOVE_AUTHORITY_URI, REMOVE_TABLE_NAME);
+    private static final Uri CONTENT_URI = Uri.withAppendedPath(DatabaseProvider.AUTHORITY_URI, REMOVE_TABLE_NAME);
 
     //返回AIInfo表格操作的uri地址对象
     public static Uri getContentUri() {

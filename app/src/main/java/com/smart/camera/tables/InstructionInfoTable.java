@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.smart.camera.data.CommandInfo;
-import com.smart.camera.provider.InstructionProvider;
+import com.smart.camera.provider.DatabaseProvider;
 
 
 public class InstructionInfoTable {
@@ -149,7 +149,7 @@ public class InstructionInfoTable {
             MAX_REDUCE_SCALE_RESULT + " integer" + ")";
 
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(InstructionProvider.INSTRUCTION_AUTHORITY_URI, INSTRUCTION_TABLE_NAME);
+    private static final Uri CONTENT_URI = Uri.withAppendedPath(DatabaseProvider.AUTHORITY_URI, INSTRUCTION_TABLE_NAME);
 
     //返回AIInfo表格操作的uri地址对象
     public static Uri getContentUri() {

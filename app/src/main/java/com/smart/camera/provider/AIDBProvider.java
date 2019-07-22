@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.smart.camera.helper.DBOpenHelper;
@@ -77,7 +78,7 @@ public class AIDBProvider extends ContentProvider {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return db != null;
+        return true;
     }
 
     /**
@@ -92,44 +93,20 @@ public class AIDBProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteDatabase mDatabase = dbOpenHelper.getReadableDatabase();
-        try {
-            synchronized (mLock) {
-                switch (MATCHER.match(uri)) {
-                    case AI_INFO_CODE:
+        synchronized (mLock) {
+            switch (MATCHER.match(uri)) {
+                case AI_INFO_CODE:
+                    try {
                         Cursor cursor = mDatabase.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                         cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                         return cursor;
-                    default:
-                        throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
-                }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                default:
+                    throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
-
-//        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-//        synchronized (mLock){
-//            switch(MATCHER.match(uri))
-//            {
-//                case PPInf:
-//                    qb.setTables(AIInfoTable.AI_TABLE_NAME);
-//                    qb.setProjectionMap(mMap);
-//                    break;
-//                case PPInf_ID:
-//                    qb.setTables(AIInfoTable.AI_TABLE_NAME);
-//                    qb.setProjectionMap(mMap);
-//                    qb.appendWhere(PPInf_ID + "=" + uri.getPathSegments().get(1));
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException("Unknown URI" + uri);
-//            }
-//            SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-//            Cursor c = qb.query(db, projection, selection, selectionArgs, null, null,sortOrder);
-//            //---注册一个观察者来监视Uri的变化---
-//            c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
-//            return c;
-//        }
     }
 
     @Override

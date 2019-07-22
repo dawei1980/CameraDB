@@ -57,25 +57,10 @@
         </activity>
 
         <provider
-            android:name=".provider.AIDBProvider"
-            android:authorities="com.ai.provider"
+            android:authorities="com.db.provider"
+            android:name=".provider.DatabaseProvider"
             android:exported="true"
-            android:multiprocess="false" />
-        <provider
-            android:name=".provider.RemoveProvider"
-            android:authorities="com.remove.provider"
-            android:exported="true"
-            android:multiprocess="false" />
-        <provider
-            android:name=".provider.UploadProvider"
-            android:authorities="com.upload.provider"
-            android:exported="true"
-            android:multiprocess="false" />
-        <provider
-            android:name=".provider.InstructionProvider"
-            android:authorities="com.instruction.provider"
-            android:exported="true"
-            android:multiprocess="false" />
+            android:multiprocess="false"/>
     </application>
 
 </manifest>

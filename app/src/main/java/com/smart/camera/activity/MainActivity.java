@@ -15,8 +15,12 @@ import android.widget.Toast;
 
 import com.smart.camera.R;
 import com.smart.camera.data.AIDBInfo;
+import com.smart.camera.data.CommandInfo;
+import com.smart.camera.data.RemoveDBInfo;
 import com.smart.camera.data.UploadDBInfo;
 import com.smart.camera.manager.AIDBImpl;
+import com.smart.camera.manager.InstructionDBImpl;
+import com.smart.camera.manager.RemoveDBImpl;
 import com.smart.camera.manager.UploadDBImpl;
 
 import java.util.ArrayList;
@@ -43,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         verifyStoragePermissions(MainActivity.this);
 
         initView();
-//        addData();
+        addData();
 
-        querayData();
+//        querayData();
     }
 
     private void initView() {
@@ -80,71 +84,85 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addData() {
-        AIDBImpl aidb = new AIDBImpl();
-        List<AIDBInfo> aiInfoList = new ArrayList<>();
-        AIDBInfo aiInfo = new AIDBInfo();
-        aiInfo.setFileName("001");
-        aiInfo.setAiMode("1");
-        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo.setFileType(3);
-        aiInfo.setUpdateTime("2019-06-01");
-        aiInfo.setBaseUrl("dddddddddddd");
-        aiInfoList.add(aiInfo);
+        final AIDBImpl aidb = new AIDBImpl();
 
-        AIDBInfo aiInfo2 = new AIDBInfo();
-        aiInfo2.setFileName("002");
-        aiInfo2.setAiMode("1");
-        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo2.setFileType(3);
-        aiInfo2.setUpdateTime("2019-06-02");
-        aiInfo2.setBaseUrl("vvvvvvvvvvv");
-        aiInfoList.add(aiInfo2);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                aidb.query(MainActivity.this);
+            }
+        });
 
-        AIDBInfo aiInfo3 = new AIDBInfo();
-        aiInfo3.setFileName("003");
-        aiInfo3.setAiMode("1");
-        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
-        aiInfo3.setFileType(3);
-        aiInfo3.setUpdateTime("2019-06-03");
-        aiInfo3.setBaseUrl("tttttttttt");
-        aiInfoList.add(aiInfo3);
-//        AIDBImpl aidb = AIDBImpl.getInstance();
-        aidb.batchInsert(getApplicationContext(),aiInfoList);
-
-//        UploadDBImpl uploadDB = UploadDBImpl.getInstance();
-//        List<UploadDBInfo> uploadModuleDBList = new ArrayList<>();
-//        UploadDBInfo uploadModule = new UploadDBInfo();
-//        uploadModule.setFileName("2");
-//        uploadModule.setCameraId("Camera_001");
-//        uploadModule.setFileSDPath("D:\\VUE_Test");
-//        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
-//        uploadModule.setFileType(3);
-//        uploadModule.setUpdateTime("2019-06-10");
-//        uploadModule.setUrgentGroup("poiuyt");
-//        uploadModuleDBList.add(uploadModule);
+//        final List<AIDBInfo> aiInfoList = new ArrayList<>();
+//        AIDBInfo aiInfo = new AIDBInfo();
+//        aiInfo.setFileName("001");
+//        aiInfo.setAiMode("1");
+//        aiInfo.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo.setFileType(3);
+//        aiInfo.setUpdateTime("2019-06-01");
+//        aiInfo.setBaseUrl("dddddddddddd");
+//        aiInfoList.add(aiInfo);
 //
-//        UploadDBInfo uploadModule2 = new UploadDBInfo();
-//        uploadModule2.setFileName("3");
-//        uploadModule2.setCameraId("Camera_002");
-//        uploadModule2.setFileSDPath("D:\\VUE_Test");
-//        uploadModule2.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
-//        uploadModule2.setFileType(3);
-//        uploadModule2.setUpdateTime("2019-06-10");
-//        uploadModule2.setUrgentGroup("fsfwefwefew");
-//        uploadModuleDBList.add(uploadModule2);
+//        AIDBInfo aiInfo2 = new AIDBInfo();
+//        aiInfo2.setFileName("002");
+//        aiInfo2.setAiMode("1");
+//        aiInfo2.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo2.setFileType(3);
+//        aiInfo2.setUpdateTime("2019-06-02");
+//        aiInfo2.setBaseUrl("vvvvvvvvvvv");
+//        aiInfoList.add(aiInfo2);
 //
-//        UploadDBInfo uploadModule3 = new UploadDBInfo();
-//        uploadModule3.setFileName("4");
-//        uploadModule3.setCameraId("Camera_003");
-//        uploadModule3.setFileSDPath("D:\\VUE_Test");
-//        uploadModule3.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
-//        uploadModule3.setFileType(3);
-//        uploadModule3.setUpdateTime("2019-06-10");
-//        uploadModule3.setUrgentGroup("kmkhghgfgh");
-//        uploadModuleDBList.add(uploadModule3);
-//        uploadDB.batchInsert(getApplicationContext(),uploadModuleDBList);
+//        AIDBInfo aiInfo3 = new AIDBInfo();
+//        aiInfo3.setFileName("003");
+//        aiInfo3.setAiMode("1");
+//        aiInfo3.setFileSDPath("D:\\UploadImages\\goods\\ai");
+//        aiInfo3.setFileType(3);
+//        aiInfo3.setUpdateTime("2019-06-03");
+//        aiInfo3.setBaseUrl("tttttttttt");
+//        aiInfoList.add(aiInfo3);
+//        aidb.batchInsert(getApplicationContext(),aiInfoList);
 
-//        List<RemoveDBInfo> removeModuleDBList = new ArrayList<>();
+        final UploadDBImpl uploadDB = UploadDBImpl.getInstance();
+        final List<UploadDBInfo> uploadModuleDBList = new ArrayList<>();
+        UploadDBInfo uploadModule = new UploadDBInfo();
+        uploadModule.setFileName("2");
+        uploadModule.setCameraId("Camera_001");
+        uploadModule.setFileSDPath("D:\\VUE_Test");
+        uploadModule.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule.setFileType(3);
+        uploadModule.setUpdateTime("2019-06-10");
+        uploadModule.setUrgentGroup("poiuyt");
+        uploadModuleDBList.add(uploadModule);
+
+        UploadDBInfo uploadModule2 = new UploadDBInfo();
+        uploadModule2.setFileName("3");
+        uploadModule2.setCameraId("Camera_002");
+        uploadModule2.setFileSDPath("D:\\VUE_Test");
+        uploadModule2.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule2.setFileType(3);
+        uploadModule2.setUpdateTime("2019-06-10");
+        uploadModule2.setUrgentGroup("fsfwefwefew");
+        uploadModuleDBList.add(uploadModule2);
+
+        UploadDBInfo uploadModule3 = new UploadDBInfo();
+        uploadModule3.setFileName("4");
+        uploadModule3.setCameraId("Camera_003");
+        uploadModule3.setFileSDPath("D:\\VUE_Test");
+        uploadModule3.setUploadFilePath("D:\\VUE_Test\\VueElementUIProject");
+        uploadModule3.setFileType(3);
+        uploadModule3.setUpdateTime("2019-06-10");
+        uploadModule3.setUrgentGroup("kmkhghgfgh");
+        uploadModuleDBList.add(uploadModule3);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                uploadDB.batchInsert(getApplicationContext(),uploadModuleDBList);
+            }
+        });
+
+        final List<RemoveDBInfo> removeModuleDBList = new ArrayList<>();
+//        final RemoveDBImpl removeDB = RemoveDBImpl.getInstance();
 //        RemoveDBInfo removeModule = new RemoveDBInfo();
 //        removeModule.setFileName("001");
 //        removeModule.setFileSDPath("C:\\Windows\\AppReadiness");
@@ -166,39 +184,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        removeModule3.setUpdateTime("2019-06-11");
 //        removeModuleDBList.add(removeModule3);
 //
-//        RemoveDBImpl removeDB = RemoveDBImpl.getInstance();
 //        removeDB.batchInsert(getApplicationContext(),removeModuleDBList);
 
-//        InstructionDBImpl instructionDB = InstructionDBImpl.getInstance();
-//        CommandInfo commandInfo = new CommandInfo();
-//        commandInfo.setStartTime("2019-06-28 10:10:12");
-//        commandInfo.setEndTime("2019-06-29 10:10:12");
-//        commandInfo.setWidth(8);
-//        commandInfo.setHeight(10);
-//        commandInfo.setSleepInterval(10);
-//        commandInfo.setShootMode(1);
-//        commandInfo.setContinueTime(20190628);
-//        commandInfo.setShootInterval(8);
-//        commandInfo.setCompressCount(3);
-//        commandInfo.setCompressInterval(6);
-//        commandInfo.setVideoBitRate(6);
-//        commandInfo.setVideoFps(9);
-//        commandInfo.setDeleteFlag(false);
-//        commandInfo.setAiInterval(2);
-//        commandInfo.setAiMode("1");
-//        commandInfo.setMaxDebugResult(24);
-//        commandInfo.setJsonRetentionTime(20190629);
-//        commandInfo.setVideoFrameNum(8);
-//        commandInfo.setDetectParameter("fffff");
-//        commandInfo.setMaxDoneResource(3);
-//        commandInfo.setDebugLevel(5);
-//        commandInfo.setRolloverAngle(2);
-//        commandInfo.setReduceScale(1.0);
-//        commandInfo.setEdge(false);
-//        commandInfo.setBaseUrl("http://gggggggg");
-//        commandInfo.setAlternateFlag(true);
-//        commandInfo.setUploadDebugResultFlag(true);
-//        instructionDB.insert(getApplicationContext(),commandInfo);
+        final InstructionDBImpl instructionDB = InstructionDBImpl.getInstance();
+        final CommandInfo commandInfo = new CommandInfo();
+        commandInfo.setStartTime("2019-06-28 10:10:12");
+        commandInfo.setEndTime("2019-06-29 10:10:12");
+        commandInfo.setWidth(8);
+        commandInfo.setHeight(10);
+        commandInfo.setSleepInterval(10);
+        commandInfo.setShootMode(1);
+        commandInfo.setContinueTime(20190628);
+        commandInfo.setShootInterval(8);
+        commandInfo.setCompressCount(3);
+        commandInfo.setCompressInterval(6);
+        commandInfo.setVideoBitRate(6);
+        commandInfo.setVideoFps(9);
+        commandInfo.setDeleteFlag(false);
+        commandInfo.setAiInterval(2);
+        commandInfo.setAiMode("1");
+        commandInfo.setMaxDebugResult(24);
+        commandInfo.setJsonRetentionTime(20190629);
+        commandInfo.setVideoFrameNum(8);
+        commandInfo.setDetectParameter("fffff");
+        commandInfo.setMaxDoneResource(3);
+        commandInfo.setDebugLevel(5);
+        commandInfo.setRolloverAngle(2);
+        commandInfo.setReduceScale(1.0);
+        commandInfo.setEdge(false);
+        commandInfo.setBaseUrl("http://gggggggg");
+        commandInfo.setAlternateFlag(true);
+        commandInfo.setUploadDebugResultFlag(true);
+
+        instructionDB.insert(getApplicationContext(),commandInfo);
     }
 
     private void deleteData() {
