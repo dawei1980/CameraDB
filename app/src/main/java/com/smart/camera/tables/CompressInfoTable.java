@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.smart.camera.data.CompressDBInfo;
 import com.smart.camera.provider.CompressProvider;
+import com.smart.camera.provider.DatabaseProvider;
 
 public class CompressInfoTable {
     //表名称
@@ -56,7 +57,8 @@ public class CompressInfoTable {
             URGENT_GROUP + " varchar(255),"+
             UPDATE_TIME + " varchar(255)"+")";
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(CompressProvider.COMPRESS_AUTHORITY_URI, COMPRESS_TABLE_NAME);
+//    private static final Uri CONTENT_URI = Uri.withAppendedPath(CompressProvider.COMPRESS_AUTHORITY_URI, COMPRESS_TABLE_NAME);
+    private static final Uri CONTENT_URI = Uri.withAppendedPath(DatabaseProvider.AUTHORITY_URI, COMPRESS_TABLE_NAME);
 
     //返回AIInfo表格操作的uri地址对象
     public static Uri getContentUri() {
