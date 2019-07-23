@@ -10,6 +10,7 @@ import android.net.Uri;
 
 import com.smart.camera.helper.DBOpenHelper;
 import com.smart.camera.tables.AIInfoTable;
+import com.smart.camera.tables.CompressInfoTable;
 import com.smart.camera.tables.InstructionInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
@@ -33,6 +34,7 @@ public class DatabaseProvider extends ContentProvider {
     public static final int INSTRUCTION_DIR = 1;
     public static final int REMOVE_DIR = 2;
     public static final int UPLOAD_DIR = 3;
+    public static final int COMPRESS_DIR = 4;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -40,11 +42,12 @@ public class DatabaseProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, InstructionInfoTable.INSTRUCTION_TABLE_NAME,INSTRUCTION_DIR);
         uriMatcher.addURI(AUTHORITY, RemoveInfoTable.REMOVE_TABLE_NAME,REMOVE_DIR);
         uriMatcher.addURI(AUTHORITY, UploadInfoTable.UPLOAD_TABLE_NAME,UPLOAD_DIR);
+        uriMatcher.addURI(AUTHORITY, CompressInfoTable.COMPRESS_TABLE_NAME,COMPRESS_DIR);
     }
 
     @Override
     public boolean onCreate() {
-        dbOpenHelper = new DBOpenHelper(this.getContext());
+        dbOpenHelper = DBOpenHelper.getInstance(this.getContext());
         try {
             db = dbOpenHelper.getWritableDatabase();
             while (db.isDbLockedByCurrentThread()|| db.isDbLockedByOtherThreads()){
@@ -67,15 +70,28 @@ public class DatabaseProvider extends ContentProvider {
             switch (uriMatcher.match(uri)){
                 case AI_DIR:
                     cursor = mDatabase.query(AIInfoTable.AI_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                    //---注册一个观察者来监视Uri的变化---
+                    cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                     break;
                 case INSTRUCTION_DIR:
                     cursor = mDatabase.query(InstructionInfoTable.INSTRUCTION_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                    //---注册一个观察者来监视Uri的变化---
+                    cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                     break;
                 case REMOVE_DIR:
-                    cursor = mDatabase.query(RemoveInfoTable.REMOVE_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);;
+                    cursor = mDatabase.query(RemoveInfoTable.REMOVE_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                    //---注册一个观察者来监视Uri的变化---
+                    cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                     break;
                 case UPLOAD_DIR:
                     cursor = mDatabase.query(UploadInfoTable.UPLOAD_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                    //---注册一个观察者来监视Uri的变化---
+                    cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
+                    break;
+                case COMPRESS_DIR:
+                    cursor = mDatabase.query(CompressInfoTable.COMPRESS_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                    //---注册一个观察者来监视Uri的变化---
+                    cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),uri);
                     break;
                 default:
                     break;
@@ -94,6 +110,8 @@ public class DatabaseProvider extends ContentProvider {
             case REMOVE_DIR:
                 return CONTENT_TYPE;
             case UPLOAD_DIR:
+                return CONTENT_TYPE;
+            case COMPRESS_DIR:
                 return CONTENT_TYPE;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -137,6 +155,13 @@ public class DatabaseProvider extends ContentProvider {
                         Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
                     }
                     break;
+                case COMPRESS_DIR:
+                    rowId = db.insert(CompressInfoTable.COMPRESS_TABLE_NAME, null, values);
+                    if(rowId > 0){
+                        insertUri = ContentUris.withAppendedId(uri, rowId);// 得到代表新增记录的Uri
+                        Objects.requireNonNull(this.getContext()).getContentResolver().notifyChange(uri, null);
+                    }
+                    break;
                 default:
                     throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
@@ -167,6 +192,10 @@ public class DatabaseProvider extends ContentProvider {
                     count = db.delete(UploadInfoTable.UPLOAD_TABLE_NAME, selection, selectionArgs);
                     db.execSQL(sql);
                     break;
+                case COMPRESS_DIR:
+                    count = db.delete(CompressInfoTable.COMPRESS_TABLE_NAME, selection, selectionArgs);
+                    db.execSQL(sql);
+                    break;
                 default:
                     throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
             }
@@ -190,6 +219,9 @@ public class DatabaseProvider extends ContentProvider {
                     break;
                 case UPLOAD_DIR:
                     count = db.update(UploadInfoTable.UPLOAD_TABLE_NAME, values, selection, selectionArgs);
+                    break;
+                case COMPRESS_DIR:
+                    count = db.update(CompressInfoTable.COMPRESS_TABLE_NAME, values, selection, selectionArgs);
                     break;
                 default:
                     throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());

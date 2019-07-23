@@ -45,7 +45,7 @@ public class RemoveProvider extends ContentProvider {
      * */
     @Override
     public boolean onCreate() {
-        dbOpenHelper = new DBOpenHelper(this.getContext());
+        dbOpenHelper = DBOpenHelper.getInstance(this.getContext());
         try {
             File dbFile = this.getContext().getDatabasePath(DBOpenHelper.mDbName);
             if(!dbFile.exists()){

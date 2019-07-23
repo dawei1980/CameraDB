@@ -6,10 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.smart.camera.tables.AIInfoTable;
+import com.smart.camera.tables.CompressInfoTable;
 import com.smart.camera.tables.InstructionInfoTable;
 import com.smart.camera.tables.RemoveInfoTable;
 import com.smart.camera.tables.UploadInfoTable;
 import com.smart.camera.upgrade.AIDBUpgrade;
+import com.smart.camera.upgrade.CompressDBUpgrade;
 import com.smart.camera.upgrade.InstructionDBUpgrade;
 import com.smart.camera.upgrade.RemoveDBUpgrade;
 import com.smart.camera.upgrade.UploadDBUpgrade;
@@ -22,8 +24,8 @@ import com.smart.camera.upgrade.UploadDBUpgrade;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String mDbName = SDPathHelper.DB_DIR + "camera.db";
-//    public static final String mDbName = "camera.db";//默认路径（/data/data/package/...）+数据库名称
+//    public static final String mDbName = SDPathHelper.DB_DIR + "camera.db";
+    public static final String mDbName = "camera.db";//默认路径（/data/data/package/...）+数据库名称
     private static final int DATABASE_FIRST_VERSION = 2;//数据库版本
     private static final int DATABASE_NEW_VERSION =3;//新版数据库版本
 
@@ -33,17 +35,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         super(context, mDbName, null, DATABASE_NEW_VERSION);
     }
 
-//    public synchronized static DBOpenHelper getInstance(Context context) {
-//        if (instance == null) {
-//            instance = new DBOpenHelper(context, mDbName, null, DATABASE_FIRST_VERSION);
-//        }
-//        return instance;
-//    }
+    public static DBOpenHelper getInstance(Context context) {
+        if (instance == null) {
+            synchronized (DBOpenHelper.class) {
+                if (instance == null) {
+                    instance = new DBOpenHelper(context);
+                }
+            }
+        }
+        return instance;
+    }
 
-    // 构造方法不对外暴露
-//    private DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-//        super(context, name, factory, version);
-//    }
 
     /**
      * 创建了几张表
@@ -65,6 +67,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     AIDBUpgrade.createNewAITable(db);
                     RemoveDBUpgrade.createNewRemoveTable(db);
                     UploadDBUpgrade.createNewUploadTable(db);
+                    CompressDBUpgrade.createNewCompressTable(db);
                     break;
                 default:
                     break;
@@ -78,6 +81,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             db.execSQL(AIInfoTable.CREATE_AI_INFO_TABLE);
             db.execSQL(RemoveInfoTable.CREATE_REMOVE_INFO_TABLE);
             db.execSQL(UploadInfoTable.CREATE_UPLOAD_INFO_TABLE);
+            db.execSQL(CompressInfoTable.CREATE_COMPRESS_INFO_TABLE);
 
             //如果上面运行的是第一个版本的sql则需要调用onUpgrade
             onUpgrade(db,DATABASE_FIRST_VERSION,DATABASE_NEW_VERSION);
